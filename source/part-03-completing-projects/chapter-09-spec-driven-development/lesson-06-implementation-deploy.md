@@ -101,4 +101,4 @@ GitHub에 push하면 Vercel이 자동으로 새 빌드를 만들고 배포합니
 
 SDD 사이클을 처음부터 끝까지 실행하고, 완성된 프로젝트를 배포했습니다. 다음 챕터에서는 Claude 하나의 한계를 넘어, 여러 Agent가 동시에 협업하는 Agent Teams를 배웁니다.
 
-다음 레슨 보기: [[lesson-01-agent-teams-basics]]
+다음 레슨 보기: [[lesson-02-agent-teams-basics]]
