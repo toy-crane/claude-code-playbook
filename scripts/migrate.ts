@@ -100,42 +100,63 @@ function relLink(from: string, to: string): string {
 }
 
 function convertBody(body: string, index: Map<string, LessonEntry>, currentDest: string, srcDir: string, warnings: string[]): string {
-  let out = body;
-
-  // 1. Wikilinks with alias: [[target|text]] → [text](./path)
-  out = out.replace(/\[\[([^\]|\n]+)\|([^\]\n]+)\]\]/g, (_, target, text) => {
-    const entry = index.get(target.trim());
-    if (!entry) {
-      warnings.push(`[${currentDest}] missing wikilink target: ${target.trim()}`);
-      return `[${text.trim()}](./${target.trim()})`;
+  // Convert line by line, skipping fenced code blocks so wikilink / callout
+  // regexes don't match syntax inside bash/js/etc. examples.
+  const lines = body.split('\n');
+  let inFence = false;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (/^\s{0,3}```/.test(line)) {
+      inFence = !inFence;
+      continue;
     }
-    return `[${text.trim()}](${relLink(currentDest, entry.destPath)})`;
-  });
+    if (inFence) continue;
 
-  // 2. Plain wikilinks: [[target]] → [title](./path)
-  out = out.replace(/\[\[([^\]\n]+)\]\]/g, (_, target) => {
-    const entry = index.get(target.trim());
-    if (!entry) {
-      warnings.push(`[${currentDest}] missing wikilink target: ${target.trim()}`);
-      return `[${target.trim()}](./${target.trim()})`;
-    }
-    return `[${entry.title}](${relLink(currentDest, entry.destPath)})`;
-  });
+    let out = line;
 
-  // 3. Obsidian callouts: > [!note] → > [!NOTE]
-  out = out.replace(/^(\s*>\s*)\[!(\w+)\]/gm, (_, p, tag) => `${p}[!${tag.toUpperCase()}]`);
+    // Wikilinks with alias: [[target|text]] → [text](./path)
+    out = out.replace(/\[\[([^\]|\n]+)\|([^\]\n]+)\]\]/g, (_, target, text) => {
+      const entry = index.get(target.trim());
+      if (!entry) {
+        warnings.push(`[${currentDest}] missing wikilink target: ${target.trim()}`);
+        return `[${text.trim()}](./${target.trim()})`;
+      }
+      return `[${text.trim()}](${relLink(currentDest, entry.destPath)})`;
+    });
 
-  // 4. Image paths: attachments/foo.png → ./attachments/foo.png (with existence check)
-  out = out.replace(/!\[([^\]]*)\]\(attachments\/([^)]+)\)/g, (match, alt, imgPath) => {
-    const imgFull = join(srcDir, 'attachments', imgPath);
-    if (!existsSync(imgFull)) {
-      warnings.push(`[${currentDest}] missing image: attachments/${imgPath}`);
-      return `{/* MISSING IMAGE: attachments/${imgPath} */}`;
-    }
-    return `![${alt}](./attachments/${imgPath})`;
-  });
+    // Plain wikilinks: [[target]] → [title](./path)
+    out = out.replace(/\[\[([^\]\n]+)\]\]/g, (_, target) => {
+      const entry = index.get(target.trim());
+      if (!entry) {
+        warnings.push(`[${currentDest}] missing wikilink target: ${target.trim()}`);
+        return `[${target.trim()}](./${target.trim()})`;
+      }
+      return `[${entry.title}](${relLink(currentDest, entry.destPath)})`;
+    });
 
-  return out;
+    // Obsidian callouts: > [!note] → > [!NOTE]
+    out = out.replace(/^(\s*>\s*)\[!(\w+)\]/, (_, p, tag) => `${p}[!${tag.toUpperCase()}]`);
+
+    // Image paths: attachments/foo.png → ./attachments/foo.png (with existence check).
+    // Missing images are dropped entirely (warning is logged) to keep MDX compilable.
+    out = out.replace(/!\[([^\]]*)\]\(attachments\/([^)]+)\)/g, (_, alt, imgPath) => {
+      const imgFull = join(srcDir, 'attachments', imgPath);
+      if (!existsSync(imgFull)) {
+        warnings.push(`[${currentDest}] missing image: attachments/${imgPath}`);
+        return '';
+      }
+      return `![${alt}](./attachments/${imgPath})`;
+    });
+
+    // Escape unbracketed `{` / `}` outside inline code — MDX treats them as expressions.
+    out = out
+      .split(/(`[^`]*`)/)
+      .map((seg, idx) => (idx % 2 === 1 ? seg : seg.replace(/([{}])/g, '\\$1')))
+      .join('');
+
+    lines[i] = out;
+  }
+  return lines.join('\n');
 }
 
 function cleanFrontmatter(fm: Record<string, unknown>): Record<string, unknown> {
