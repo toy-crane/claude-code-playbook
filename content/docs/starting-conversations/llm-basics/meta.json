@@ -1,0 +1,8 @@
+{
+  "title": "Chapter 1 · LLM 기초",
+  "pages": [
+    "llm-fundamentals",
+    "tool-use-and-agent",
+    "agentic-coding-and-claude-code"
+  ]
+}

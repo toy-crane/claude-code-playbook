@@ -1,0 +1,15 @@
+{
+  "title": "Claude Code 강의",
+  "pages": [
+    "index",
+    "prerequisites",
+    "---Part 1 · 대화 시작하기---",
+    "starting-conversations",
+    "---Part 2 · Claude 확장하기---",
+    "extending-claude",
+    "---Part 3 · 프로젝트 완성하기---",
+    "completing-projects",
+    "wrap-up",
+    "references"
+  ]
+}

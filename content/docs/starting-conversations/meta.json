@@ -1,0 +1,9 @@
+{
+  "title": "Part 1 · 대화 시작하기",
+  "pages": [
+    "llm-basics",
+    "getting-started",
+    "context-management",
+    "todo-app"
+  ]
+}
