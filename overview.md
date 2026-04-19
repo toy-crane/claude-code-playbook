@@ -1,0 +1,152 @@
+---
+title: "Claude Code for Developers"
+date: 2026-01-26
+tags:
+  - learning/course
+  - ai/claude
+  - programming/tools
+  - productivity/automation
+  - learning/lecture
+aliases:
+  - "개발자를 위한 Claude Code"
+  - "Claude Code Workshop"
+  - "Agentic Coding Course"
+  - "클로드 코드 강의"
+description: "GitHub Copilot을 넘어 Agentic 코딩으로 나아가는 3파트 워크샵. LLM 기초부터 Context 관리, Plan/Task 시스템, MCP 개발까지 실습 중심으로 배우는 Claude Code 완전 가이드."
+permalink: cc-lge
+---
+
+# Claude Code for Developers
+
+## 이 강의에 대해
+
+### 강사 소개
+
+![profile](attachments/profile.png)
+
+김한울 (Toy Crane). Product Maker이자 Full-stack 개발자입니다. 인프런, 패스트캠퍼스, 스파르타 코딩클럽에서 개발 강의를 해왔고, 현재는 Claude Code를 활용해 AI 기반 프로덕트(디어리, 파크골프 가자)를 직접 만들고 운영하고 있습니다. 직접 프로덕트를 만들며 체득한 실전 워크플로우를 이 강의에 담았습니다.
+
+- Threads: [@toy_crane911](https://www.threads.net/@toy_crane911)
+- X (Twitter): [@toy__crane](https://x.com/toy__crane)
+- Email: alwaysfun2183@gmail.com
+
+### 수강 후 할 수 있는 것
+
+| Before | After |
+|--------|-------|
+| "이것도 반나절이나 걸린다고?" | AI에게 구현을 맡겨 개발 시간을 단축할 수 있습니다 |
+| "또 엉뚱한 코드... 다시 되돌려야 하나" | 계획과 테스트 기반으로 일관된 결과물을 만들 수 있습니다 |
+| "AI 도구가 너무 많은데 뭘 써야 하지?" | 하나의 도구를 깊이 익혀 나만의 워크플로우를 구축할 수 있습니다 |
+| "또 이 작업을 반복해야 해?" | 반복 작업을 자동화하고 설계에 집중할 수 있습니다 |
+
+### 수강 전 알아두실 것
+
+#### 사전 준비사항
+
+강의 첫날 전까지 준비할 항목이 있습니다. [[prerequisites|사전 준비사항 가이드]]를 확인하고 설치를 완료해 주세요.
+
+#### 커뮤니티
+
+- [Discord 채널](https://discord.gg/3Pej4pgW)에 참여해 주세요. 강의 중 실시간 질문과 답변이 이루어지고, 자료 공유와 공지사항이 전달됩니다.
+- Discord 앱을 사전에 설치해 주세요. [다운로드](https://discord.com/download)
+
+#### 강의 진행 방식
+
+- AI가 생성하는 코드는 매번 달라지기 때문에 강사의 결과와 다른 것이 정상입니다. 특정 코드를 따라 치는 것이 아니라, AI와 협업하는 사고 방식을 익히는 데 초점을 맞춘 강의입니다.
+- 매 챕터의 실습 코드는 [GitHub 저장소](https://github.com/toy-crane/claude-code-for-lge-2)에 실시간으로 공유됩니다. 진도를 놓치더라도 해당 챕터로 checkout하면 언제든 따라올 수 있습니다.
+
+---
+
+## 커리큘럼
+
+### Part 1: Claude와 대화 시작하기
+
+> Claude Code의 기본 원리를 이해하고, AI와 대화하듯 첫 번째 앱을 직접 만들 수 있게 됩니다.
+
+- LLM이 왜 틀리는지 이해하고, Agent가 이를 어떻게 보완하는지 배웁니다
+- Claude Code 설치부터 기본 조작까지 익힙니다
+- Context를 관리해서 AI 응답 품질을 일정하게 유지합니다
+- Plan Mode로 Todo 앱을 직접 만들어봅니다
+
+#### Chapter 01: LLM과 Claude Code 이해하기
+- [[lesson-01-llm-fundamentals|AI가 거짓말을 하는 이유 | LLM 기초]]
+- [[lesson-02-tool-use-and-agent|도구를 쥐어주면 달라지는 것들 | Tool Use & Agent]]
+- [[lesson-03-agentic-coding-and-claude-code|코딩 도구의 다음 단계 | Agentic 코딩과 Claude Code]]
+
+#### Chapter 02: Claude Code 시작하기
+- [[lesson-01-setup-and-first-run|설치와 첫 실행]]
+- [[lesson-02-basic-interface|기본 인터페이스 익히기]]
+- [[lesson-03-first-conversation|첫 번째 대화]]
+
+#### Chapter 03: Context 관리의 기술
+- [[lesson-01-context-window|왜 대화가 길어지면 AI가 멍청해지나 | Context Window]]
+- [[lesson-02-claude-md|프로젝트 규칙, 한 번만 설명하기 | CLAUDE.md]]
+- [[lesson-03-memory|대화가 끊겨도 기억되는 것 | Memory]]
+- [[lesson-04-task-sizing|대화를 잘 끊는 기술 | Task Sizing]]
+
+#### Chapter 04: 실습 - Todo 앱 만들기
+- [[lesson-01-plan-mode|계획을 먼저 세워야 하는 이유 | Plan Mode]]
+- [[lesson-02-requirements|요구사항 정리하기]]
+- [[lesson-03-todo-implementation|직접 만들어보기 | 프로젝트 셋업부터 검증까지]]
+- [[lesson-04-part-1-wrap-up|Part 1 Wrap-up]]
+
+---
+
+### Part 2: Claude를 내 방식으로 확장하기
+
+> Part 1에서 익힌 기본기 위에, AI에게 지식과 도구를 추가하고 데이터 흐름까지 제어하는 프로그래밍 가능한 환경을 갖추게 됩니다.
+
+- 테스트 기반 성공 기준으로 AI가 스스로 검증하며 구현합니다
+- Task 시스템으로 대화가 끊겨도 작업을 이어갑니다
+- Rules, Commands, Skills로 지식을 추가하고, MCP와 CLI로 외부 시스템에 접근합니다
+- Hooks와 Custom Agent로 데이터 흐름을 제어합니다
+
+#### Chapter 05: 큰 작업을 작은 단위로 나눠서 실행하기 | Plan, Task
+- [[lesson-01-what-vs-how|What vs How | AI에게 일 시키는 두 가지 방법]]
+- [[lesson-02-test-based-verification|수동 검증에서 벗어나기 | 테스트 기반 검증]]
+- [[lesson-03-red-green-refactor|성공 기준에서 검증된 코드까지 | Red Green Refactor]]
+- [[lesson-04-task-basics|대화가 끊겨도 이어서 일하기 | Task 기본]]
+
+#### Chapter 06: 지식 추가하기 | Rules, Commands, Skills
+- [[lesson-01-rules|규칙을 필요한 곳에만 적용하기 | Rules]]
+- [[lesson-02-custom-commands|반복 프롬프트를 한 단어로 | Custom Commands]]
+- [[lesson-03-skills|필요할 때만 로드하기 | Skills]]
+- [[lesson-04-skills-in-practice|Skill 만들고 설치하기 | Skills 실습]]
+- [[lesson-05-skill-creator|Skill 만들고 검증하기 | Skill Creator]]
+
+#### Chapter 07: 외부 시스템 연결하기 | MCP, CLI
+- [[lesson-01-mcp-introduction|Claude에게 새 능력 부여하기 | MCP]]
+- [[lesson-02-cli-tools|같은 서비스, 다른 접근법 | CLI 도구 활용]]
+- [[lesson-03-building-mcp-server|내 시스템을 Claude에 연결하기 | Custom MCP 서버 만들기]]
+- [[lesson-04-external-tools-and-skills|도구 연결 + 사용 설명서 | 외부 도구와 Skills의 시너지]]
+
+#### Chapter 08: 실행 흐름 제어하기 | Hooks, Custom Agent
+- [[lesson-01-hooks|AI가 코드 고칠 때마다 자동 검증 | Hooks]]
+- [[lesson-02-custom-agent|역할 분담이 아니라 컨텍스트 제어 | Custom Agent]]
+- [[lesson-03-part-2-wrap-up|Part 2 Wrap-up]]
+
+---
+
+### Part 3: Claude와 프로젝트 완성하기
+
+> Part 2에서 익힌 도구들을 하나의 사이클로 통합하고, 여러 Agent의 협업과 개인 프로젝트까지 완성합니다.
+
+- SDD로 설계부터 구현까지 한 흐름으로 진행합니다
+- Agent Teams로 여러 Agent가 병렬로 협업합니다
+- 배운 모든 것을 결합해 개인 프로젝트를 완성합니다
+
+#### Chapter 09: Spec Driven Development
+- [[lesson-01-sdd|위임 범위가 커지면, 경계도 단단해져야 한다 | SDD]]
+- [[lesson-02-project-setup|엔지니어링 템플릿으로 프로젝트 시작하기 | 프로젝트 셋업]]
+- [[lesson-03-writing-spec|수동 요구사항을 Spec 문서로 자동화하기 | Spec 작성]]
+- [[lesson-04-sketching-wireframe|설계도를 그리는 기술 | Wireframe 그리기]]
+- [[lesson-05-writing-plan|계획에 검증을 심는 법 | Plan 작성]]
+- [[lesson-06-implementation-deploy|구현에서 배포까지 | 구현과 배포]]
+
+#### Chapter 10: 병렬 작업
+- [[lesson-01-git-worktree-isolation|병렬 작업을 안전하게 격리하기 | Git Worktree]]
+- [[lesson-02-agent-teams-basics|혼자 vs 같이 | Agent Teams 기초]]
+
+#### Chapter 11: 개인 프로젝트 실습
+- [[lesson-01-personal-project|개인 프로젝트 실습]]
+- [[lesson-02-part-3-wrap-up|Part 3 Wrap-up]]

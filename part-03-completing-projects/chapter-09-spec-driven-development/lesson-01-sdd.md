@@ -1,0 +1,105 @@
+---
+title: "Lesson 01: 위임 범위가 커지면, 경계도 단단해져야 한다 | SDD"
+date: 2026-02-06
+tags:
+  - learning/courses
+  - programming/architecture
+  - programming/ai-tools
+  - ai/agents
+aliases:
+  - "SDD"
+  - "Specification-Driven Development"
+  - "명세 주도 개발"
+description: "테스트로 함수를 위임하던 것에서 기능 전체를 위임하려면 명세가 필요하다. SDD(Spec -> Wireframe -> Plan -> Task -> Implementation) 5단계 사이클을 이해한다"
+status: in-review
+permalink: cc-lge/sdd
+---
+
+# 위임 범위가 커지면, 경계도 단단해져야 한다 | SDD
+
+## Overview
+
+Part 2에서 Plan Mode, Task, 테스트, Rules, Skills, MCP, Hooks, Custom Agent를 배웠습니다. 각각은 강력하지만, 이 도구들을 사용하는 시작점 -- "무엇을 만들 것인가"를 정리하는 작업 -- 은 여전히 수동이었습니다.
+
+이번 레슨에서는 Part 2의 도구들을 하나의 사이클로 연결하는 **SDD(Specification-Driven Development)**를 배웁니다.
+
+### 학습 목표
+
+- 위임 범위가 커질수록 명세가 필요한 이유를 설명할 수 있습니다
+- SDD의 다섯 단계 사이클과 각 단계의 입출력을 설명할 수 있습니다
+- SDD에서 인간이 가장 주의를 쏟아야 할 단계가 어디인지 이해합니다
+
+## 위임의 범위와 경계
+
+Part 2에서 테스트를 정답지로 활용했습니다. 테스트 몇 개를 주고 함수 하나를 위임하는 것은 성공적이었습니다. AI가 정답지를 보고 스스로 검증하며 구현했기 때문입니다.
+
+**위임의 범위가 커지면 이야기가 달라집니다.** "서브태스크 기능을 추가해줘"처럼 여러 컴포넌트가 연결되고, 사용자 시나리오가 3개 이상인 기능을 통째로 맡기려면 테스트 몇 개로는 부족합니다. AI가 정해야 할 사항이 너무 많고, 정답지가 없는 빈칸을 추측으로 채울 수밖에 없습니다.
+
+![lesson-01-shelf-vs-building](attachments/lesson-01-shelf-vs-building.png)
+
+선반 하나를 만들 때는 치수 메모면 충분하지만, 3층 건물을 지으려면 설계도가 필요합니다. **위임 단위가 커질수록, 경계(명세)가 더 단단해져야 합니다.**
+
+## SDD: Spec -> Wireframe -> Plan -> Task -> Implementation
+
+**SDD(Specification-Driven Development)** -- 명세를 먼저 작성하고, 그 명세로부터 코드를 생성하는 개발 사이클입니다.
+
+| 단계 | 정의하는 것 | 출력물 |
+|------|------------|--------|
+| **Spec** | "무엇을" -- 시나리오, 성공 기준, 미결정 사항 | 요구사항 문서 |
+| **Wireframe** | "어떻게 보이는가" -- 화면 구조, 컴포넌트 배치 | HTML 와이어프레임 |
+| **Plan** | "어떻게 만드는가" -- 컴포넌트 구조, 라이브러리, 순서 | 구현 계획 |
+| **Task** | 실행 단위로 분해 -- 의존성 설정 | 작업 목록 |
+| **Implementation** | 코드 작성 -- 테스트로 검증 | 코드 + 테스트 |
+
+각 단계의 출력이 다음 단계의 입력이 됩니다. Spec이 Wireframe의 입력이 되고, Spec + Wireframe이 Plan의 입력이 되고, Plan이 Task의 입력이 됩니다. **마지막 단계(Implementation)의 결과는 첫 단계(Spec)의 성공 기준으로 검증됩니다.**
+
+## 왜 지금 SDD가 가능한가
+
+명세를 먼저 쓰는 방법론 자체는 새롭지 않습니다. 하지만 전통적으로는 명세를 사람이 쓰고, 사람이 코드로 옮겼습니다. **AI가 자연어 명세를 이해하고 구현할 수 있는 수준에 도달하면서, 명세가 곧 실행 가능한 입력이 되었습니다.**
+
+변경이 생기면 코드를 직접 수정하는 대신 명세를 수정하고 재생성합니다. 코드를 수정하는 것보다 문서를 수정하는 것이 훨씬 저렴합니다.
+
+## Spec이 나머지를 결정한다
+
+![lesson-01-spec-error-amplification](attachments/lesson-01-spec-error-amplification.png)
+
+AI는 사고를 증폭합니다. Spec이 잘못되면 Wireframe, Plan, Task, Implementation 전체가 잘못된 방향으로 빠르게 진행됩니다.
+
+**SDD에서 인간이 가장 주의를 쏟아야 할 단계는 Spec입니다.** Plan Mode, Task, 테스트는 이미 자동화되어 있지만, "무엇을 만들 것인가"를 정의하는 Spec 단계에 가장 많은 시간을 투자해야 합니다.
+
+## 다양한 SDD 접근법
+
+명세를 중심으로 AI와 협업하는 아이디어는 같지만, 커뮤니티에서 다양한 워크플로우가 등장했습니다.
+
+**spec-kit** (GitHub 공식) -- Spec 중심 접근법입니다. `specify` CLI로 Spec → Plan → Tasks → Implement를 실행합니다. Agent에 종속되지 않아 Claude Code, Copilot, Gemini 등 어떤 도구에서도 사용할 수 있습니다. Spec 문서가 single source of truth 역할을 합니다.
+
+**Superpowers** (obra) -- 방법론 중심 접근법입니다. Brainstorm → Plan → TDD → Review 사이클을 따르며, 엄격한 Red-Green-Refactor와 Subagent 기반 개발을 강조합니다. Claude Code 전용입니다.
+
+**oh-my-claudecode** (Yeachan-Heo) -- 오케스트레이션 중심 접근법입니다. Autopilot/Ultrapilot 등 5가지 실행 모드, 32개 이상의 에이전트, 스마트 모델 라우팅을 제공합니다. 대규모 병렬 작업에 특화되어 있습니다.
+
+이 강의에서는 각 접근법의 핵심을 조합하여 하나의 워크플로우로 정리했습니다.
+
+## 워크플로우는 커스텀하는 것
+
+Claude Code의 장점은 Skills, Rules, Hooks를 수정하여 자신만의 워크플로우를 만들 수 있다는 점입니다. 이 강의에서 사용하는 워크플로우가 정답이 아닙니다.
+
+**먼저 한 번 완주하고, 그 다음 커스텀합니다.** 이번 챕터에서 SDD 사이클을 처음부터 끝까지 경험한 뒤, 자신의 프로젝트에 맞게 단계를 추가하거나 빼는 것이 효과적입니다.
+
+## 핵심 포인트 정리
+
+1. **위임 범위와 경계**: 테스트 몇 개로 함수를 위임하던 것에서, 기능 전체를 위임하려면 명세라는 더 단단한 경계가 필요합니다
+2. **SDD 5단계 사이클**: Spec -> Wireframe -> Plan -> Task -> Implementation. 각 출력이 다음 입력이 되고, Implementation의 결과가 Spec의 성공 기준으로 검증됩니다
+
+## FAQ
+
+- **Q: 작은 기능에도 SDD를 써야 하나요?**
+  - A: 아닙니다. 버튼 하나 추가하는 수준이면 Plan Mode와 테스트만으로 충분합니다. SDD는 여러 컴포넌트가 연결되고, 사용자 시나리오가 3개 이상인 기능에서 효과적입니다
+
+- **Q: 요구사항 문서를 AI가 대신 작성하는데, 결국 AI가 추측하는 거 아닌가요?**
+  - A: 맞습니다. 하지만 AI가 곧바로 코드를 쓰면 추측이 코드에 바로 반영됩니다. AI가 먼저 요구사항 문서를 쓰면, 추측이 문서에 드러나고 코드를 쓰기 전에 검토할 수 있습니다. 코드를 수정하는 것보다 문서를 수정하는 것이 훨씬 저렴합니다
+
+## 다음 단계
+
+SDD의 5단계 사이클을 이해했습니다. 다음 레슨에서는 SDD 워크플로우가 미리 구성된 엔지니어링 템플릿을 클론하고 각 도구의 역할을 확인합니다.
+
+다음 레슨 보기: [[lesson-02-project-setup]]
