@@ -1,0 +1,11 @@
+{
+  "title": "Chapter 9 · 스펙 주도 개발",
+  "pages": [
+    "sdd",
+    "project-setup",
+    "writing-spec",
+    "sketching-wireframe",
+    "writing-plan",
+    "implementation-deploy"
+  ]
+}
