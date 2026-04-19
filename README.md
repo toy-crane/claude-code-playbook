@@ -1,29 +1,45 @@
-# Claude Code for Developers
+# .
 
-개발자를 위한 Claude Code 워크샵 실습 저장소입니다.
-진도를 놓치더라도 해당 챕터 브랜치로 checkout하면 언제든 따라올 수 있습니다.
+This is a Next.js application generated with
+[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
 
-**강의 자료**: https://publish.obsidian.md/claude-code/cc-lge
-
-## 시작하기
+Run development server:
 
 ```bash
-git clone https://github.com/toy-crane/claude-code-for-lge-2.git
-cd claude-code-for-lge-2
-bun install
-bun run dev
+npm run dev
+# or
+pnpm dev
+# or
+yarn dev
 ```
 
-## 브랜치 가이드
+Open http://localhost:3000 with your browser to see the result.
 
-브랜치 이름은 `chXX-YY` 형식입니다. `XX`는 챕터 번호, `YY`는 레슨 번호이며, 해당 레슨 완료 시점의 코드입니다.
+## Explore
 
-브랜치는 강의 진행에 따라 추가됩니다.
+In the project, you can see:
 
-### 특정 챕터로 이동하기
+- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
+- `lib/layout.shared.tsx`: Shared options for layouts, optional but preferred to keep.
 
-```bash
-git checkout ch05-03
-bun install
-bun run dev
-```
+| Route                     | Description                                            |
+| ------------------------- | ------------------------------------------------------ |
+| `app/(home)`              | The route group for your landing page and other pages. |
+| `app/docs`                | The documentation layout and pages.                    |
+| `app/api/search/route.ts` | The Route Handler for search.                          |
+
+### Fumadocs MDX
+
+A `source.config.ts` config file has been included, you can customise different options like frontmatter schema.
+
+Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
+
+## Learn More
+
+To learn more about Next.js and Fumadocs, take a look at the following
+resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
+  features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Fumadocs](https://fumadocs.dev) - learn about Fumadocs
