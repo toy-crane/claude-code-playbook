@@ -1,12 +1,22 @@
 import { docs } from 'collections/server';
-import { type InferPageType, loader } from 'fumadocs-core/source';
+import { type InferPageType, loader, update } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
 import { docsContentRoute, docsImageRoute, docsRoute } from './shared';
+
+// `public: false` frontmatter hides a page entirely (build, nav, search, URL).
+const filteredSource = update(docs.toFumadocsSource())
+  .files((files) =>
+    files.filter((file) => {
+      if (file.type === 'meta') return true;
+      return file.data.public !== false;
+    }),
+  )
+  .build();
 
 // See https://fumadocs.dev/docs/headless/source-api for more info
 export const source = loader({
   baseUrl: docsRoute,
-  source: docs.toFumadocsSource(),
+  source: filteredSource,
   plugins: [lucideIconsPlugin()],
 });
 
