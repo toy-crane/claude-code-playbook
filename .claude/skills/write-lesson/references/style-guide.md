@@ -65,9 +65,8 @@
 
 초보자가 막힐 수 있는 전문용어가 처음 등장할 때 `<Callout type="info" title="X란?">` 로 정의 박스 삽입.
 
-- title 포맷: `X란?`
 - 비유 우선 (친숙한 비유 한 줄 → 정의 순)
-- 3-4 문장 이내, 인지 부담 최소
+- 3-4 문장 이내
 - 예시:
   - "단어? 토큰?" — `content/docs/starting-conversations/llm-basics/llm-fundamentals.mdx:27-29`
   - "Context란?" — `content/docs/starting-conversations/llm-basics/tool-use-and-agent.mdx` (카톡 대화 비유)

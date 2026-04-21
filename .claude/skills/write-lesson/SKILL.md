@@ -27,12 +27,8 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 입력: 작성할 레슨의 Part/Chapter 위치.
 
 처리:
-- `CLAUDE.md` 의 `## 강의 타겟` 섹션 확인 (톤·난이도 기준)
-- `content/docs/**/meta.json` 으로 레슨 순서 파악 → 현재 레슨보다 앞선 모든 파일 식별
-- 식별된 파일 중 frontmatter `public: true` 인 모든 `.mdx` 를 직접 Read 로 로드
-- 이미 소개된 용어·Callout·비유·대표 예시를 컨텍스트에 보유
-
-출력: 이전 레슨의 전체 본문이 컨텍스트에 로드된 상태.
+- `content/docs/**/meta.json` 으로 레슨 순서 파악 → 현재 레슨보다 앞선 파일 식별
+- 그중 frontmatter `public: true` 인 `.mdx` 를 전부 Read
 
 종료 조건: 자동 진행 (유저 승인 불필요).
 
@@ -58,7 +54,7 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 - **3a. 본문 작성**: 공통 프레임(Overview, 학습 목표, 핵심 포인트, FAQ, 이어서 배울 내용) + 본문 패턴 채움. `references/style-guide.md` 준수. `public: true` 로 저장
 - **3b. 어려운 용어 Callout**:
   - 본문에서 초보자에게 모호할 수 있는 전문용어를 AI 가 자율 판단으로 후보 추출
-  - **Step 1 컨텍스트로 이미 소개된 용어는 제외** (중복 방지)
+  - **Step 1 컨텍스트로 이미 소개된 용어는 제외**
   - 남은 용어 각각에 대해 **비유 후보 3-4개** 생성해 유저에게 제시 → 유저가 선택한 비유로 `<Callout type="info" title="X란?">` 삽입
   - 참조: `references/style-guide.md` 의 "용어 정의 Callout" 섹션
 - **3c. 이미지 placeholder 리스트**: `![lesson-NN-kebab-case](./attachments/...)` 형태만 배치하고, 아래 목록으로 출력
@@ -89,7 +85,6 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
   - 각 주장을 `{주장 원문 / 판정(✅ 정확 / ⚠️ 오래됨 / ❌ 부정확) / 출처 / 제안 수정안}` 스키마로 정리
   - `AskUserQuestion` 으로 3-4개씩 그룹화해 질의 (첨부된 제안 수정안을 선택지로)
   - 유저가 건별 승인·거절 → 승인된 수정만 본문에 반영
-  - **에이전트 판정만으로 자동 반영 금지**
 
 출력: 팩트 보정된 .mdx.
 
@@ -127,16 +122,8 @@ Part Wrap-up / Course Wrap-up 은 산출물 유형에서 직접 선택.
 
 각 이미지 placeholder 의 주제를 읽고 아래 기준으로 `diagram` 또는 `illustration` 을 판정.
 
-**diagram** — spatial 구조·관계·흐름을 증명하는 시각물
-- 화살표·단계·아키텍처·프로토콜
-- 타임라인·시퀀스·상태 전이
-- 비교표·매트릭스·2×2
-- 트리·계층·분류체계
-
-**illustration** — 비유·감정·서사로 개념을 전달하는 시각물
-- 비유·장면·스토리
-- 캐릭터·감정·서사
-- 오브젝트·심볼·추상 시각화
+- **diagram** — 구조·관계·흐름을 공간적으로 증명 (아키텍처, 타임라인, 비교 매트릭스, 트리 등)
+- **illustration** — 비유·서사로 개념 전달 (비유 장면, 캐릭터, 심볼 등)
 
 애매하면 `diagram` 우선 (편집 가능성 높음, `.excalidraw` JSON 보존).
 
