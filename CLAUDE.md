@@ -54,9 +54,10 @@
 
 ## Fumadocs 레퍼런스
 
-`/tmp/fumadocs-llms-full.txt` (24,738줄, 658KB) — Fumadocs 공식 문서 전체. 설정/컴포넌트/라우팅/i18n 관련 질문은 이 파일 먼저 grep.
+Fumadocs 작업 시 추측하지 말고 공식 문서를 먼저 확인.
 
-온라인: https://www.fumadocs.dev/docs
+- https://www.fumadocs.dev/llms.txt (인덱스)
+- https://www.fumadocs.dev/llms-full.txt (전체)
 
 ## 마이그레이션 스크립트
 
