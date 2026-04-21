@@ -47,20 +47,28 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 
 출력:
 - 저장된 .mdx 초안 파일 경로
-- 이미지 placeholder 리스트 — 각 항목 `{파일명, 위치(H2 기준), 이미지 주제}`
+- 이미지 placeholder 리스트 — 각 항목 `{파일명, 위치(H2 기준), 이미지 주제, 유형}`
+  - `유형` 은 `diagram` 또는 `illustration` — Claude 가 [이미지 유형 분류 휴리스틱] 으로 자동 판정
+  - 유저는 Step 2 승인 시 유형 override 가능
 
 종료 조건: 유저 승인. 수정 요청이 오면 반영 후 재승인.
 
 ### Step 3. 이미지 생성 + 공개 전환
 
-입력: 승인된 본문 + 이미지 placeholder 리스트.
+입력: 승인된 본문 + 이미지 placeholder 리스트 (유형 포함).
 
 처리:
-- placeholder 마다 `illustrate-lesson` 스킬을 트리거해 이미지 일괄 생성
-- 생성된 파일을 `attachments/` 에 배치 (파일명 일치 확인)
+- placeholder 마다 유형에 따라 다른 스킬을 트리거:
+
+  | 유형 | 호출 스킬 | 산출물 저장 |
+  |------|---------|-----------|
+  | `diagram` | `excalidraw` | `attachments/sources/<name>.excalidraw` (JSON) + `attachments/<name>.png` (렌더) |
+  | `illustration` | `illustrate-lesson` | `attachments/<name>.png` |
+
+- 생성된 파일명이 placeholder 와 일치하는지 확인
 - 최종 검토 후 frontmatter `public: false` → `public: true` 전환
 
-출력: 이미지 파일들 + 최종 .mdx.
+출력: 이미지 파일들(+ excalidraw JSON) + 최종 .mdx.
 
 ## 패턴 선택 로직
 
@@ -73,6 +81,23 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 5. 넷 다 애매 → 기본값 **패턴 1** 로 리프레임 시도
 
 Part Wrap-up / Course Wrap-up 은 산출물 유형에서 직접 선택.
+
+## 이미지 유형 분류 휴리스틱
+
+각 이미지 placeholder 의 주제를 읽고 아래 기준으로 `diagram` 또는 `illustration` 을 판정.
+
+**diagram** — spatial 구조·관계·흐름을 증명하는 시각물
+- 화살표·단계·아키텍처·프로토콜
+- 타임라인·시퀀스·상태 전이
+- 비교표·매트릭스·2×2
+- 트리·계층·분류체계
+
+**illustration** — 비유·감정·서사로 개념을 전달하는 시각물
+- 비유·장면·스토리
+- 캐릭터·감정·서사
+- 오브젝트·심볼·추상 시각화
+
+애매하면 `diagram` 우선 (편집 가능성 높음, `.excalidraw` JSON 보존).
 
 ## 헤드라인 가드
 
