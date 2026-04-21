@@ -24,6 +24,8 @@
     "octokit": "^5.0.5",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "remark-cjk-friendly": "^2.0.1",
+    "remark-cjk-friendly-gfm-strikethrough": "^2.0.1",
     "tailwind-merge": "^3.5.0",
     "zod": "^4.3.6"
   },

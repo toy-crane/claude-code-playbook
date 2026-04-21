@@ -1,5 +1,7 @@
 import { defineConfig, defineDocs } from 'fumadocs-mdx/config';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
+import remarkCjkFriendly from 'remark-cjk-friendly';
+import remarkCjkFriendlyGfmStrikethrough from 'remark-cjk-friendly-gfm-strikethrough';
 import { z } from 'zod';
 
 export const docs = defineDocs({
@@ -19,6 +21,10 @@ export const docs = defineDocs({
 
 export default defineConfig({
   mdxOptions: {
-    // MDX options
+    remarkPlugins: (v) => [
+      remarkCjkFriendly,
+      remarkCjkFriendlyGfmStrikethrough,
+      ...v,
+    ],
   },
 });
