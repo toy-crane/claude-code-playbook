@@ -13,14 +13,19 @@
     "lint:links": "bun ./scripts/lint-links.ts"
   },
   "dependencies": {
+    "@radix-ui/react-collapsible": "^1.1.12",
+    "@radix-ui/react-popover": "^1.1.15",
+    "class-variance-authority": "^0.7.1",
     "fumadocs-core": "16.8.0",
     "fumadocs-mdx": "14.3.1",
     "fumadocs-ui": "16.8.0",
     "lucide-react": "^1.8.0",
     "next": "16.2.3",
+    "octokit": "^5.0.5",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",

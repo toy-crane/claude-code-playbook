@@ -11,6 +11,12 @@ const eslintConfig = defineConfig([
     '.source/**',
     '.claude/**',
   ]),
+  {
+    files: ['src/components/ui/**', 'src/components/feedback/**'],
+    rules: {
+      'react-hooks/set-state-in-effect': 'off',
+    },
+  },
 ]);
 
 export default eslintConfig;
