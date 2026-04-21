@@ -136,17 +136,6 @@ H2 제목은 "개요", "정리", "설명", "사용법" 같은 일반어 지양. 
 - 의문형: `"AI 는 왜 자신만만하게 틀릴까"`
 - 조건형: `"매번 같은 말을 반복하고 있다면"`
 
-## 템플릿
-
-| 파일 | 담당 |
-|------|------|
-| `assets/templates/lesson-01-problem-solution.mdx` | 문제-해법 레슨 |
-| `assets/templates/lesson-02-principle-consequences.mdx` | 원리→귀결 레슨 |
-| `assets/templates/lesson-03-definition-application.mdx` | 정의→적용→확장 레슨 |
-| `assets/templates/lesson-04-tutorial.mdx` | 튜토리얼 레슨 |
-| `assets/templates/part-wrap-up.mdx` | Part Wrap-up |
-| `assets/templates/course-wrap-up.mdx` | Course Wrap-up |
-
 ## 문체·포맷 규칙
 
 `references/style-guide.md` 참조. 문체(문장형·명사형·인용) / 문단 묶기 / 내부 링크 / 이미지 / Fumadocs / Callout 사용 / frontmatter 규칙 포함.
