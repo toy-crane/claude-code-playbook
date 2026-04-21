@@ -4,6 +4,10 @@
 
 한국어 Claude Code 강의 사이트. Fumadocs (Next.js + MDX) 기반 자가 호스팅. Obsidian Publish 를 대체.
 
+## 강의 타겟
+
+개발자 2년차 이상, Cursor/Copilot 정도 다뤄 봄.
+
 ## 문체
 
 한국어 prose 는 **합니다체** (`~합니다`, `~입니다`) 로 통일.
