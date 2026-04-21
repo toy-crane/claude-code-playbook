@@ -120,8 +120,9 @@ Claude에게 기능을 구현하고 push하도록 지시합니다.
 
 > "Todo 목록에 마감일 표시 기능을 추가해줘. 기한이 지난 항목은 빨간색으로 표시. 작업이 끝나면 커밋하고 push해줘."
 
-> [!NOTE] push 시 브랜치 이름에 주의
-> worktree의 브랜치는 기본적으로 `origin/main`을 추적합니다. 브랜치 이름을 명시하지 않고 `git push`를 실행하면 main에 직접 push될 수 있습니다. main 브랜치가 보호되어 있으면 push가 거부되지만, 보호되지 않은 저장소에서는 의도치 않은 커밋이 main에 들어갑니다. Claude에게 "브랜치 이름을 명시해서 push해줘"라고 지시하거나, 저장소의 main 브랜치 보호 설정을 확인합니다.
+<Callout type="info" title="push 시 브랜치 이름에 주의">
+worktree의 브랜치는 기본적으로 `origin/main`을 추적합니다. 브랜치 이름을 명시하지 않고 `git push`를 실행하면 main에 직접 push될 수 있습니다. main 브랜치가 보호되어 있으면 push가 거부되지만, 보호되지 않은 저장소에서는 의도치 않은 커밋이 main에 들어갑니다. Claude에게 "브랜치 이름을 명시해서 push해줘"라고 지시하거나, 저장소의 main 브랜치 보호 설정을 확인합니다.
+</Callout>
 
 ### Step 6: PR 생성 및 병합
 

@@ -52,8 +52,9 @@ MCP는 세 가지 구성요소로 이루어져 있습니다.
 
 **MCP Builder Skill**은 Anthropic이 공식 제공하는 Skill입니다. 어떤 외부 API를 감쌀지 설명하면, Claude가 MCP 서버 프로젝트 전체를 생성합니다. 프로젝트 구조, SDK 설정, Tool 정의, 입출력 스키마까지 자동으로 만들어줍니다.
 
-> [!NOTE] SDK란?
-> SDK(Software Development Kit)는 특정 기능을 쉽게 만들 수 있도록 미리 준비된 코드 모음입니다. MCP SDK는 MCP 서버를 만들기 위한 함수와 도구를 제공합니다. 직접 프로토콜을 구현할 필요 없이, SDK가 제공하는 함수를 호출하면 됩니다.
+<Callout type="info" title="SDK란?">
+SDK(Software Development Kit)는 특정 기능을 쉽게 만들 수 있도록 미리 준비된 코드 모음입니다. MCP SDK는 MCP 서버를 만들기 위한 함수와 도구를 제공합니다. 직접 프로토콜을 구현할 필요 없이, SDK가 제공하는 함수를 호출하면 됩니다.
+</Callout>
 
 이 레슨에서는 MCP Builder Skill을 사용하여 날씨 API를 감싸는 MCP 서버를 만듭니다. 완성되면 Claude에게 "서울 날씨 어때?"라고 물었을 때, Claude가 실시간 날씨 데이터를 가져와서 답변합니다.
 
@@ -112,8 +113,9 @@ weather-mcp/
 
 Bun은 TypeScript를 네이티브로 지원하므로 별도의 빌드 과정이 필요 없습니다. `tsconfig.json`이나 `build/` 폴더 없이 `bun run src/index.ts`로 바로 실행합니다.
 
-> [!NOTE] 결과가 다를 수 있습니다
-> AI가 생성하는 코드는 실행할 때마다 세부 사항이 달라질 수 있습니다. 파일 구조나 변수 이름이 아래 예시와 다르더라도 정상입니다. 중요한 것은 핵심 구조(Tool 정의, 입출력 스키마, 서버 연결)가 동일한지입니다.
+<Callout type="info" title="결과가 다를 수 있습니다">
+AI가 생성하는 코드는 실행할 때마다 세부 사항이 달라질 수 있습니다. 파일 구조나 변수 이름이 아래 예시와 다르더라도 정상입니다. 중요한 것은 핵심 구조(Tool 정의, 입출력 스키마, 서버 연결)가 동일한지입니다.
+</Callout>
 
 ### Step 5: 생성된 코드 이해하기
 
@@ -226,8 +228,9 @@ await server.connect(transport);
 
 **서버 실행부**입니다. `StdioServerTransport`는 표준 입출력(stdin/stdout)으로 통신합니다. Claude Code가 이 프로세스를 실행하고, JSON 메시지를 주고받으며 Tool을 호출합니다.
 
-> [!NOTE] 왜 stdin/stdout인가?
-> MCP 서버는 HTTP 서버가 아닙니다. Claude Code가 MCP 서버 프로세스를 직접 실행하고, stdin으로 요청을 보내고 stdout으로 응답을 받습니다. 별도의 포트나 네트워크 설정이 필요 없습니다. Claude Code가 시작될 때 자동으로 MCP 서버 프로세스를 띄우고, 종료될 때 같이 종료합니다.
+<Callout type="info" title="왜 stdin/stdout인가?">
+MCP 서버는 HTTP 서버가 아닙니다. Claude Code가 MCP 서버 프로세스를 직접 실행하고, stdin으로 요청을 보내고 stdout으로 응답을 받습니다. 별도의 포트나 네트워크 설정이 필요 없습니다. Claude Code가 시작될 때 자동으로 MCP 서버 프로세스를 띄우고, 종료될 때 같이 종료합니다.
+</Callout>
 
 ## Claude Code에 연결하기
 
