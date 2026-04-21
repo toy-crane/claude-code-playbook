@@ -45,8 +45,22 @@ type LessonEntry = {
   srcPath: string;      // absolute path to source .md
   destPath: string;     // "starting-conversations/llm-basics/llm-fundamentals" (no extension, relative to content/docs)
   oldSlug: string;      // "lesson-02-tool-use-and-agent" (filename without .md)
-  title: string;
+  title: string;        // full frontmatter title (used for page <h1>)
+  linkTitle: string;    // condensed label for in-body links (no "Lesson NN:" prefix, no "| English" suffix)
 };
+
+// Clean up a frontmatter title for use as in-body link text.
+// "Lesson 02: 도구를 쥐어주면 달라지는 것들 | Tool Use & Agent"
+//   → "도구를 쥐어주면 달라지는 것들"
+function condenseTitle(title: string): string {
+  let out = title.trim();
+  out = out.replace(/^Lesson\s+\d+\s*:\s*/i, '');
+  out = out.replace(/^Chapter\s+\d+\s*:\s*/i, '');
+  // Take the part before " | " (Korean label first, English/taxonomy after)
+  const pipe = out.indexOf(' | ');
+  if (pipe !== -1) out = out.slice(0, pipe).trim();
+  return out || title;
+}
 
 function loadFrontmatter(srcPath: string): Record<string, unknown> {
   const { data } = matter(readFileSync(srcPath, 'utf8'));
@@ -73,7 +87,14 @@ function buildIndex(): Map<string, LessonEntry> {
         const newSlug = seoSlug(oldSlug);
         const destPath = `${partSlug}/${chapSlug}/${newSlug}`;
         const fm = loadFrontmatter(srcPath);
-        index.set(oldSlug, { srcPath, destPath, oldSlug, title: String(fm.title ?? newSlug) });
+        const title = String(fm.title ?? newSlug);
+        index.set(oldSlug, {
+          srcPath,
+          destPath,
+          oldSlug,
+          title,
+          linkTitle: condenseTitle(title),
+        });
       }
     }
   }
@@ -85,7 +106,13 @@ function buildIndex(): Map<string, LessonEntry> {
     const oldSlug = src.replace(/\.md$/, '');
     const fm = loadFrontmatter(srcPath);
     const title = String(fm.title ?? TOPLEVEL_TITLES[src] ?? destName);
-    index.set(oldSlug, { srcPath, destPath: destName, oldSlug, title });
+    index.set(oldSlug, {
+      srcPath,
+      destPath: destName,
+      oldSlug,
+      title,
+      linkTitle: condenseTitle(title),
+    });
   }
 
   return index;
@@ -114,24 +141,25 @@ function convertBody(body: string, index: Map<string, LessonEntry>, currentDest:
 
     let out = line;
 
-    // Wikilinks with alias: [[target|text]] → [text](./path)
+    // Wikilinks with alias: [[target|text]] → [condensed text](./path)
     out = out.replace(/\[\[([^\]|\n]+)\|([^\]\n]+)\]\]/g, (_, target, text) => {
       const entry = index.get(target.trim());
+      const linkText = condenseTitle(text.trim());
       if (!entry) {
         warnings.push(`[${currentDest}] missing wikilink target: ${target.trim()}`);
-        return `[${text.trim()}](./${target.trim()})`;
+        return `[${linkText}](./${target.trim()})`;
       }
-      return `[${text.trim()}](${relLink(currentDest, entry.destPath)})`;
+      return `[${linkText}](${relLink(currentDest, entry.destPath)})`;
     });
 
-    // Plain wikilinks: [[target]] → [title](./path)
+    // Plain wikilinks: [[target]] → [condensed title](./path)
     out = out.replace(/\[\[([^\]\n]+)\]\]/g, (_, target) => {
       const entry = index.get(target.trim());
       if (!entry) {
         warnings.push(`[${currentDest}] missing wikilink target: ${target.trim()}`);
         return `[${target.trim()}](./${target.trim()})`;
       }
-      return `[${entry.title}](${relLink(currentDest, entry.destPath)})`;
+      return `[${entry.linkTitle}](${relLink(currentDest, entry.destPath)})`;
     });
 
     // Obsidian callouts: > [!note] → > [!NOTE]
