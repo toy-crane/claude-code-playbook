@@ -72,6 +72,10 @@ Fumadocs 작업 시 추측하지 말고 공식 문서를 먼저 확인.
 - https://www.fumadocs.dev/llms.txt (인덱스)
 - https://www.fumadocs.dev/llms-full.txt (전체)
 
+## 의존성 고정
+
+- **ESLint v9 고정.** v10 으로 올리지 말 것. `eslint-plugin-react` 가 v10 미지원이라 lint 가 깨짐. [issue #3977](https://github.com/jsx-eslint/eslint-plugin-react/issues/3977) 머지 후에 재고.
+
 ## 마이그레이션 스크립트
 
 `scripts/migrate.ts` — `source/` 에서 `content/docs/` 로 일회성 변환.
