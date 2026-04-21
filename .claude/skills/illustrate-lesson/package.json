@@ -1,0 +1,8 @@
+{
+  "name": "illustrate-lesson-skill",
+  "private": true,
+  "dependencies": {
+    "@google/genai": "^1.45.0",
+    "jimp": "^1.6.0"
+  }
+}
