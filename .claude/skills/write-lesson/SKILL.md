@@ -5,7 +5,7 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 
 # write-lesson
 
-주제와 시퀀스 위치를 받아 6개 템플릿 중 하나를 채운 MDX 파일을 생성하는 스킬. 헤드라인·본문·이미지를 3단계로 나눠 각 단계마다 유저 승인을 받음.
+주제와 시퀀스 위치를 받아 6개 템플릿 중 하나를 채운 MDX 파일을 생성하는 스킬. Explorer → 헤드라인 → 본문 → Fact-check → 이미지 의 5단계로 나눠 각 단계마다 유저 승인을 받음.
 
 ## 산출물
 
@@ -22,38 +22,80 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 
 ## 워크플로우
 
-### Step 1. 헤드라인 제안
+### Step 1. Explorer — 이전 레슨 컨텍스트 주입
 
-입력: 주제 + 시퀀스 위치(Part/Chapter 맥락).
+입력: 작성할 레슨의 Part/Chapter 위치.
+
+처리:
+- `CLAUDE.md` 의 `## 강의 타겟` 섹션 확인 (톤·난이도 기준)
+- `content/docs/**/meta.json` 으로 레슨 순서 파악 → 현재 레슨보다 앞선 모든 파일 식별
+- 식별된 파일 중 frontmatter `public: true` 인 모든 `.mdx` 를 직접 Read 로 로드
+- 이미 소개된 용어·Callout·비유·대표 예시를 컨텍스트에 보유
+
+출력: 이전 레슨의 전체 본문이 컨텍스트에 로드된 상태.
+
+종료 조건: 자동 진행 (유저 승인 불필요).
+
+### Step 2. 헤드라인 제안
+
+입력: 주제 + 시퀀스 위치 + Step 1 의 컨텍스트.
 
 처리:
 - 아래 [패턴 선택 로직] 으로 패턴 1개 고정
 - 해당 템플릿의 H2 헤드라인을 주제 맞춤으로 채움
 - [헤드라인 가드] 자가 검증
+- Step 1 컨텍스트 기반으로 앞 레슨과의 연결 지점 명시
 
 출력: 선택한 템플릿 파일명 + 채워진 H2 헤드라인 목록.
 
 종료 조건: 유저 승인. 수정 요청이 오면 재생성 후 재승인.
 
-### Step 2. 본문 초안 + 이미지 placeholder 리스트
+### Step 3. 본문 초안 + Callout + 이미지 placeholder
 
 입력: 승인된 헤드라인.
 
 처리:
-- 공통 프레임(Overview, 학습 목표, 핵심 포인트, FAQ, 이어서 배울 내용) + 본문 패턴 채움
-- 문체·링크·이미지·Fumadocs 규칙은 `references/style-guide.md` 따름
-- 이미지는 `![lesson-NN-kebab-case](./attachments/...)` placeholder 로만 표기
-- `public: false` 로 저장
+- **3a. 본문 작성**: 공통 프레임(Overview, 학습 목표, 핵심 포인트, FAQ, 이어서 배울 내용) + 본문 패턴 채움. `references/style-guide.md` 준수. `public: true` 로 저장
+- **3b. 어려운 용어 Callout**:
+  - 본문에서 초보자에게 모호할 수 있는 전문용어를 AI 가 자율 판단으로 후보 추출
+  - **Step 1 컨텍스트로 이미 소개된 용어는 제외** (중복 방지)
+  - 남은 용어 각각에 대해 **비유 후보 3-4개** 생성해 유저에게 제시 → 유저가 선택한 비유로 `<Callout type="info" title="X란?">` 삽입
+  - 참조: `references/style-guide.md` 의 "용어 정의 Callout" 섹션
+- **3c. 이미지 placeholder 리스트**: `![lesson-NN-kebab-case](./attachments/...)` 형태만 배치하고, 아래 목록으로 출력
+  - 각 항목: `{파일명, 위치(H2 기준), 이미지 주제, 유형}`
+  - `유형` 은 `diagram` 또는 `illustration` — [이미지 유형 분류 휴리스틱] 으로 자동 판정, 유저 override 가능
 
 출력:
-- 저장된 .mdx 초안 파일 경로
-- 이미지 placeholder 리스트 — 각 항목 `{파일명, 위치(H2 기준), 이미지 주제, 유형}`
-  - `유형` 은 `diagram` 또는 `illustration` — Claude 가 [이미지 유형 분류 휴리스틱] 으로 자동 판정
-  - 유저는 Step 2 승인 시 유형 override 가능
+- 저장된 .mdx 초안 파일 (Callout 포함)
+- 이미지 placeholder 리스트
 
-종료 조건: 유저 승인. 수정 요청이 오면 반영 후 재승인.
+종료 조건: 유저 승인. 수정 요청(Callout 제거, 이미지 유형 override 등) 반영 후 재승인.
 
-### Step 3. 이미지 생성 + 공개 전환
+### Step 4. Fact-check
+
+입력: 승인된 본문.
+
+처리:
+- **4a. 주장 추출**: 본문에서 모든 사실성 주장을 뽑음 (개념 정의, 수치, 고유명사, 버전, 연도, 동작 설명 등)
+- **4b. 주장별 라우팅·검증**:
+
+  | 주장 유형 | 라우팅 |
+  |---|---|
+  | Claude Code CLI / Agent SDK / Anthropic API | `claude-code-guide` 에이전트 |
+  | 외부 라이브러리·프레임워크·버전·연도 | `general-purpose` 에이전트 + WebSearch |
+  | 일반 LLM 원리·업계 상식 | 내부 추론 + 필요 시 WebSearch 보조 |
+
+- **4c. 검증 결과 → 유저 질의**:
+  - 각 주장을 `{주장 원문 / 판정(✅ 정확 / ⚠️ 오래됨 / ❌ 부정확) / 출처 / 제안 수정안}` 스키마로 정리
+  - `AskUserQuestion` 으로 3-4개씩 그룹화해 질의 (첨부된 제안 수정안을 선택지로)
+  - 유저가 건별 승인·거절 → 승인된 수정만 본문에 반영
+  - **에이전트 판정만으로 자동 반영 금지**
+
+출력: 팩트 보정된 .mdx.
+
+종료 조건: 유저 승인.
+
+### Step 5. 이미지 생성
 
 입력: 승인된 본문 + 이미지 placeholder 리스트 (유형 포함).
 
@@ -66,7 +108,6 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
   | `illustration` | `illustrate-lesson` | `attachments/<name>.png` |
 
 - 생성된 파일명이 placeholder 와 일치하는지 확인
-- 최종 검토 후 frontmatter `public: false` → `public: true` 전환
 
 출력: 이미지 파일들(+ excalidraw JSON) + 최종 .mdx.
 
@@ -121,4 +162,4 @@ H2 제목은 "개요", "정리", "설명", "사용법" 같은 일반어 지양. 
 
 ## 문체·포맷 규칙
 
-`references/style-guide.md` 참조. 문체(문장형·명사형·인용) / 문단 묶기 / 내부 링크 / 이미지 / Fumadocs / frontmatter 규칙 포함.
+`references/style-guide.md` 참조. 문체(문장형·명사형·인용) / 문단 묶기 / 내부 링크 / 이미지 / Fumadocs / Callout 사용 / frontmatter 규칙 포함.
