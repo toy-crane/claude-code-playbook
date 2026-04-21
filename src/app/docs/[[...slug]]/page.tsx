@@ -9,6 +9,8 @@ import {
 } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/mdx';
+import { Feedback } from '@/components/feedback/client';
+import { onPageFeedbackAction } from '@/lib/github';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { gitConfig } from '@/lib/shared';
@@ -40,6 +42,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
           })}
         />
       </DocsBody>
+      <Feedback onSendAction={onPageFeedbackAction} />
     </DocsPage>
   );
 }
