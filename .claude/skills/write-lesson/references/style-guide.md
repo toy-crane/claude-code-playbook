@@ -59,10 +59,22 @@
 - GFM `> [!NOTE]` / `> [!TIP]` 등 markdown 콜아웃 금지
 - Callout 은 `src/components/mdx.tsx` 전역 등록 → 파일별 import 불필요
 
+## Callout 사용
+
+### 용어 정의 Callout
+
+초보자가 막힐 수 있는 전문용어가 처음 등장할 때 `<Callout type="info" title="X란?">` 로 정의 박스 삽입.
+
+- title 포맷: `X란?`
+- 비유 우선 (친숙한 비유 한 줄 → 정의 순)
+- 3-4 문장 이내, 인지 부담 최소
+- 예시:
+  - "단어? 토큰?" — `content/docs/starting-conversations/llm-basics/llm-fundamentals.mdx:27-29`
+  - "Context란?" — `content/docs/starting-conversations/llm-basics/tool-use-and-agent.mdx` (카톡 대화 비유)
+
 ## frontmatter
 
-- `public: false` 기본 — 작성 중 초안 상태
-- 3단계 워크플로우 완료 후 `public: true` 전환
+- `public: true` 기본 — 작성 즉시 공개
 - `description` 은 1-2문장 문장형
 - `title` 은 자유 (`<후킹 문구> | <개념명>` 포맷 선호)
 
