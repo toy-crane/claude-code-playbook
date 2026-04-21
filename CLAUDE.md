@@ -52,6 +52,19 @@
 ![설명](./attachments/foo.png)
 ```
 
+## 링크 규칙
+
+MDX 파일 간 내부 링크는 **절대 경로** `/docs/<slug>` 사용.
+
+- ✅ `[레슨](/docs/starting-conversations/llm-basics/llm-fundamentals)`
+- ❌ `[레슨](./llm-fundamentals)` — 루트 `/docs` 페이지에서 404 (Fumadocs 는 내부 링크 rewrite 지원 없음)
+
+이미지만 예외 — 상대 경로 유지: `![alt](./attachments/foo.png)`
+
+baseUrl `/docs` 는 `src/lib/shared.ts:2` 의 `docsRoute` 가 SSOT.
+
+검증: `bun run lint:links` (pre-push hook 에서 자동 실행).
+
 ## Fumadocs 레퍼런스
 
 Fumadocs 작업 시 추측하지 말고 공식 문서를 먼저 확인.
