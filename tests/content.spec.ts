@@ -1,4 +1,4 @@
-// Per-page E2E verification for every migrated lesson.
+// Per-page E2E verification for every lesson.
 // - Status 200
 // - <h1> matches frontmatter title
 // - All original `##`/`###` headings appear in rendered HTML
