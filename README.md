@@ -32,7 +32,3 @@ bun run dev       # localhost:3000/docs
 - `source.config.ts` — MDX frontmatter 스키마
 - `src/app/docs/[[...slug]]/page.tsx` — 문서 페이지 + metadata
 - `src/app/og/docs/[...slug]/route.tsx` — OG 이미지 동적 생성
-
-## 배포
-
-Vercel. Production 도메인 `docs.claude-hunt.com` 기준. `metadataBase` 는 `src/lib/shared.ts` 의 `siteUrl` 로 코드에서 고정되므로 Vercel 도메인 설정 변경에 영향받지 않습니다.
