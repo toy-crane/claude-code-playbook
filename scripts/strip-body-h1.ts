@@ -4,15 +4,21 @@
 // body causes the title to render twice. Safe only when frontmatter `title`
 // matches the H1 text exactly — otherwise skip and warn for manual review.
 
-import { readFileSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { Glob } from 'bun';
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join, relative } from 'node:path';
 import matter from 'gray-matter';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const CONTENT = join(ROOT, 'content/docs');
 
-const files = [...new Glob('**/*.mdx').scanSync({ cwd: CONTENT })].sort();
+function findMdx(dir: string): string[] {
+  return readdirSync(dir, { recursive: true, withFileTypes: true })
+    .filter((d) => d.isFile() && d.name.endsWith('.mdx'))
+    .map((d) => relative(CONTENT, join(d.parentPath, d.name)))
+    .sort();
+}
+
+const files = findMdx(CONTENT);
 
 let modified = 0;
 let skipped = 0;

@@ -106,10 +106,11 @@ commit Skill을 로드한 에이전트와 Skill 없이 실행하는 에이전트
 
 1단계 테스트를 진행하다 보면 commit Skill의 동작을 개선하고 싶은 지점이 보입니다. 예를 들어 현재 commit Skill은 이미 staging된 파일만 커밋하고, modified나 untracked 파일은 무시합니다.
 
-> [!TIP] Git 파일 상태
-> - **staged**: `git add`로 커밋 대기열에 올린 파일
-> - **modified**: 수정했지만 아직 `git add`하지 않은 파일
-> - **untracked**: Git이 아직 추적하지 않는 새 파일
+<Callout type="idea" title="Git 파일 상태">
+- **staged**: `git add`로 커밋 대기열에 올린 파일
+- **modified**: 수정했지만 아직 `git add`하지 않은 파일
+- **untracked**: Git이 아직 추적하지 않는 새 파일
+</Callout>
 
 이 동작을 바꾸고 싶다면 이렇게 요청합니다.
 

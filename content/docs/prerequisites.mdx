@@ -34,7 +34,7 @@ Claude Code를 사용하려면 Anthropic 계정과 유료 구독이 필요합니
 
 2. 해당 이메일의 **Accept invite** 링크를 사외에서 열어 Claude 회원가입 및 Team 등록을 완료합니다
 
-> [!WARNING] 초대 메일을 수신한 LGE 도메인으로만 등록 가능합니다.
+<Callout type="warn" title="초대 메일을 수신한 LGE 도메인으로만 등록 가능합니다." />
 
 ---
 
@@ -88,11 +88,13 @@ claude --version
 1.0.33 (Claude Code)
 ```
 
-> [!NOTE] 버전 번호는 다를 수 있습니다
-> 위 숫자와 정확히 같을 필요는 없습니다. 숫자가 표시되면 설치가 완료된 것입니다.
+<Callout type="info" title="버전 번호는 다를 수 있습니다">
+위 숫자와 정확히 같을 필요는 없습니다. 숫자가 표시되면 설치가 완료된 것입니다.
+</Callout>
 
-> [!TIP] VS Code 확장 프로그램
-> 터미널 설치 외에 VS Code 확장 프로그램으로도 Claude Code를 사용할 수 있습니다. VS Code 마켓플레이스에서 "Claude Code"를 검색하여 설치하면 됩니다.
+<Callout type="idea" title="VS Code 확장 프로그램">
+터미널 설치 외에 VS Code 확장 프로그램으로도 Claude Code를 사용할 수 있습니다. VS Code 마켓플레이스에서 "Claude Code"를 검색하여 설치하면 됩니다.
+</Callout>
 
 설치 후 처음 `claude`를 실행하면 브라우저가 열리며 Anthropic 계정 인증을 요청합니다. 1번에서 만든 계정으로 로그인하면 됩니다. 인증은 처음 한 번만 필요합니다.
 
@@ -130,8 +132,11 @@ git --version
 git version 2.47.1
 ```
 
-> [!NOTE] 설치 직후 `git`을 찾을 수 없다면
-> 터미널을 닫았다가 다시 열어 보세요. 새 터미널에서 PATH가 갱신됩니다.
+<Callout type="info">
+**설치 직후 `git`을 찾을 수 없다면**
+
+터미널을 닫았다가 다시 열어 보세요. 새 터미널에서 PATH가 갱신됩니다.
+</Callout>
 
 ---
 
@@ -169,8 +174,11 @@ v22.14.0
 10.9.2
 ```
 
-> [!NOTE] 설치 직후 `node`를 찾을 수 없다면
-> 터미널을 닫았다가 다시 열어 보세요. 새 터미널에서 PATH가 갱신됩니다.
+<Callout type="info">
+**설치 직후 `node`를 찾을 수 없다면**
+
+터미널을 닫았다가 다시 열어 보세요. 새 터미널에서 PATH가 갱신됩니다.
+</Callout>
 
 ---
 
@@ -198,33 +206,34 @@ irm bun.sh/install.ps1 | iex
 
 설치가 완료되면 **VS Code 터미널을 닫았다가 다시 열어야** `bun` 명령어를 인식합니다.
 
-> [!WARNING] Windows에서 설치가 안 되는 경우
->
-> **"스크립트 실행이 차단되었습니다" 오류**
->
-> PowerShell 보안 정책이 스크립트 실행을 막고 있습니다. 다음 명령어를 먼저 실행한 뒤 설치를 재시도합니다.
->
-> ```powershell
-> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-> ```
->
-> **설치 후 `bun`을 찾을 수 없는 경우**
->
-> PATH에 Bun이 등록되지 않은 것입니다. 다음 명령어로 수동 등록합니다.
->
-> ```powershell
-> [System.Environment]::SetEnvironmentVariable(
->   "Path",
->   [System.Environment]::GetEnvironmentVariable("Path", "User") + ";$env:USERPROFILE\.bun\bin",
->   [System.EnvironmentVariableTarget]::User
-> )
-> ```
->
-> 실행 후 VS Code 터미널을 닫았다가 다시 열어야 적용됩니다.
->
-> **Windows Defender가 차단하는 경우**
->
-> Windows 보안 > 바이러스 및 위협 방지 > 보호 기록에서 `bun.exe`를 허용합니다.
+<Callout type="warn" title="Windows에서 설치가 안 되는 경우">
+
+**"스크립트 실행이 차단되었습니다" 오류**
+
+PowerShell 보안 정책이 스크립트 실행을 막고 있습니다. 다음 명령어를 먼저 실행한 뒤 설치를 재시도합니다.
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**설치 후 `bun`을 찾을 수 없는 경우**
+
+PATH에 Bun이 등록되지 않은 것입니다. 다음 명령어로 수동 등록합니다.
+
+```powershell
+[System.Environment]::SetEnvironmentVariable(
+  "Path",
+  [System.Environment]::GetEnvironmentVariable("Path", "User") + ";$env:USERPROFILE\.bun\bin",
+  [System.EnvironmentVariableTarget]::User
+)
+```
+
+실행 후 VS Code 터미널을 닫았다가 다시 열어야 적용됩니다.
+
+**Windows Defender가 차단하는 경우**
+
+Windows 보안 > 바이러스 및 위협 방지 > 보호 기록에서 `bun.exe`를 허용합니다.
+</Callout>
 
 **설치 확인**
 

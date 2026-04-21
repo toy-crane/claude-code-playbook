@@ -111,8 +111,9 @@ $ARGUMENTS가 있으면 커밋 메시지에 반영해줘.
 | `allowed-tools` | 승인 없이 실행할 도구 지정 | `Bash(git diff:*)` |
 | `model` | 특정 모델 강제 | `haiku`, `sonnet` |
 
-> [!NOTE] frontmatter는 선택사항입니다
-> frontmatter 없이도 Command는 정상 작동합니다. 이 경우 설명이 표시되지 않고, 도구 실행 시 매번 승인이 필요하며, 기본 모델이 사용됩니다.
+<Callout type="info" title="frontmatter는 선택사항입니다">
+frontmatter 없이도 Command는 정상 작동합니다. 이 경우 설명이 표시되지 않고, 도구 실행 시 매번 승인이 필요하며, 기본 모델이 사용됩니다.
+</Callout>
 
 자주 쓰는 필드를 정리하면 다음과 같습니다.
 
@@ -190,8 +191,9 @@ $ARGUMENTS 파일을 읽고 다음을 추가해줘:
 
 `allowed-tools`에 git 명령을 지정해뒀으므로, 별도 승인 없이 변경사항 확인부터 커밋까지 한 번에 진행됩니다.
 
-> [!NOTE] Command가 보이지 않을 때
-> `/` 을 입력했을 때 Command 목록이 나타나지 않으면, 파일 경로를 확인합니다. Command 파일은 반드시 `.claude/commands/` 아래에 있어야 합니다. 하위 폴더를 만들어 정리할 수도 있습니다. `.claude/commands/git/commit.md`는 `/git:commit`으로 호출합니다.
+<Callout type="info" title="Command가 보이지 않을 때">
+`/` 을 입력했을 때 Command 목록이 나타나지 않으면, 파일 경로를 확인합니다. Command 파일은 반드시 `.claude/commands/` 아래에 있어야 합니다. 하위 폴더를 만들어 정리할 수도 있습니다. `.claude/commands/git/commit.md`는 `/git:commit`으로 호출합니다.
+</Callout>
 
 ## 핵심 포인트 정리
 
