@@ -22,9 +22,9 @@ Generate course illustration images end-to-end: compose a theme-aware prompt, th
 5. **Compose prompt** following mode-specific rules + theme colors
 6. **Generate image**: Run from the project root:
    ```bash
-   bun .claude/skills/illustrate-lesson/scripts/generate-image.ts --prompt "<composed prompt>" --filename "<output-path>.png" --padding 40
+   uv run .claude/skills/illustrate-lesson/scripts/generate-image.py --prompt "<composed prompt>" --filename "<output-path>.png" --padding 40
    ```
-   Deps (`@google/genai`, `jimp`) are isolated inside this skill's own `package.json`. First-time setup: `cd .claude/skills/illustrate-lesson && bun install`.
+   Deps (`google-genai`, `Pillow`) are declared inline via PEP 723 — `uv` downloads them to its cache on first run; no `package.json`, no `node_modules`. Needs `uv` installed (`brew install uv`).
    - Output path: `attachments/lesson-XX-<short-desc>.png` (relative to chapter folder)
    - Resolution: 2K default (best for Korean text)
 7. **Output** image embed into the lesson file: `![lesson-XX-desc](attachments/lesson-XX-desc.png)`
