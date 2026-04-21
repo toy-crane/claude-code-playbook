@@ -4,6 +4,13 @@
 
 한국어 Claude Code 강의 사이트. Fumadocs (Next.js + MDX) 기반 자가 호스팅. Obsidian Publish 를 대체.
 
+## 문체
+
+한국어 prose 는 **합니다체** (`~합니다`, `~입니다`) 로 통일.
+
+- 대상: frontmatter `description`, 본문 단락, 콜아웃(`<Callout>`) 내부, 서술형 리스트 항목
+- 예외 (해라체 허용): heading, frontmatter `title`, 코드 펜스, 블록쿼트, 기능 요구사항 명세 리스트 ("사용자가 ~하면, ~된다" 형식)
+
 ## 폴더 구조
 
 ```
