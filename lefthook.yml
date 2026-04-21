@@ -1,4 +1,15 @@
+pre-commit:
+  parallel: true
+  commands:
+    eslint-staged:
+      glob: "*.{ts,tsx,js,jsx}"
+      run: bunx eslint {staged_files}
+
 pre-push:
   commands:
     lint-links:
       run: bun run lint:links
+    types-check:
+      run: bun run types:check
+    lint:
+      run: bun run lint
