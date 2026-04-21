@@ -1,8 +1,9 @@
 import { getPageImage, source } from '@/lib/source';
 import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
-import { generate as DefaultImage } from 'fumadocs-ui/og';
 import { appName } from '@/lib/shared';
+import { loadOGFonts } from '@/lib/og/font';
+import { LessonOG } from '@/lib/og/lesson';
 
 export const revalidate = false;
 
@@ -11,11 +12,16 @@ export async function GET(_req: Request, { params }: RouteContext<'/og/docs/[...
   const page = source.getPage(slug.slice(0, -1));
   if (!page) notFound();
 
+  const title = page.data.title;
+  const description = page.data.description ?? '';
+  const fonts = await loadOGFonts(`${appName}${title}${description}`);
+
   return new ImageResponse(
-    <DefaultImage title={page.data.title} description={page.data.description} site={appName} />,
+    <LessonOG brand={appName} title={title} description={description} />,
     {
       width: 1200,
       height: 630,
+      fonts,
     },
   );
 }
