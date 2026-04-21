@@ -31,5 +31,8 @@ next-env.d.ts
 /playwright-report/
 /test-results/
 
+# Claude Code worktrees
+/.claude/worktrees/
+
 # Claude Code local settings (contains API keys)
 .claude/settings.local.json
