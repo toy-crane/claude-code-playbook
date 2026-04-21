@@ -1,45 +1,38 @@
-# .
+# Claude Code, 제대로 배우기
 
-This is a Next.js application generated with
-[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
+한국어 Claude Code 강의 사이트. [Fumadocs](https://fumadocs.dev) (Next.js + MDX) 기반 자가 호스팅.
 
-Run development server:
+- Production: https://docs.claude-hunt.com
+- Content: `content/docs/` (MDX)
+- 상세 컨벤션 / 폴더 구조 / 커밋 정책: [`CLAUDE.md`](./CLAUDE.md)
+
+## 개발
 
 ```bash
-npm run dev
-# or
-pnpm dev
-# or
-yarn dev
+bun install
+bun run dev       # localhost:3000/docs
 ```
 
-Open http://localhost:3000 with your browser to see the result.
+## 주요 스크립트
 
-## Explore
+| 명령                              | 설명                                                |
+| --------------------------------- | --------------------------------------------------- |
+| `bun run dev`                     | 개발 서버                                           |
+| `bun run build`                   | 프로덕션 빌드                                       |
+| `bun run types:check`             | `fumadocs-mdx` 생성 + `next typegen` + `tsc --noEmit` |
+| `bun run lint`                    | ESLint                                              |
+| `bun run lint:links`              | MDX 내부 링크 검증 (pre-push hook 에서 자동 실행)     |
+| `bunx playwright test`            | E2E 전수 검사 + 스크린샷                             |
 
-In the project, you can see:
+## 핵심 파일
 
-- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
-- `lib/layout.shared.tsx`: Shared options for layouts, optional but preferred to keep.
+- `content/docs/` — 강의 콘텐츠 MDX (편집 주 장소)
+- `src/lib/source.ts` — Fumadocs loader, `public: false` 필터
+- `src/lib/shared.ts` — `siteUrl` / `appName` / 라우트 상수 SSOT
+- `source.config.ts` — MDX frontmatter 스키마
+- `src/app/docs/[[...slug]]/page.tsx` — 문서 페이지 + metadata
+- `src/app/og/docs/[...slug]/route.tsx` — OG 이미지 동적 생성
 
-| Route                     | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
-| `app/(home)`              | The route group for your landing page and other pages. |
-| `app/docs`                | The documentation layout and pages.                    |
-| `app/api/search/route.ts` | The Route Handler for search.                          |
+## 배포
 
-### Fumadocs MDX
-
-A `source.config.ts` config file has been included, you can customise different options like frontmatter schema.
-
-Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
-
-## Learn More
-
-To learn more about Next.js and Fumadocs, take a look at the following
-resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Fumadocs](https://fumadocs.dev) - learn about Fumadocs
+Vercel. Production 도메인 `docs.claude-hunt.com` 기준. `metadataBase` 는 `src/lib/shared.ts` 의 `siteUrl` 로 코드에서 고정되므로 Vercel 도메인 설정 변경에 영향받지 않습니다.
