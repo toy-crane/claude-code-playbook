@@ -9,13 +9,12 @@
 ```
 /
 ├── content/docs/     # Fumadocs 최종 콘텐츠 (MDX). 편집 주 장소.
-│   ├── index.mdx     # 강의 개요 (source/overview.md 이식)
+│   ├── index.mdx     # 강의 개요
 │   ├── meta.json     # 루트 네비 순서
 │   ├── starting-conversations/   # Part 1
 │   ├── extending-claude/         # Part 2
 │   └── completing-projects/      # Part 3
-├── source/           # 원본 아카이브. Phase 7 이후 삭제 대상.
-├── scripts/          # 일회성 마이그레이션 스크립트
+├── scripts/          # 유틸 스크립트 (링크 검증 등)
 ├── src/              # Next.js src dir (Fumadocs 기본)
 ├── tests/            # Playwright E2E
 └── .playwright/      # 테스트 스크린샷 (gitignored)
@@ -75,18 +74,6 @@ Fumadocs 작업 시 추측하지 말고 공식 문서를 먼저 확인.
 ## 의존성 고정
 
 - **ESLint v9 고정.** v10 으로 올리지 말 것. `eslint-plugin-react` 가 v10 미지원이라 lint 가 깨짐. [issue #3977](https://github.com/jsx-eslint/eslint-plugin-react/issues/3977) 머지 후에 재고.
-
-## 마이그레이션 스크립트
-
-`scripts/migrate.ts` — `source/` 에서 `content/docs/` 로 일회성 변환.
-
-변환 규칙:
-- 위키링크 `[[slug]]` / `[[slug|text]]` → `[text](./slug)` (타겟 frontmatter title 사용)
-- 옵시디언 콜아웃 `> [!note]` → GFM `> [!NOTE]`
-- 이미지 경로 `attachments/x` → `./attachments/x`
-- 프론트매터 제거: `status`, `aliases`, `tags`, `permalink`, `date`
-- 프론트매터 추가: `public: true` (없으면)
-- 파일명 SEO 슬러그화 (번호 접두사 제거)
 
 ## 커밋 정책
 
