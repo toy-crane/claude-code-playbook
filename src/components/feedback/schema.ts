@@ -10,7 +10,6 @@ export const blockFeedback = z.object({
 });
 
 export const pageFeedback = z.object({
-  opinion: z.enum(['good', 'bad']),
   url: z.string(),
   message: z.string(),
 });

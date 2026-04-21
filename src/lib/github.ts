@@ -65,7 +65,7 @@ export async function onPageFeedbackAction(feedback: PageFeedback): Promise<Acti
   const parsed = pageFeedback.parse(feedback);
   return createDiscussionThread(
     parsed.url,
-    `[${parsed.opinion}] ${parsed.message}\n\n> Forwarded from user feedback.`,
+    `${parsed.message}\n\n> Forwarded from user feedback.`,
   );
 }
 
