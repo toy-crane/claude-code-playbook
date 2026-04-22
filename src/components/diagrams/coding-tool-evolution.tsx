@@ -11,7 +11,7 @@ export function CodingToolEvolution() {
         >
           <defs>
             <marker
-              id="cte-arrow-primary"
+              id="cte-arrow"
               viewBox="0 0 10 10"
               refX="9"
               refY="5"
@@ -23,7 +23,7 @@ export function CodingToolEvolution() {
             </marker>
           </defs>
 
-          {/* Axes (dashed, muted) */}
+          {/* Axes (dashed L) */}
           <line
             x1="40"
             y1="30"
@@ -44,12 +44,7 @@ export function CodingToolEvolution() {
           />
 
           {/* Axis labels */}
-          <text
-            x="45"
-            y="20"
-            fontSize="11"
-            fill="var(--diagram-text-muted)"
-          >
+          <text x="45" y="20" fontSize="11" fill="var(--diagram-text-muted)">
             맥락 범위 ↑
           </text>
           <text
@@ -62,22 +57,25 @@ export function CodingToolEvolution() {
             자율성 →
           </text>
 
-          {/* Arrows between cards (smooth S-curve; endpoints sit ~3px inside card so head bites the stroke) */}
-          {/* Stage 1 right-mid → Stage 2 left-mid */}
-          <path
-            d="M 247 305 C 275 305, 275 205, 303 205"
+          {/* Stage 1 → Stage 2 (straight diagonal, edge-mid to just-before next edge) */}
+          <line
+            x1="250"
+            y1="305"
+            x2="298"
+            y2="207"
             stroke="var(--diagram-primary)"
             strokeWidth="1.5"
-            fill="none"
-            markerEnd="url(#cte-arrow-primary)"
+            markerEnd="url(#cte-arrow)"
           />
-          {/* Stage 2 right-mid → Stage 3 left-mid */}
-          <path
-            d="M 497 205 C 525 205, 525 105, 553 105"
+          {/* Stage 2 → Stage 3 */}
+          <line
+            x1="500"
+            y1="205"
+            x2="548"
+            y2="107"
             stroke="var(--diagram-primary)"
             strokeWidth="1.5"
-            fill="none"
-            markerEnd="url(#cte-arrow-primary)"
+            markerEnd="url(#cte-arrow)"
           />
 
           {/* Stage cards (bottom-left → top-right staircase) */}
@@ -162,23 +160,12 @@ function StageCard({
       >
         {title}
       </text>
-      <text
-        x={x + 16}
-        y={y + 50}
-        fontSize="11"
-        fill="var(--diagram-text-muted)"
-      >
+      <text x={x + 16} y={y + 50} fontSize="11" fill="var(--diagram-text-muted)">
         {context}
       </text>
-      <text
-        x={x + 16}
-        y={y + 70}
-        fontSize="11"
-        fill="var(--diagram-text-muted)"
-      >
+      <text x={x + 16} y={y + 70} fontSize="11" fill="var(--diagram-text-muted)">
         {action}
       </text>
-      {/* Tool footer below card */}
       <text
         x={x + 100}
         y={y + 108}

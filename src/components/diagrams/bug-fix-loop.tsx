@@ -45,6 +45,28 @@ export function BugFixLoop() {
             </marker>
           </defs>
 
+          {/* Feedback loop label (above arch, centered) */}
+          <text
+            x="480"
+            y="40"
+            textAnchor="middle"
+            fontSize="12"
+            fill="var(--diagram-pink)"
+            fontWeight="600"
+          >
+            실패하면 1~4 를 반복
+          </text>
+
+          {/* Feedback loop arch — single smooth bezier from step5 top to step1 top */}
+          <path
+            d="M 720 170 C 720 65, 240 65, 240 170"
+            stroke="var(--diagram-pink)"
+            strokeWidth="1.5"
+            strokeDasharray="5 4"
+            fill="none"
+            markerEnd="url(#bfl-arrow-pink)"
+          />
+
           {/* 개발자 label */}
           <text
             x="85"
@@ -77,12 +99,14 @@ export function BugFixLoop() {
             &ldquo;버그 고쳐줘&rdquo;
           </text>
 
-          {/* 개발자 → 1. 탐색 arrow */}
-          <path
-            d="M 155 195 L 188 195"
+          {/* dev → step 1 */}
+          <line
+            x1="155"
+            y1="195"
+            x2="188"
+            y2="195"
             stroke="var(--diagram-primary)"
             strokeWidth="1.5"
-            fill="none"
             markerEnd="url(#bfl-arrow-primary)"
           />
 
@@ -95,37 +119,17 @@ export function BugFixLoop() {
 
           {/* Inter-step arrows */}
           {[288, 408, 528, 648].map((sx) => (
-            <path
+            <line
               key={sx}
-              d={`M ${sx} 195 L ${sx + 22} 195`}
+              x1={sx}
+              y1="195"
+              x2={sx + 20}
+              y2="195"
               stroke="var(--diagram-primary)"
               strokeWidth="1.5"
-              fill="none"
               markerEnd="url(#bfl-arrow-primary)"
             />
           ))}
-
-          {/* Feedback loop label (placed above the arch apex, no overlap) */}
-          <text
-            x="480"
-            y="40"
-            textAnchor="middle"
-            fontSize="12"
-            fill="var(--diagram-pink)"
-            fontWeight="600"
-          >
-            실패하면 1~4 를 반복
-          </text>
-
-          {/* Feedback loop: 5. 확인 → 1. 탐색 (smooth dashed pink arch, apex ~y=70 below label) */}
-          <path
-            d="M 720 173 C 720 50, 240 50, 240 173"
-            stroke="var(--diagram-pink)"
-            strokeWidth="1.5"
-            strokeDasharray="5 4"
-            fill="none"
-            markerEnd="url(#bfl-arrow-pink)"
-          />
 
           {/* AI 의 자율 루프 label */}
           <text
@@ -138,17 +142,19 @@ export function BugFixLoop() {
             AI 의 자율 루프
           </text>
 
-          {/* Success branch: 5. 확인 → 수정 완료 */}
-          <path
-            d="M 720 225 L 720 265"
+          {/* Success branch: step5 bottom → 수정 완료 */}
+          <line
+            x1="720"
+            y1="220"
+            x2="720"
+            y2="263"
             stroke="var(--diagram-cyan)"
             strokeWidth="1.5"
-            fill="none"
             markerEnd="url(#bfl-arrow-cyan)"
           />
           <text
             x="735"
-            y="250"
+            y="248"
             textAnchor="start"
             fontSize="11"
             fill="var(--diagram-cyan)"
