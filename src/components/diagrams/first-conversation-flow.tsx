@@ -47,7 +47,7 @@ export function FirstConversationFlow() {
             y1="205"
             x2="780"
             y2="205"
-            stroke="var(--diagram-yellow)"
+            stroke="var(--diagram-warning)"
             strokeWidth="1.5"
             strokeDasharray="6 4"
           />
@@ -80,7 +80,7 @@ export function FirstConversationFlow() {
             y="288"
             fontSize="11"
             fontWeight="600"
-            fill="var(--diagram-yellow)"
+            fill="var(--diagram-warning)"
           >
             승인 필요
           </text>
@@ -103,7 +103,7 @@ export function FirstConversationFlow() {
         읽기는 자유롭게,{' '}
         <span
           className="font-semibold"
-          style={{ color: 'var(--diagram-yellow)' }}
+          style={{ color: 'var(--diagram-warning)' }}
         >
           쓰기·셸 실행은 승인 후
         </span>{' '}

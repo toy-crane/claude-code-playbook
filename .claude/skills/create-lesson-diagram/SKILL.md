@@ -172,20 +172,20 @@ PNG → 컴포넌트 교체 케이스인 경우:
 
 ## 색상 의미 (요약)
 
-상세는 `references/palette.md`. 컴포넌트 작성 전 한 번 확인 필수 (특히 색상 충돌 자주 발생).
+토큰 이름은 universal 관례(Tailwind/Bootstrap/Material) 를 따른다. 상세는 `references/palette.md`. 컴포넌트 작성 전 한 번 확인 필수 (특히 색상 충돌 자주 발생).
 
-| 토큰 | 의미 |
+| 토큰 | 역할 |
 |---|---|
-| primary (blue) | AI/LLM 주체, 메인 흐름 |
-| cyan (green) | 성공·선택·긍정 |
-| pink (orange) | 위험·실패·경고 |
-| yellow | 사람 입력 |
+| primary (blue) | 주된 focal · 메인 흐름 (사이트 brand) |
+| success (green) | 성공·긍정·선택됨 |
+| danger (orange) | 위험·실패·경계 |
+| warning (yellow) | 주의·특별 강조 (사람 입력 pill 포함) |
 | bg-card + border-strong | 중립 actor |
 | text-muted | 보조·비활성 |
 
 ## 흔한 함정
 
 - **컨벤션 망실**: Compaction 이나 새 세션에서 기존 컴포넌트를 읽지 않고 바로 작성 → 마커·endpoint·path 종류가 매번 갈라짐. Step 3 을 건너뛰지 말 것.
-- **색상 의미 충돌**: pink 를 한 곳은 "위험", 다른 곳은 "강조" 로 쓰면 학습자 혼란. 새 컴포넌트 작성 후 다른 컴포넌트와 의미가 맞는지 grep 으로 확인.
+- **색상 의미 충돌**: danger 를 한 곳은 "위험", 다른 곳은 "강조" 로 쓰면 학습자 혼란. 새 컴포넌트 작성 후 다른 컴포넌트와 의미가 맞는지 grep 으로 확인.
 - **Endpoint 끝맺음**: 화살표 끝점을 카드 안으로 밀어넣으면 마커가 어색하게 박힘. 항상 edge 2~3px 직전.
 - **하드코딩 색상**: `var(--diagram-*)` 토큰이 아니면 다크 모드가 깨진다.

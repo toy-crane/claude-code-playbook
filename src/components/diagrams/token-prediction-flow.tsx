@@ -30,7 +30,7 @@ export function TokenPredictionFlow() {
               markerHeight="6"
               orient="auto"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-cyan)" />
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-success)" />
             </marker>
             <marker
               id="tp-arrow-muted"
@@ -69,7 +69,7 @@ export function TokenPredictionFlow() {
           {/* → 밥을 (selected, cyan) */}
           <path
             d="M 400 170 Q 425 170 448 65"
-            stroke="var(--diagram-cyan)"
+            stroke="var(--diagram-success)"
             strokeWidth="1.75"
             fill="none"
             markerEnd="url(#tp-arrow-cyan)"
@@ -118,8 +118,8 @@ export function TokenPredictionFlow() {
             width="200"
             height="50"
             rx="10"
-            fill="var(--diagram-yellow-soft)"
-            stroke="var(--diagram-yellow)"
+            fill="var(--diagram-warning-soft)"
+            stroke="var(--diagram-warning)"
             strokeWidth="1.5"
           />
           <text
@@ -175,7 +175,7 @@ export function TokenPredictionFlow() {
             y="70"
             textAnchor="start"
             fontSize="11"
-            fill="var(--diagram-cyan)"
+            fill="var(--diagram-success)"
             fontWeight="600"
           >
             선택
@@ -209,10 +209,10 @@ function CandidateChip({
   selected?: boolean;
   dashed?: boolean;
 }) {
-  const fill = selected ? 'var(--diagram-cyan-soft)' : 'var(--diagram-bg-card)';
-  const stroke = selected ? 'var(--diagram-cyan)' : 'var(--diagram-border)';
+  const fill = selected ? 'var(--diagram-success-soft)' : 'var(--diagram-bg-card)';
+  const stroke = selected ? 'var(--diagram-success)' : 'var(--diagram-border)';
   const color = selected
-    ? 'var(--diagram-cyan)'
+    ? 'var(--diagram-success)'
     : dashed
       ? 'var(--diagram-text-muted)'
       : 'var(--diagram-text)';

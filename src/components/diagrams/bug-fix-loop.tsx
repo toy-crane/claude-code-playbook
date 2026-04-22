@@ -30,7 +30,7 @@ export function BugFixLoop() {
               markerHeight="6"
               orient="auto"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-pink)" />
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-danger)" />
             </marker>
             <marker
               id="bfl-arrow-cyan"
@@ -41,7 +41,7 @@ export function BugFixLoop() {
               markerHeight="6"
               orient="auto"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-cyan)" />
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-success)" />
             </marker>
           </defs>
 
@@ -51,7 +51,7 @@ export function BugFixLoop() {
             y="40"
             textAnchor="middle"
             fontSize="12"
-            fill="var(--diagram-pink)"
+            fill="var(--diagram-danger)"
             fontWeight="600"
           >
             실패하면 1~4 를 반복
@@ -60,7 +60,7 @@ export function BugFixLoop() {
           {/* Feedback loop arch — single smooth bezier from step5 top to step1 top */}
           <path
             d="M 720 170 C 720 65, 240 65, 240 170"
-            stroke="var(--diagram-pink)"
+            stroke="var(--diagram-danger)"
             strokeWidth="1.5"
             strokeDasharray="5 4"
             fill="none"
@@ -85,8 +85,8 @@ export function BugFixLoop() {
             width="130"
             height="50"
             rx="25"
-            fill="var(--diagram-yellow-soft)"
-            stroke="var(--diagram-yellow)"
+            fill="var(--diagram-warning-soft)"
+            stroke="var(--diagram-warning)"
             strokeWidth="1.5"
           />
           <text
@@ -148,7 +148,7 @@ export function BugFixLoop() {
             y1="220"
             x2="720"
             y2="263"
-            stroke="var(--diagram-cyan)"
+            stroke="var(--diagram-success)"
             strokeWidth="1.5"
             markerEnd="url(#bfl-arrow-cyan)"
           />
@@ -157,7 +157,7 @@ export function BugFixLoop() {
             y="248"
             textAnchor="start"
             fontSize="11"
-            fill="var(--diagram-cyan)"
+            fill="var(--diagram-success)"
             fontWeight="600"
           >
             성공
@@ -170,8 +170,8 @@ export function BugFixLoop() {
             width="150"
             height="44"
             rx="8"
-            fill="var(--diagram-cyan-soft)"
-            stroke="var(--diagram-cyan)"
+            fill="var(--diagram-success-soft)"
+            stroke="var(--diagram-success)"
             strokeWidth="1.5"
           />
           <text
@@ -179,7 +179,7 @@ export function BugFixLoop() {
             y="297"
             textAnchor="middle"
             fontSize="13"
-            fill="var(--diagram-cyan)"
+            fill="var(--diagram-success)"
             fontWeight="600"
           >
             수정 완료

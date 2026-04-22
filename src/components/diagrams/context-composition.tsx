@@ -52,7 +52,7 @@ export function ContextComposition() {
               markerHeight="6"
               orient="auto"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-yellow)" />
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-warning)" />
             </marker>
           </defs>
 
@@ -113,8 +113,8 @@ export function ContextComposition() {
             width={accent.w + 4}
             height={BAR_H + 4}
             rx="7"
-            fill="var(--diagram-yellow-soft)"
-            stroke="var(--diagram-yellow)"
+            fill="var(--diagram-warning-soft)"
+            stroke="var(--diagram-warning)"
             strokeWidth="1.75"
           />
           <SegmentLabel x={accent.x} w={accent.w} lines={accent.lines} accent />
@@ -125,7 +125,7 @@ export function ContextComposition() {
             y1="180"
             x2={accent.x + accent.w / 2}
             y2="158"
-            stroke="var(--diagram-yellow)"
+            stroke="var(--diagram-warning)"
             strokeWidth="1.5"
             markerEnd="url(#cc-arrow)"
           />
@@ -135,7 +135,7 @@ export function ContextComposition() {
             textAnchor="middle"
             fontSize="11"
             fontWeight="600"
-            fill="var(--diagram-yellow)"
+            fill="var(--diagram-warning)"
           >
             사용자가 직접 쓰는 영역
           </text>
@@ -180,7 +180,7 @@ function SegmentLabel({
 }) {
   const cx = x + w / 2;
   const startY = lines.length === 2 ? 105 : 115;
-  const color = accent ? 'var(--diagram-yellow)' : 'var(--diagram-text)';
+  const color = accent ? 'var(--diagram-warning)' : 'var(--diagram-text)';
   return (
     <g>
       {lines.map((line, i) => (
