@@ -4,6 +4,8 @@ description: 'Claude Code 를 설치·로그인한 뒤, Team 요금제와 Opus·
 public: true
 ---
 
+import { ModelSelectionGuide } from '@/components/diagrams/model-selection-guide';
+
 ## Overview
 
 앞 레슨에서 Claude Code 가 Terminal-native 이고 프로그래밍 가능한 Agent 임을 살펴봤습니다. 이제 이 Agent 를 내 컴퓨터에서 직접 깨워볼 차례입니다.
@@ -107,7 +109,7 @@ Team 은 조직 단위 요금제입니다. 관리자가 멤버를 초대하고, 
 
 ## Step 3 — Opus · Sonnet · Haiku, 언제 무엇을 쓸까
 
-![lesson-01-model-selection-guide](./attachments/lesson-01-model-selection-guide.png)
+<ModelSelectionGuide />
 
 Claude Code 에는 세 모델이 준비되어 있습니다. 모든 작업에 가장 비싼 모델을 쓸 필요는 없습니다. 작업의 난이도에 따라 모델을 바꿔 가며 쓰면 품질과 비용을 함께 조절할 수 있습니다.
 
