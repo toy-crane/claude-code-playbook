@@ -61,20 +61,20 @@ Universal 관례 그대로 — "pass/fail" 의 fail 쪽이 담기는 색. 빨강
 
 ### warning (yellow) — 주의·특별 강조
 
-Universal 관례. "focal 은 아니지만 독자 시선을 끌어야 하는" 요소에 사용.
+Universal 관례 그대로. "focal 은 아니지만 독자 시선을 끌어야 하는" 요소에 사용. State 색 (성공/위험) 과는 다른 계층 — "조심해서 봐 달라" 는 신호.
 
 **이 사이트에서 자주 쓰이는 할당**:
-- 사용자·개발자 입력 pill (`token-prediction-flow` 의 "나는 오늘 점심에", `bug-fix-loop` 의 "버그 고쳐줘")
-- 주의 라벨
+- 주의 라벨 (예: "이 지점을 놓치기 쉽다" 같은 주석)
+- 특정 단계를 잠시 하이라이트해야 할 때 (일시적 accent)
 
-> 입력 pill 을 warning 으로 칠하는 건 universal 관례는 아니지만, 이 사이트 안에서는 "기계의 흐름(primary) 과 구분되는 사람의 trigger" 라는 내부 컨벤션으로 자리잡았다. 새 다이어그램에서도 사람 입력 pill 에는 warning 을 쓰되, 경고성 라벨에도 같이 쓸 수 있다.
+> ⚠️ **사람 입력에는 쓰지 않는다**. 과거에 사용자/개발자 입력 pill 을 warning 으로 칠했다가, 같은 사이트 안에서 어떤 입력은 warning, 어떤 입력은 중립으로 갈라지는 불일치가 생겼다. 현재는 **모든 사람-actor pill 은 `bg-card + border-strong` 중립** 으로 통일.
 
-### bg-card + border-strong — 중립 actor
+### bg-card + border-strong — 중립 actor (사람 포함)
 
-Universal 관례 (neutral surface). 색이 없는 "담백한 박스".
+Universal 관례 (neutral surface). 색이 없는 "담백한 박스". **모든 사람 actor 는 이 스타일 고정.**
 
 **이 사이트에서 자주 쓰이는 할당**:
-- 사용자/사람을 표현하는 중립 pill (`tool-use-flow` 의 사용자 질문/답변)
+- 사용자·개발자 입력 pill (`tool-use-flow` 의 사용자 질문/답변, `token-prediction-flow` 의 "나는 오늘 점심에", `bug-fix-loop` 의 "버그 고쳐줘")
 - Stage 단계 카드 중 비강조(non-accent) 카드 (`coding-tool-evolution` 의 1·2 단계)
 
 ### text-muted — 보조·비활성

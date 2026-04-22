@@ -118,8 +118,8 @@ export function TokenPredictionFlow() {
             width="200"
             height="50"
             rx="10"
-            fill="var(--diagram-warning-soft)"
-            stroke="var(--diagram-warning)"
+            fill="var(--diagram-bg-card)"
+            stroke="var(--diagram-border-strong)"
             strokeWidth="1.5"
           />
           <text
