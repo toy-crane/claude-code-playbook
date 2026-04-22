@@ -5,7 +5,7 @@ export function CodingToolEvolution() {
     <DiagramFrame>
       <div className="overflow-x-auto">
         <svg
-          viewBox="0 0 800 400"
+          viewBox="0 0 800 420"
           className="w-full min-w-[640px] h-auto"
           style={{ fontFamily: 'inherit' }}
         >
@@ -25,19 +25,19 @@ export function CodingToolEvolution() {
 
           {/* Axes (dashed, muted) */}
           <line
-            x1="70"
-            y1="40"
-            x2="70"
-            y2="370"
+            x1="40"
+            y1="30"
+            x2="40"
+            y2="390"
             stroke="var(--diagram-border-strong)"
             strokeDasharray="4 4"
             strokeWidth="1"
           />
           <line
-            x1="70"
-            y1="370"
+            x1="40"
+            y1="390"
             x2="780"
-            y2="370"
+            y2="390"
             stroke="var(--diagram-border-strong)"
             strokeDasharray="4 4"
             strokeWidth="1"
@@ -45,8 +45,8 @@ export function CodingToolEvolution() {
 
           {/* Axis labels */}
           <text
-            x="75"
-            y="30"
+            x="45"
+            y="20"
             fontSize="11"
             fill="var(--diagram-text-muted)"
           >
@@ -54,7 +54,7 @@ export function CodingToolEvolution() {
           </text>
           <text
             x="775"
-            y="390"
+            y="410"
             textAnchor="end"
             fontSize="11"
             fill="var(--diagram-text-muted)"
@@ -62,18 +62,18 @@ export function CodingToolEvolution() {
             자율성 →
           </text>
 
-          {/* Arrows between cards (drawn first so they sit beneath the cards) */}
-          {/* Stage 1 → Stage 2 */}
+          {/* Arrows between cards (edge-middle → edge-middle, drawn beneath cards) */}
+          {/* Stage 1 right-mid → Stage 2 left-mid */}
           <path
-            d="M 300 270 L 320 210"
+            d="M 250 305 L 300 205"
             stroke="var(--diagram-text-muted)"
             strokeWidth="1.5"
             fill="none"
             markerEnd="url(#cte-arrow-muted)"
           />
-          {/* Stage 2 → Stage 3 */}
+          {/* Stage 2 right-mid → Stage 3 left-mid */}
           <path
-            d="M 530 170 L 550 110"
+            d="M 500 205 L 550 105"
             stroke="var(--diagram-text-muted)"
             strokeWidth="1.5"
             fill="none"
@@ -82,24 +82,24 @@ export function CodingToolEvolution() {
 
           {/* Stage cards (bottom-left → top-right staircase) */}
           <StageCard
-            x={100}
-            y={270}
+            x={50}
+            y={260}
             title="1. 자동완성"
             context="맥락 · 현재 파일의 한 줄"
             action="행동 · 다음 단어 제안"
             tools="GitHub Copilot · Tabnine"
           />
           <StageCard
-            x={320}
-            y={170}
+            x={300}
+            y={160}
             title="2. 대화형 편집"
             context="맥락 · 프로젝트의 여러 파일"
             action="행동 · 요청 → 코드 편집"
             tools="Cursor · Windsurf · Copilot Chat"
           />
           <StageCard
-            x={540}
-            y={70}
+            x={550}
+            y={60}
             title="3. Agentic"
             context="맥락 · 프로젝트 + 실행 환경"
             action="행동 · 방향 → 탐색·수정·실행 루프"
@@ -146,7 +146,7 @@ function StageCard({
       <rect
         x={x}
         y={y}
-        width="210"
+        width="200"
         height="90"
         rx="10"
         fill={fill}
@@ -180,7 +180,7 @@ function StageCard({
       </text>
       {/* Tool footer below card */}
       <text
-        x={x + 105}
+        x={x + 100}
         y={y + 108}
         textAnchor="middle"
         fontSize="10"
