@@ -10,3 +10,40 @@ html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
 }
+
+/* Diagram palette — Stripe-Inspired (Blurple + Cyan + Pink + Yellow on slate neutrals) */
+:root {
+  --diagram-bg-panel: #f6f9fc;
+  --diagram-bg-card: #ffffff;
+  --diagram-border: #e3e8ee;
+  --diagram-border-strong: #8898aa;
+  --diagram-text: #425466;
+  --diagram-text-muted: #8898aa;
+
+  --diagram-primary: #635bff;
+  --diagram-primary-soft: #eef0ff;
+  --diagram-cyan: #00b8d9;
+  --diagram-cyan-soft: #e0faff;
+  --diagram-pink: #ff5996;
+  --diagram-pink-soft: #ffe4ef;
+  --diagram-yellow: #e6a800;
+  --diagram-yellow-soft: #fff7d1;
+}
+
+.dark {
+  --diagram-bg-panel: #0b0f2a;
+  --diagram-bg-card: #14193a;
+  --diagram-border: #2a2f5e;
+  --diagram-border-strong: #5a618c;
+  --diagram-text: #c9d1e3;
+  --diagram-text-muted: #8a94b5;
+
+  --diagram-primary: #8a82ff;
+  --diagram-primary-soft: #1f2450;
+  --diagram-cyan: #33ddff;
+  --diagram-cyan-soft: #0f2d3d;
+  --diagram-pink: #ff7aaa;
+  --diagram-pink-soft: #3a1830;
+  --diagram-yellow: #ffdc5c;
+  --diagram-yellow-soft: #2e2812;
+}

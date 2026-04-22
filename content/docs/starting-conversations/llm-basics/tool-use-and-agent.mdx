@@ -4,6 +4,9 @@ description: Tool은 LLM의 한계를 지우지 않고 우회하는 장치이며
 public: true
 ---
 
+import { ToolUseFlow } from '@/components/diagrams/tool-use-flow';
+import { LlmVsAgentFlow } from '@/components/diagrams/llm-vs-agent-flow';
+
 ## Overview
 
 앞선 레슨에서 LLM은 "맞는 답"이 아닌 "그럴듯한 다음 단어"를 예측하는 확률 시스템이며, Hallucination과 Knowledge Cutoff는 이 구조에서 생기는 피할 수 없는 한계임을 확인했습니다. 그렇다면 LLM은 영원히 머릿속 기억만으로 답해야 할까요?
@@ -18,7 +21,7 @@ public: true
 
 ## Tool이란: 모델 밖 세상을 확인하게 해주는 것
 
-![lesson-02-tool-use-flow](./attachments/lesson-02-tool-use-flow.png)
+<ToolUseFlow />
 
 **Tool(도구)**은 LLM이 텍스트 생성만으로는 할 수 없는 일을 외부 시스템을 빌려 수행하게 해주는 수단입니다. 모델 안에 저장된 기억 대신, 모델 바깥의 실제 데이터를 다룰 수 있는 창구입니다.
 
@@ -67,7 +70,7 @@ Tool 없이는 LLM이 본 적도 없는 코드를, 수많은 프로젝트에서 
 
 ## Agent: Tool을 스스로, 반복해서 쓰는 구조
 
-![lesson-02-llm-vs-agent-flow](./attachments/lesson-02-llm-vs-agent-flow.png)
+<LlmVsAgentFlow />
 
 실제 개발 작업은 Tool 한 번으로 끝나지 않습니다.
 
