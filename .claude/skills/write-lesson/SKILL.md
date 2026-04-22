@@ -103,12 +103,13 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 
   | 유형 | 호출 스킬 | 산출물 저장 |
   |------|---------|-----------|
-  | `diagram` | `excalidraw` | `attachments/sources/<name>.excalidraw` (JSON) + `attachments/<name>.png` (렌더) |
+  | `diagram` | `create-lesson-diagram` | `src/components/diagrams/<name>.tsx` (React SVG 컴포넌트) — MDX 의 PNG placeholder 자리는 import + `<Component />` 로 교체 |
   | `illustration` | `illustrate-lesson` | `attachments/<name>.png` |
 
-- 생성된 파일명이 placeholder 와 일치하는지 확인
+- diagram 의 경우 placeholder 의 파일명을 컴포넌트명(PascalCase) 으로 매핑해 일치 확인
+- illustration 은 placeholder 파일명과 생성된 파일명이 같은지 확인
 
-출력: 이미지 파일들(+ excalidraw JSON) + 최종 .mdx.
+출력: 이미지 파일들 + 최종 .mdx.
 
 ## 패턴 선택 로직
 
@@ -129,7 +130,7 @@ Part Wrap-up / Course Wrap-up 은 산출물 유형에서 직접 선택.
 - **diagram** — 구조·관계·흐름을 공간적으로 증명 (아키텍처, 타임라인, 비교 매트릭스, 트리 등)
 - **illustration** — 비유·서사로 개념 전달 (비유 장면, 캐릭터, 심볼 등)
 
-애매하면 `diagram` 우선 (편집 가능성 높음, `.excalidraw` JSON 보존).
+애매하면 `diagram` 우선 (코드로 정밀 편집 가능, 다이어그램 패턴 재사용).
 
 ## 헤드라인 가드
 
