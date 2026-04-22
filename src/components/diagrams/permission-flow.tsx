@@ -22,7 +22,7 @@ export function PermissionFlow() {
               <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-primary)" />
             </marker>
             <marker
-              id="pf-arrow-cyan"
+              id="pf-arrow-muted"
               viewBox="0 0 10 10"
               refX="9"
               refY="5"
@@ -30,22 +30,11 @@ export function PermissionFlow() {
               markerHeight="6"
               orient="auto"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-cyan)" />
-            </marker>
-            <marker
-              id="pf-arrow-pink"
-              viewBox="0 0 10 10"
-              refX="9"
-              refY="5"
-              markerWidth="6"
-              markerHeight="6"
-              orient="auto"
-            >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-pink)" />
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-text-muted)" />
             </marker>
           </defs>
 
-          {/* AI 가 행동 요청 (top) */}
+          {/* AI 가 행동 요청 (top, primary — AI subject) */}
           <rect
             x="290"
             y="20"
@@ -78,15 +67,15 @@ export function PermissionFlow() {
             markerEnd="url(#pf-arrow-primary)"
           />
 
-          {/* 사용자 선택 (yellow — user input required) */}
+          {/* 사용자 선택 (neutral decision) */}
           <rect
             x="290"
             y="100"
             width="220"
             height="48"
             rx="10"
-            fill="var(--diagram-yellow-soft)"
-            stroke="var(--diagram-yellow)"
+            fill="var(--diagram-bg-card)"
+            stroke="var(--diagram-border-strong)"
             strokeWidth="1.5"
           />
           <text
@@ -100,26 +89,26 @@ export function PermissionFlow() {
             사용자 선택
           </text>
 
-          {/* Branch arrows: 사용자 선택 → 3 outcomes */}
-          {/* Left: Yes (cyan) */}
+          {/* Branch arrows: 3 outcomes — Always 만 primary, 나머지 muted */}
+          {/* Left: Yes (muted) */}
           <path
             d="M 340 148 Q 340 175 165 198"
-            stroke="var(--diagram-cyan)"
-            strokeWidth="1.5"
+            stroke="var(--diagram-text-muted)"
+            strokeWidth="1.25"
             fill="none"
-            markerEnd="url(#pf-arrow-cyan)"
+            markerEnd="url(#pf-arrow-muted)"
           />
           <text
             x="220"
             y="175"
             fontSize="12"
             fontWeight="600"
-            fill="var(--diagram-cyan)"
+            fill="var(--diagram-text-muted)"
           >
             Yes (y)
           </text>
 
-          {/* Center: Always (primary) */}
+          {/* Center: Always (primary — emphasis) */}
           <line
             x1="400"
             y1="148"
@@ -139,43 +128,33 @@ export function PermissionFlow() {
             Always (a)
           </text>
 
-          {/* Right: No (pink) */}
+          {/* Right: No (muted) */}
           <path
             d="M 460 148 Q 460 175 635 198"
-            stroke="var(--diagram-pink)"
-            strokeWidth="1.5"
+            stroke="var(--diagram-text-muted)"
+            strokeWidth="1.25"
             fill="none"
-            markerEnd="url(#pf-arrow-pink)"
+            markerEnd="url(#pf-arrow-muted)"
           />
           <text
             x="525"
             y="175"
             fontSize="12"
             fontWeight="600"
-            fill="var(--diagram-pink)"
+            fill="var(--diagram-text-muted)"
           >
             No (n)
           </text>
 
-          {/* Outcome boxes */}
-          <OutcomeBox
-            x={50}
-            label="이번 한 번만 실행"
-            color="cyan"
-          />
+          {/* Outcome boxes — same size, only Always accented */}
+          <OutcomeBox x={50} label="이번 한 번만 실행" sub="이번 호출만 허용" />
           <OutcomeBox
             x={290}
             label="이후 자동 허용"
             sub="settings.json 에 저장"
-            color="primary"
             accent
           />
-          <OutcomeBox
-            x={530}
-            label="차단"
-            sub="AI 가 다른 방법 모색"
-            color="pink"
-          />
+          <OutcomeBox x={530} label="차단" sub="AI 가 다른 방법 모색" />
         </svg>
       </div>
       <figcaption
@@ -199,24 +178,25 @@ function OutcomeBox({
   x,
   label,
   sub,
-  color,
   accent,
 }: {
   x: number;
   label: string;
-  sub?: string;
-  color: 'cyan' | 'primary' | 'pink';
+  sub: string;
   accent?: boolean;
 }) {
-  const fill = `var(--diagram-${color}-soft)`;
-  const stroke = `var(--diagram-${color})`;
+  const fill = accent ? 'var(--diagram-primary-soft)' : 'var(--diagram-bg-card)';
+  const stroke = accent
+    ? 'var(--diagram-primary)'
+    : 'var(--diagram-border-strong)';
+  const titleColor = accent ? 'var(--diagram-primary)' : 'var(--diagram-text)';
   return (
     <g>
       <rect
         x={x}
         y={200}
         width="220"
-        height={sub ? 64 : 50}
+        height="64"
         rx="10"
         fill={fill}
         stroke={stroke}
@@ -224,25 +204,23 @@ function OutcomeBox({
       />
       <text
         x={x + 110}
-        y={sub ? 224 : 230}
+        y={224}
         textAnchor="middle"
         fontSize="13"
         fontWeight={accent ? 600 : 500}
-        fill={stroke}
+        fill={titleColor}
       >
         {label}
       </text>
-      {sub && (
-        <text
-          x={x + 110}
-          y={246}
-          textAnchor="middle"
-          fontSize="11"
-          fill="var(--diagram-text-muted)"
-        >
-          {sub}
-        </text>
-      )}
+      <text
+        x={x + 110}
+        y={246}
+        textAnchor="middle"
+        fontSize="11"
+        fill="var(--diagram-text-muted)"
+      >
+        {sub}
+      </text>
     </g>
   );
 }
