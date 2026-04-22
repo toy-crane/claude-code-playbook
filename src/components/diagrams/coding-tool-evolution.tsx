@@ -11,7 +11,7 @@ export function CodingToolEvolution() {
         >
           <defs>
             <marker
-              id="cte-arrow-muted"
+              id="cte-arrow-primary"
               viewBox="0 0 10 10"
               refX="9"
               refY="5"
@@ -19,7 +19,7 @@ export function CodingToolEvolution() {
               markerHeight="6"
               orient="auto"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-text-muted)" />
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-primary)" />
             </marker>
           </defs>
 
@@ -62,22 +62,22 @@ export function CodingToolEvolution() {
             자율성 →
           </text>
 
-          {/* Arrows between cards (edge-middle → edge-middle, drawn beneath cards) */}
+          {/* Arrows between cards (smooth S-curve; endpoints sit ~3px inside card so head bites the stroke) */}
           {/* Stage 1 right-mid → Stage 2 left-mid */}
           <path
-            d="M 250 305 L 300 205"
-            stroke="var(--diagram-text-muted)"
+            d="M 247 305 C 275 305, 275 205, 303 205"
+            stroke="var(--diagram-primary)"
             strokeWidth="1.5"
             fill="none"
-            markerEnd="url(#cte-arrow-muted)"
+            markerEnd="url(#cte-arrow-primary)"
           />
           {/* Stage 2 right-mid → Stage 3 left-mid */}
           <path
-            d="M 500 205 L 550 105"
-            stroke="var(--diagram-text-muted)"
+            d="M 497 205 C 525 205, 525 105, 553 105"
+            stroke="var(--diagram-primary)"
             strokeWidth="1.5"
             fill="none"
-            markerEnd="url(#cte-arrow-muted)"
+            markerEnd="url(#cte-arrow-primary)"
           />
 
           {/* Stage cards (bottom-left → top-right staircase) */}
@@ -113,7 +113,7 @@ export function CodingToolEvolution() {
         style={{ color: 'var(--diagram-text-muted)' }}
       >
         단계를 거듭할수록{' '}
-        <span className="font-semibold" style={{ color: 'var(--diagram-pink)' }}>
+        <span className="font-semibold" style={{ color: 'var(--diagram-primary)' }}>
           맥락이 넓어지고 자율성이 커집니다
         </span>
       </figcaption>
@@ -138,9 +138,9 @@ function StageCard({
   tools: string;
   accent?: boolean;
 }) {
-  const fill = accent ? 'var(--diagram-pink-soft)' : 'var(--diagram-bg-card)';
-  const stroke = accent ? 'var(--diagram-pink)' : 'var(--diagram-border-strong)';
-  const titleColor = accent ? 'var(--diagram-pink)' : 'var(--diagram-text)';
+  const fill = accent ? 'var(--diagram-primary-soft)' : 'var(--diagram-bg-card)';
+  const stroke = accent ? 'var(--diagram-primary)' : 'var(--diagram-border-strong)';
+  const titleColor = accent ? 'var(--diagram-primary)' : 'var(--diagram-text)';
   return (
     <g>
       <rect
@@ -184,7 +184,7 @@ function StageCard({
         y={y + 108}
         textAnchor="middle"
         fontSize="10"
-        fill={accent ? 'var(--diagram-pink)' : 'var(--diagram-text-muted)'}
+        fill={accent ? 'var(--diagram-primary)' : 'var(--diagram-text-muted)'}
         fontWeight={accent ? 600 : 400}
       >
         {tools}

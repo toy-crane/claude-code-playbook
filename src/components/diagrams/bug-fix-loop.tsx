@@ -105,18 +105,10 @@ export function BugFixLoop() {
             />
           ))}
 
-          {/* Feedback loop: 5. 확인 → 1. 탐색 (dashed pink, top arc) */}
-          <path
-            d="M 720 170 L 720 90 L 240 90 L 240 163"
-            stroke="var(--diagram-pink)"
-            strokeWidth="1.5"
-            strokeDasharray="5 4"
-            fill="none"
-            markerEnd="url(#bfl-arrow-pink)"
-          />
+          {/* Feedback loop label (placed above the arch apex, no overlap) */}
           <text
             x="480"
-            y="78"
+            y="40"
             textAnchor="middle"
             fontSize="12"
             fill="var(--diagram-pink)"
@@ -124,6 +116,16 @@ export function BugFixLoop() {
           >
             실패하면 1~4 를 반복
           </text>
+
+          {/* Feedback loop: 5. 확인 → 1. 탐색 (smooth dashed pink arch, apex ~y=70 below label) */}
+          <path
+            d="M 720 173 C 720 50, 240 50, 240 173"
+            stroke="var(--diagram-pink)"
+            strokeWidth="1.5"
+            strokeDasharray="5 4"
+            fill="none"
+            markerEnd="url(#bfl-arrow-pink)"
+          />
 
           {/* AI 의 자율 루프 label */}
           <text
