@@ -4,6 +4,8 @@ description: '목적지(성공 기준)를 테스트로 먼저 못 박고, Red Gr
 public: true
 ---
 
+import { Lesson03DestinationSpecificity } from '@/components/diagrams/lesson-03-destination-specificity';
+
 ## Overview
 
 지난 레슨에서 테스트가 AI 자율 루프의 확인 고리를 채운다는 것을 봤습니다. 다만 기능을 다 만든 뒤 테스트를 붙이면, AI 가 자기 코드에 맞춰 테스트를 만들어 빈틈이 같이 생긴다는 허점도 보았습니다.
@@ -27,7 +29,7 @@ public: true
 
 "필터링 기능을 추가하라" 라는 계획을 받은 AI 는 코드를 작성할 수 있지만, 완성 후 할 수 있는 건 "추가했습니다" 라고 보고하는 것뿐입니다. **실제로 동작하는지는 AI 도 모릅니다.**
 
-![lesson-03-destination-specificity](./attachments/lesson-03-destination-specificity.png)
+<Lesson03DestinationSpecificity />
 
 택시로 생각해 봅니다. 손님이 "강남역 가주세요" 라고만 말하면, 기사는 같은 이름의 다른 역으로 갈 수도 있고, 같은 서울 강남역이라도 어느 출구에 세울지 판단할 근거가 없습니다. 반면 **"강남역 2번 출구 남쪽 계단 앞"** 까지 박아두면 기사가 창밖을 보며 스스로 "여기 맞다/아니다" 를 판정할 수 있습니다.
 
