@@ -51,7 +51,7 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 입력: 승인된 헤드라인.
 
 처리:
-- **3a. 본문 작성**: 공통 프레임(Overview, 학습 목표, 핵심 포인트, FAQ, 이어서 배울 내용) + 본문 패턴 채움. `references/style-guide.md` 준수. `public: true` 로 저장
+- **3a. 본문 작성**: 공통 프레임(Overview, 학습 목표, 핵심 포인트, FAQ, 이어서 배울 내용) + 본문 패턴 채움. `references/style-guide.md` 준수. `public: true` 로 저장. frontmatter `description` 은 OG 이미지에 렌더되므로 한 문장·50~70자로 간결히 작성 (최대 90자)
 - **3b. 어려운 용어 Callout**:
   - 본문에서 초보자에게 모호할 수 있는 전문용어를 AI 가 자율 판단으로 후보 추출
   - **Step 1 컨텍스트로 이미 소개된 용어는 제외**
