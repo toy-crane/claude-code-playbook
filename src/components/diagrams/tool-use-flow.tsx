@@ -1,143 +1,290 @@
 import { DiagramFrame } from './primitives';
 
-const steps = [
-  {
-    number: '01',
-    title: '사용자 질문',
-    desc: '사용자가 무언가를\n묻거나 요청합니다',
-  },
-  {
-    number: '02',
-    title: 'Tool 선택',
-    desc: '어떤 Tool 을 쓸지\nLLM 이 판단합니다',
-  },
-  {
-    number: '03',
-    title: '호출 요청',
-    desc: 'Tool 이름과 입력값을\n텍스트로 만듭니다',
-    highlight: true,
-  },
-  {
-    number: '04',
-    title: 'Tool 실행',
-    desc: '외부 시스템이 실행하고\n결과를 돌려줍니다',
-  },
-  {
-    number: '05',
-    title: '답변 생성',
-    desc: '결과를 Context 에 넣고\n답변을 만듭니다',
-  },
-];
-
 export function ToolUseFlow() {
   return (
     <DiagramFrame>
-      <div className="flex flex-col md:flex-row items-stretch gap-1.5">
-        {steps.map((step, i) => (
-          <div key={step.number} className="contents">
-            <Card {...step} />
-            {i < steps.length - 1 && <Arrow />}
-          </div>
-        ))}
+      <div className="overflow-x-auto">
+        <svg
+          viewBox="0 0 800 300"
+          className="w-full min-w-[560px] h-auto"
+          style={{ fontFamily: 'inherit' }}
+        >
+          <defs>
+            <marker
+              id="tuf-arrow-primary"
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto"
+            >
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-primary)" />
+            </marker>
+            <marker
+              id="tuf-arrow-muted"
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto"
+            >
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-text-muted)" />
+            </marker>
+          </defs>
+
+          {/* Tool group label */}
+          <text
+            x="400"
+            y="22"
+            textAnchor="middle"
+            fontSize="11"
+            fill="var(--diagram-text-muted)"
+          >
+            Tool (외부 시스템)
+          </text>
+
+          {/* Connections (drawn before nodes so arrows sit beneath) */}
+          {/* 질문 → LLM 판단 */}
+          <path
+            d="M 110 160 L 148 160"
+            stroke="var(--diagram-primary)"
+            strokeWidth="1.5"
+            fill="none"
+            markerEnd="url(#tuf-arrow-primary)"
+          />
+          {/* LLM → Read (dashed, not selected) */}
+          <path
+            d="M 290 160 Q 315 160 338 70"
+            stroke="var(--diagram-text-muted)"
+            strokeDasharray="4 3"
+            strokeWidth="1.25"
+            fill="none"
+            markerEnd="url(#tuf-arrow-muted)"
+          />
+          {/* LLM → WebSearch (selected) */}
+          <path
+            d="M 290 160 Q 315 160 338 130"
+            stroke="var(--diagram-primary)"
+            strokeWidth="1.75"
+            fill="none"
+            markerEnd="url(#tuf-arrow-primary)"
+          />
+          {/* LLM → Bash (dashed) */}
+          <path
+            d="M 290 160 Q 315 160 338 190"
+            stroke="var(--diagram-text-muted)"
+            strokeDasharray="4 3"
+            strokeWidth="1.25"
+            fill="none"
+            markerEnd="url(#tuf-arrow-muted)"
+          />
+          {/* LLM → Edit (dashed) */}
+          <path
+            d="M 290 160 Q 315 160 338 250"
+            stroke="var(--diagram-text-muted)"
+            strokeDasharray="4 3"
+            strokeWidth="1.25"
+            fill="none"
+            markerEnd="url(#tuf-arrow-muted)"
+          />
+          {/* WebSearch → LLM 답변 생성 */}
+          <path
+            d="M 460 130 Q 485 130 508 160"
+            stroke="var(--diagram-primary)"
+            strokeWidth="1.75"
+            fill="none"
+            markerEnd="url(#tuf-arrow-primary)"
+          />
+          {/* LLM 답변 → 사용자 답변 */}
+          <path
+            d="M 650 160 L 688 160"
+            stroke="var(--diagram-primary)"
+            strokeWidth="1.5"
+            fill="none"
+            markerEnd="url(#tuf-arrow-primary)"
+          />
+
+          {/* Labels on paths */}
+          <text
+            x="315"
+            y="108"
+            textAnchor="middle"
+            fontSize="10"
+            fill="var(--diagram-primary)"
+          >
+            질문에 따라 선택
+          </text>
+          <text
+            x="485"
+            y="108"
+            textAnchor="middle"
+            fontSize="10"
+            fill="var(--diagram-primary)"
+          >
+            결과 반환
+          </text>
+
+          {/* 사용자 질문 — actor (pill) */}
+          <rect
+            x="10"
+            y="140"
+            width="100"
+            height="40"
+            rx="20"
+            fill="var(--diagram-bg-card)"
+            stroke="var(--diagram-border-strong)"
+            strokeWidth="1.25"
+          />
+          <text
+            x="60"
+            y="165"
+            textAnchor="middle"
+            fontSize="13"
+            fill="var(--diagram-text)"
+          >
+            사용자 질문
+          </text>
+
+          {/* LLM 판단 */}
+          <rect
+            x="150"
+            y="130"
+            width="140"
+            height="60"
+            rx="8"
+            fill="var(--diagram-primary-soft)"
+            stroke="var(--diagram-primary)"
+            strokeWidth="1.5"
+          />
+          <text
+            x="220"
+            y="155"
+            textAnchor="middle"
+            fontSize="13"
+            fill="var(--diagram-primary)"
+            fontWeight="600"
+          >
+            LLM 판단
+          </text>
+          <text
+            x="220"
+            y="175"
+            textAnchor="middle"
+            fontSize="11"
+            fill="var(--diagram-text-muted)"
+          >
+            어떤 Tool 을 쓸까?
+          </text>
+
+          {/* Tool chips */}
+          <ToolChip y={50} label="Read" />
+          <ToolChip y={110} label="WebSearch" selected />
+          <ToolChip y={170} label="Bash" />
+          <ToolChip y={230} label="Edit" />
+
+          {/* LLM 답변 생성 */}
+          <rect
+            x="510"
+            y="130"
+            width="140"
+            height="60"
+            rx="8"
+            fill="var(--diagram-primary-soft)"
+            stroke="var(--diagram-primary)"
+            strokeWidth="1.5"
+          />
+          <text
+            x="580"
+            y="155"
+            textAnchor="middle"
+            fontSize="13"
+            fill="var(--diagram-primary)"
+            fontWeight="600"
+          >
+            LLM 답변 생성
+          </text>
+          <text
+            x="580"
+            y="175"
+            textAnchor="middle"
+            fontSize="11"
+            fill="var(--diagram-text-muted)"
+          >
+            결과 + 질문
+          </text>
+
+          {/* 사용자 답변 — actor */}
+          <rect
+            x="690"
+            y="140"
+            width="100"
+            height="40"
+            rx="20"
+            fill="var(--diagram-bg-card)"
+            stroke="var(--diagram-border-strong)"
+            strokeWidth="1.25"
+          />
+          <text
+            x="740"
+            y="165"
+            textAnchor="middle"
+            fontSize="13"
+            fill="var(--diagram-text)"
+          >
+            사용자 답변
+          </text>
+        </svg>
       </div>
       <figcaption
-        className="mt-5 text-center text-xs"
+        className="mt-4 text-center text-xs"
         style={{ color: 'var(--diagram-text-muted)' }}
       >
-        LLM 의 본질은 &ldquo;다음 텍스트 예측&rdquo;{' '}
-        <span className="mx-1">—</span>{' '}
-        그 텍스트 중 하나가{' '}
-        <span
-          className="font-semibold"
-          style={{ color: 'var(--diagram-primary)' }}
-        >
-          Tool 호출 요청
+        LLM 은 여러 Tool 중{' '}
+        <span className="font-semibold" style={{ color: 'var(--diagram-primary)' }}>
+          하나를 골라 호출
         </span>
-        입니다
+        하고, 결과를 Context 에 넣어 답변을 만듭니다
       </figcaption>
     </DiagramFrame>
   );
 }
 
-function Card({
-  number,
-  title,
-  desc,
-  highlight,
+function ToolChip({
+  y,
+  label,
+  selected,
 }: {
-  number: string;
-  title: string;
-  desc: string;
-  highlight?: boolean;
+  y: number;
+  label: string;
+  selected?: boolean;
 }) {
-  const bg = highlight ? 'var(--diagram-primary)' : 'var(--diagram-bg-card)';
-  const border = highlight ? 'var(--diagram-primary)' : 'var(--diagram-border)';
-  const textColor = highlight ? '#ffffff' : 'var(--diagram-text)';
-  const mutedColor = highlight ? 'rgba(255,255,255,0.75)' : 'var(--diagram-text-muted)';
+  const fill = selected ? 'var(--diagram-primary-soft)' : 'var(--diagram-bg-card)';
+  const stroke = selected ? 'var(--diagram-primary)' : 'var(--diagram-border)';
+  const color = selected ? 'var(--diagram-primary)' : 'var(--diagram-text-muted)';
   return (
-    <div
-      className="flex-1 min-w-0 rounded-lg border px-2.5 py-3"
-      style={{ backgroundColor: bg, borderColor: border }}
-    >
-      <div
-        className="text-[10px] font-mono tracking-wider mb-1.5"
-        style={{ color: mutedColor }}
+    <g>
+      <rect
+        x="340"
+        y={y}
+        width="120"
+        height="40"
+        rx="8"
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={selected ? 1.5 : 1.25}
+      />
+      <text
+        x="400"
+        y={y + 25}
+        textAnchor="middle"
+        fontSize="13"
+        fill={color}
+        fontWeight={selected ? 600 : 400}
       >
-        {number}
-      </div>
-      <div
-        className="text-[13px] font-semibold mb-1 whitespace-nowrap"
-        style={{ color: textColor }}
-      >
-        {title}
-      </div>
-      <div
-        className="text-[11px] leading-snug whitespace-pre-line"
-        style={{ color: mutedColor }}
-      >
-        {desc}
-      </div>
-    </div>
-  );
-}
-
-function Arrow() {
-  return (
-    <div
-      className="flex items-center justify-center shrink-0 md:w-3"
-      style={{ color: 'var(--diagram-text-muted)' }}
-      aria-hidden
-    >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        className="md:block hidden"
-      >
-        <path
-          d="M6 3l5 5-5 5"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        className="md:hidden block"
-      >
-        <path
-          d="M3 6l5 5 5-5"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
+        {label}
+      </text>
+    </g>
   );
 }
