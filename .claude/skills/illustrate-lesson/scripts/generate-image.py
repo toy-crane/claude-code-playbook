@@ -26,6 +26,18 @@ from google.genai import types
 from PIL import Image
 
 
+def _hex_to_rgb(value: str) -> tuple[int, int, int]:
+    h = value.lstrip("#")
+    if len(h) == 3:
+        h = "".join(c * 2 for c in h)
+    if len(h) != 6:
+        raise SystemExit(f"Error: invalid hex color '{value}'. Expected #RRGGBB or #RGB.")
+    try:
+        return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    except ValueError as exc:
+        raise SystemExit(f"Error: invalid hex color '{value}': {exc}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--prompt", "-p", required=True)
@@ -33,7 +45,14 @@ def main() -> None:
     parser.add_argument("--input-image", "-i", dest="input_image", default=None)
     parser.add_argument("--resolution", "-r", choices=["1K", "2K", "4K"], default="2K")
     parser.add_argument("--padding", type=int, default=40)
+    parser.add_argument(
+        "--padding-color",
+        default="#fafaf9",
+        help="Hex color for padding fill. Default #fafaf9 matches --diagram-bg-panel so the PNG blends with DiagramFrame.",
+    )
     args = parser.parse_args()
+
+    padding_rgb = _hex_to_rgb(args.padding_color)
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
@@ -100,7 +119,7 @@ def main() -> None:
                     dst = Image.new(
                         "RGBA",
                         (src.width + args.padding * 2, src.height + args.padding * 2),
-                        (255, 255, 255, 255),
+                        (*padding_rgb, 255),
                     )
                     dst.paste(src, (args.padding, args.padding), src)
                     dst.convert("RGB").save(output_path, format="PNG")
