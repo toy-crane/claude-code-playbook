@@ -75,6 +75,13 @@ baseUrl `/docs` 는 `src/lib/shared.ts:2` 의 `docsRoute` 가 SSOT.
 
 검증: `bun run lint:links` (pre-push hook 에서 자동 실행).
 
+## 레슨 수정 시 동기화 체크
+
+레슨을 **크게 고치거나(제목·구조·내용 리라이팅) 추가·삭제** 할 때 다음도 함께 확인하고, 필요하면 수정:
+- 커리큘럼: `content/docs/index.mdx`
+- 해당 Part 의 `part-N-wrap-up.mdx`
+- 최종 wrap-up: `content/docs/wrap-up.mdx` (Part 구조·전체 커리큘럼에 영향 갈 때만)
+
 ## Fumadocs 레퍼런스
 
 Fumadocs 작업 시 추측하지 말고 공식 문서를 먼저 확인.
