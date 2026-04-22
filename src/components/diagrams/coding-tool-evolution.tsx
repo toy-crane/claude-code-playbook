@@ -57,24 +57,20 @@ export function CodingToolEvolution() {
             자율성 →
           </text>
 
-          {/* Stage 1 → Stage 2 (straight diagonal, edge-mid to just-before next edge) */}
-          <line
-            x1="250"
-            y1="305"
-            x2="298"
-            y2="207"
+          {/* Stage 1 → Stage 2 (single Q curve: control y = start y → 부드러운 휨, tool-use-flow 와 같은 컨벤션) */}
+          <path
+            d="M 250 305 Q 274 305 298 205"
             stroke="var(--diagram-primary)"
             strokeWidth="1.5"
+            fill="none"
             markerEnd="url(#cte-arrow)"
           />
           {/* Stage 2 → Stage 3 */}
-          <line
-            x1="500"
-            y1="205"
-            x2="548"
-            y2="107"
+          <path
+            d="M 500 205 Q 524 205 548 105"
             stroke="var(--diagram-primary)"
             strokeWidth="1.5"
+            fill="none"
             markerEnd="url(#cte-arrow)"
           />
 
