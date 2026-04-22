@@ -10,3 +10,40 @@ html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
 }
+
+/* Diagram palette — Notion Warm (Blue + Orange + Green on Stone neutrals) */
+:root {
+  --diagram-bg-panel: #fafaf9;
+  --diagram-bg-card: #ffffff;
+  --diagram-border: #e7e5e4;
+  --diagram-border-strong: #a8a29e;
+  --diagram-text: #44403c;
+  --diagram-text-muted: #78716c;
+
+  --diagram-primary: #2563eb;
+  --diagram-primary-soft: #eff6ff;
+  --diagram-cyan: #16a34a;
+  --diagram-cyan-soft: #f0fdf4;
+  --diagram-pink: #f97316;
+  --diagram-pink-soft: #fff7ed;
+  --diagram-yellow: #eab308;
+  --diagram-yellow-soft: #fefce8;
+}
+
+.dark {
+  --diagram-bg-panel: #1c1917;
+  --diagram-bg-card: #292524;
+  --diagram-border: #44403c;
+  --diagram-border-strong: #78716c;
+  --diagram-text: #e7e5e4;
+  --diagram-text-muted: #a8a29e;
+
+  --diagram-primary: #60a5fa;
+  --diagram-primary-soft: #1e293b;
+  --diagram-cyan: #4ade80;
+  --diagram-cyan-soft: #14532d;
+  --diagram-pink: #fb923c;
+  --diagram-pink-soft: #431407;
+  --diagram-yellow: #facc15;
+  --diagram-yellow-soft: #422006;
+}
