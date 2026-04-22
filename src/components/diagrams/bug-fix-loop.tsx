@@ -85,8 +85,8 @@ export function BugFixLoop() {
             width="130"
             height="50"
             rx="25"
-            fill="var(--diagram-warning-soft)"
-            stroke="var(--diagram-warning)"
+            fill="var(--diagram-bg-card)"
+            stroke="var(--diagram-border-strong)"
             strokeWidth="1.5"
           />
           <text
