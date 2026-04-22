@@ -61,8 +61,8 @@ export function SessionLifecycle() {
             width="80"
             height="40"
             rx="20"
-            fill="var(--diagram-yellow-soft)"
-            stroke="var(--diagram-yellow)"
+            fill="var(--diagram-warning-soft)"
+            stroke="var(--diagram-warning)"
             strokeWidth="1.5"
           />
           <text

@@ -13,24 +13,24 @@ export function KnowledgeCutoffTimeline() {
             <linearGradient id="kc-known-bg" x1="0" x2="0" y1="0" y2="1">
               <stop
                 offset="0"
-                stopColor="var(--diagram-cyan-soft)"
+                stopColor="var(--diagram-success-soft)"
                 stopOpacity="0.25"
               />
               <stop
                 offset="1"
-                stopColor="var(--diagram-cyan-soft)"
+                stopColor="var(--diagram-success-soft)"
                 stopOpacity="0.9"
               />
             </linearGradient>
             <linearGradient id="kc-unknown-bg" x1="0" x2="0" y1="0" y2="1">
               <stop
                 offset="0"
-                stopColor="var(--diagram-pink-soft)"
+                stopColor="var(--diagram-danger-soft)"
                 stopOpacity="0.25"
               />
               <stop
                 offset="1"
-                stopColor="var(--diagram-pink-soft)"
+                stopColor="var(--diagram-danger-soft)"
                 stopOpacity="0.9"
               />
             </linearGradient>
@@ -61,7 +61,7 @@ export function KnowledgeCutoffTimeline() {
             textAnchor="middle"
             fontSize="16"
             fontWeight="600"
-            fill="var(--diagram-cyan)"
+            fill="var(--diagram-success)"
           >
             AI 가 아는 영역
           </text>
@@ -71,7 +71,7 @@ export function KnowledgeCutoffTimeline() {
             textAnchor="middle"
             fontSize="16"
             fontWeight="600"
-            fill="var(--diagram-pink)"
+            fill="var(--diagram-danger)"
           >
             AI 가 모르는 영역
           </text>
@@ -83,8 +83,8 @@ export function KnowledgeCutoffTimeline() {
             width="250"
             height="50"
             rx="10"
-            fill="var(--diagram-cyan-soft)"
-            stroke="var(--diagram-cyan)"
+            fill="var(--diagram-success-soft)"
+            stroke="var(--diagram-success)"
             strokeWidth="1.5"
           />
           <text
@@ -92,7 +92,7 @@ export function KnowledgeCutoffTimeline() {
             y="165"
             textAnchor="middle"
             fontSize="14"
-            fill="var(--diagram-cyan)"
+            fill="var(--diagram-success)"
             fontWeight="500"
           >
             React 18 출시
@@ -104,8 +104,8 @@ export function KnowledgeCutoffTimeline() {
             width="250"
             height="50"
             rx="10"
-            fill="var(--diagram-pink-soft)"
-            stroke="var(--diagram-pink)"
+            fill="var(--diagram-danger-soft)"
+            stroke="var(--diagram-danger)"
             strokeWidth="1.5"
           />
           <text
@@ -113,7 +113,7 @@ export function KnowledgeCutoffTimeline() {
             y="165"
             textAnchor="middle"
             fontSize="14"
-            fill="var(--diagram-pink)"
+            fill="var(--diagram-danger)"
             fontWeight="500"
           >
             새 라이브러리 v2 출시
@@ -125,7 +125,7 @@ export function KnowledgeCutoffTimeline() {
             y1="260"
             x2="780"
             y2="260"
-            stroke="var(--diagram-pink)"
+            stroke="var(--diagram-danger)"
             strokeWidth="2"
           />
 
@@ -142,7 +142,7 @@ export function KnowledgeCutoffTimeline() {
             y1="40"
             x2="400"
             y2="272"
-            stroke="var(--diagram-pink)"
+            stroke="var(--diagram-danger)"
             strokeWidth="2"
             strokeDasharray="6 4"
           />
@@ -151,7 +151,7 @@ export function KnowledgeCutoffTimeline() {
             y="30"
             textAnchor="middle"
             fontSize="13"
-            fill="var(--diagram-pink)"
+            fill="var(--diagram-danger)"
             fontWeight="600"
           >
             Knowledge Cutoff
@@ -163,7 +163,7 @@ export function KnowledgeCutoffTimeline() {
         style={{ color: 'var(--diagram-text-muted)' }}
       >
         Cutoff 이후의 질문 →{' '}
-        <span className="font-semibold" style={{ color: 'var(--diagram-pink)' }}>
+        <span className="font-semibold" style={{ color: 'var(--diagram-danger)' }}>
           AI 가 모르지만 그럴듯하게 답변
         </span>{' '}
         (Hallucination 발생)
@@ -187,8 +187,8 @@ function TimelineDot({
         cx={cx}
         cy={260}
         r={cutoff ? 7 : 6}
-        fill={cutoff ? 'var(--diagram-pink-soft)' : 'var(--diagram-bg-card)'}
-        stroke="var(--diagram-pink)"
+        fill={cutoff ? 'var(--diagram-danger-soft)' : 'var(--diagram-bg-card)'}
+        stroke="var(--diagram-danger)"
         strokeWidth={cutoff ? 2.5 : 2}
       />
       <text
@@ -196,7 +196,7 @@ function TimelineDot({
         y={290}
         textAnchor="middle"
         fontSize="12"
-        fill={cutoff ? 'var(--diagram-pink)' : 'var(--diagram-text-muted)'}
+        fill={cutoff ? 'var(--diagram-danger)' : 'var(--diagram-text-muted)'}
         fontWeight={cutoff ? 600 : 400}
       >
         {label}
