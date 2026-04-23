@@ -54,13 +54,25 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 
 - 선택한 `assets/templates/*.mdx` 를 Read 로 읽는다 — **뼈대의 유일 출처**
 - 프런트매터·모든 H2·H3 순서를 그대로 복사해 새 `.mdx` 파일을 시작. 템플릿이 정한 헤더 이름은 변경·삭제 금지
-- 본문은 CLAUDE.md 의 합니다체로 작성하고 `public: true` 로 저장
-- Frontmatter `description` 은 OG 이미지에 렌더되므로 한 문장·50~70자 (최대 90자) 로 작성
 - 어려운 용어 Callout: 초보자에게 모호할 전문용어를 추출. Step 1 에서 이미 소개된 용어는 제외. 남은 용어마다 비유 후보 3-4개를 생성해 유저에게 제시하고, 선택된 비유로 `<Callout type="info" title="X란?">` 삽입
-- 이미지 placeholder: `![lesson-NN-kebab-case](./attachments/...)` 형태만 본문에 배치. 아래 스키마로 별도 리스트 출력 — `{파일명, 위치(H2 기준), 주제, 유형}`. 유형은 [이미지 유형 분류] 로 자동 판정, 유저 override 가능
+- 이미지 placeholder: `![lesson-NN-kebab-case](./attachments/...)` 형태만 본문에 배치. 아래 스키마로 별도 리스트 출력 — `{파일명, 위치(H2 기준), 주제, 유형}`. 유형은 [이미지 유형 분류] 로 자동 판정
 - 출력: 저장된 `.mdx` 초안 + 이미지 placeholder 리스트
 
-### Step 4. Fact-check
+### Step 4. 이미지 생성
+
+placeholder 자리를 실제 이미지로 채운다. 유형에 따라 표현 방식이 달라 스킬을 분기한다.
+
+| 유형 | 호출 스킬 | 산출물 저장 |
+|------|---------|-----------|
+| `diagram` | `create-lesson-diagram` | `src/components/diagrams/<name>.tsx` (React SVG). MDX placeholder 자리는 `import` + `<Component />` 로 교체 |
+| `illustration` | `illustrate-lesson` | `attachments/<name>.png` |
+
+- diagram 은 placeholder 파일명을 컴포넌트명(PascalCase) 으로 매핑해 일치 확인
+- illustration 은 placeholder 파일명과 생성된 파일명 일치 확인
+- 출력: 이미지 파일 + 최종 `.mdx`
+
+
+### Step 5. 사실 검증
 
 본문의 사실성 주장을 모두 검증한다. 오류는 레슨 신뢰도를 직접 깎는다.
 
@@ -75,19 +87,6 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 
 - 각 주장을 `{주장 원문 / 판정(✅ 정확 / ⚠️ 오래됨 / ❌ 부정확) / 출처 / 제안 수정안}` 스키마로 정리
 - `AskUserQuestion` 으로 3-4개씩 그룹화해 건별 승인을 받고, 승인된 수정만 본문에 반영
-
-### Step 5. 이미지 생성
-
-placeholder 자리를 실제 이미지로 채운다. 유형에 따라 표현 방식이 달라 스킬을 분기한다.
-
-| 유형 | 호출 스킬 | 산출물 저장 |
-|------|---------|-----------|
-| `diagram` | `create-lesson-diagram` | `src/components/diagrams/<name>.tsx` (React SVG). MDX placeholder 자리는 `import` + `<Component />` 로 교체 |
-| `illustration` | `illustrate-lesson` | `attachments/<name>.png` |
-
-- diagram 은 placeholder 파일명을 컴포넌트명(PascalCase) 으로 매핑해 일치 확인
-- illustration 은 placeholder 파일명과 생성된 파일명 일치 확인
-- 출력: 이미지 파일 + 최종 `.mdx`
 
 ## 이미지 유형 분류
 
