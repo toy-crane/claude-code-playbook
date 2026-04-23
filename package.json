@@ -13,8 +13,6 @@
     "lint:links": "bun ./scripts/lint-links.ts"
   },
   "dependencies": {
-    "@radix-ui/react-collapsible": "^1.1.12",
-    "@radix-ui/react-popover": "^1.1.15",
     "class-variance-authority": "^0.7.1",
     "fumadocs-core": "16.8.0",
     "fumadocs-mdx": "14.3.1",
