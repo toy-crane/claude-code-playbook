@@ -12,7 +12,7 @@ const COMPONENTS: Component[] = [
   { kind: 'Hooks', example: 'pre-save' },
 ];
 
-export function Lesson05PluginBundle() {
+export function PluginBundle() {
   return (
     <DiagramFrame>
       <section className="flex flex-col items-center gap-3">

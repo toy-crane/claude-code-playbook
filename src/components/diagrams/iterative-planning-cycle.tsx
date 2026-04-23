@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson03IterativePlanningCycle() {
+export function IterativePlanningCycle() {
   return (
     <DiagramFrame>
       <div className="overflow-x-auto">

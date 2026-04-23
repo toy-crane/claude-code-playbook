@@ -12,7 +12,7 @@ const SCENARIOS: Scenario[] = [
   { name: 'modified·untracked 자동 staging', before: false, after: true },
 ];
 
-export function Lesson06EvalBeforeAfter() {
+export function EvalBeforeAfter() {
   return (
     <DiagramFrame>
       <div

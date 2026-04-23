@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson02RepetitivePrompts() {
+export function RepetitivePrompts() {
   return (
     <DiagramFrame>
       <div className="overflow-x-auto">

@@ -4,9 +4,9 @@ description: '목적지(성공 기준)를 테스트로 먼저 정의하고, Red 
 public: true
 ---
 
-import { Lesson03DestinationSpecificity } from '@/components/diagrams/lesson-03-destination-specificity';
-import { Lesson03PlanWithCriteria } from '@/components/diagrams/lesson-03-plan-with-criteria';
-import { Lesson03IterativePlanningCycle } from '@/components/diagrams/lesson-03-iterative-planning-cycle';
+import { DestinationSpecificity } from '@/components/diagrams/destination-specificity';
+import { PlanWithCriteria } from '@/components/diagrams/plan-with-criteria';
+import { IterativePlanningCycle } from '@/components/diagrams/iterative-planning-cycle';
 
 ## Overview
 
@@ -31,7 +31,7 @@ import { Lesson03IterativePlanningCycle } from '@/components/diagrams/lesson-03-
 
 "필터링 기능을 추가하라" 라는 계획을 받은 AI 는 코드를 작성할 수 있지만, 완성 후 할 수 있는 건 "추가했습니다" 라고 보고하는 것뿐입니다. **실제로 동작하는지는 AI 도 모릅니다.**
 
-<Lesson03DestinationSpecificity />
+<DestinationSpecificity />
 
 택시로 생각해 봅니다. 손님이 "강남역 가주세요" 라고만 말하면, 기사는 같은 이름의 다른 역으로 갈 수도 있고, 같은 서울 강남역이라도 어느 출구에 세울지 판단할 근거가 없습니다. 반면 **"강남역 2번 출구 남쪽 계단 앞"** 까지 정해두면 기사가 창밖을 보며 스스로 "여기 맞다/아니다" 를 판정할 수 있습니다.
 
@@ -51,7 +51,7 @@ AI 는 "잘" 이 무엇인지 판단할 수 없습니다. 코드를 작성하고
 
 요구사항 형식("사용자가 ~하면, 시스템이 ~한다") 과 범위 제한에 **성공 기준**을 붙입니다.
 
-<Lesson03PlanWithCriteria />
+<PlanWithCriteria />
 
 **요구사항(무엇을), 성공 기준(어떻게 검증할지), 범위 제한(무엇을 안 할지) — 이 세 가지를 갖춘 계획이 AI 가 가장 잘 실행하는 계획입니다.** 성공 기준 하나를 구체적으로 쓰는 3분이 AI 가 생성할 코드 수십 줄의 방향을 결정합니다.
 
@@ -143,7 +143,7 @@ AI 의 계획을 검토할 때 확인할 사항은 다음과 같습니다.
 
 **새 세션을 열고 Plan Mode 로 다시 들어갑니다.** "필터 버튼에 개수 배지 표시" 기능에 대한 요구사항과 성공 기준을 추가하고, 새 계획을 세웁니다.
 
-<Lesson03IterativePlanningCycle />
+<IterativePlanningCycle />
 
 **계획은 만들고, 실행하고, 발견하고, 다시 만드는 반복 과정입니다.** 아는 것은 모두 계획에 넣고, 모르는 것은 넣지 않고, 실행 후 발견된 것은 새 세션에서 추가합니다.
 

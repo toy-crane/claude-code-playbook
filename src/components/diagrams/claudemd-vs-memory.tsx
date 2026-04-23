@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function ClaudemdVsMemory() {
+export function ClaudeMdVsMemory() {
   return (
     <DiagramFrame>
       <div className="overflow-x-auto">

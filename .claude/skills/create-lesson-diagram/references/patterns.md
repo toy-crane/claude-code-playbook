@@ -28,7 +28,7 @@
 **언제**: 두 개념을 좌/우로 나란히 비교 (예: LLM + Tool vs Agent).
 
 **참조 컴포넌트**:
-- `src/components/diagrams/lesson-01-rules-path-loading.tsx` — 두 시나리오 비교 + 가운데 세로 구분선
+- `src/components/diagrams/rules-path-loading.tsx` — 두 시나리오 비교 + 가운데 세로 구분선
 - `src/components/diagrams/llm-vs-agent-flow.tsx` — 두 개념 카드 비교
 
 **핵심 구조**:

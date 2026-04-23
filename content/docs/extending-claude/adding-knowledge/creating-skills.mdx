@@ -4,7 +4,7 @@ description: commit Command 를 수동으로 Skill 로 옮겨 보고, 작성 중
 public: true
 ---
 
-import { Lesson04SkillAutoTrigger } from '@/components/diagrams/lesson-04-skill-auto-trigger';
+import { SkillAutoTrigger } from '@/components/diagrams/skill-auto-trigger';
 
 ## Overview
 
@@ -93,7 +93,7 @@ Skill 이 수동·자동 두 방식 모두로 호출되는지 확인합니다.
 
 자동 호출이 성공하면 프롬프트 밑에 `Skill(commit) Successfully loaded skill` 이 표시되고, Claude 가 커밋 절차를 바로 시작합니다.
 
-<Lesson04SkillAutoTrigger />
+<SkillAutoTrigger />
 
 수동·자동이 모두 동작합니다. 앞서 만든 `/commit` Custom Command 는 그대로 둬도 됩니다 — 같은 이름이 두 곳에 있으면 **Skill 이 우선** 하므로 충돌은 발생하지 않습니다.
 

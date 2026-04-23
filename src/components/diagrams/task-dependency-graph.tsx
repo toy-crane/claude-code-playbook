@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson04TaskDependencyGraph() {
+export function TaskDependencyGraph() {
   return (
     <DiagramFrame>
       <div className="overflow-x-auto">
