@@ -47,10 +47,10 @@ CLAUDE.md 에 모든 규칙을 넣으면 작업과 무관한 규칙까지 매번
 
 Commands와 Skills는 Claude의 지식을 확장합니다. 하지만 Claude가 접근할 수 있는 범위 자체는 로컬 파일과 내장 도구에 묶여 있습니다. **CLI와 MCP**는 외부 시스템에 대한 접근권을 부여합니다.
 
-- **MCP**: 외부 시스템을 Claude에 연결하는 표준 프로토콜입니다. MCP Server가 Tool을 정의하면, Claude(Host)가 이를 호출합니다. GitHub MCP처럼 공개 서버를 설치하거나, 내부 시스템용 서버를 직접 만들 수 있습니다
-- **CLI**: 개발자도 AI도 같은 명령어를 쓸 수 있고, 결과를 파일로 저장해 필요한 만큼만 읽을 수 있습니다. CLI가 있는 서비스는 MCP보다 CLI가 더 효율적입니다
-- **MCP 서버 직접 만들기**: CLI도 공개 MCP 서버도 없는 내부 시스템은 MCP 서버를 직접 만들어 연결합니다. Tool 이름, 설명, 입력 스키마를 등록하면 Claude가 즉시 사용할 수 있습니다. 복잡한 API 호출은 서버 안에 감추고, Claude에게는 단순한 인터페이스만 노출합니다
-- **도구와 절차의 분리**: CLI/MCP는 도구 접근권(Capability Layer)을, Skill은 사용 절차(Procedure Layer)를 담당합니다. 도구와 절차를 분리하면, 같은 도구에 다른 Skill을 조합해 다양한 워크플로우를 만들 수 있습니다
+- **CLI**: 개발자가 이미 쓰던 터미널 도구를 Claude 에게 그대로 빌려줍니다. `gh`·`aws`·`kubectl` 같은 유명 CLI 는 Claude 가 이미 학습해서 바로 호출합니다. 결과를 파이프로 가공하고, 실행한 명령어를 개발자가 터미널에서 직접 재현할 수 있습니다
+- **MCP**: CLI 가 대세가 된 지금도 MCP 가 더 나은 세 가지 상황이 있습니다 — 실행 중인 앱 관찰 (Chrome DevTools · Playwright · Figma), OAuth 가 복잡한 외부 서비스 (Linear · Notion · Sentry), `.mcp.json` 을 공유하는 팀 설정. Claude Code (Host + Client) 가 서버 프로세스를 띄워 stdio 로 통신합니다
+- **Custom MCP**: 공개된 MCP 가 없는 내부 시스템은 직접 만들어 연결합니다. MCP Builder Skill 을 쓰면 프로젝트 구조·SDK 설정·Tool 정의까지 자동 생성됩니다. Tool 의 품질은 `description` (Claude 선택 근거) · `inputSchema` (Claude 와의 계약) · 표준 `content` 반환 형식으로 결정됩니다
+- **도구는 가능성, Skill 은 일관성**: CLI·MCP 가 외부 시스템에 닿는 가능성을, Skill 이 매번 같은 방식으로 쓰게 만드는 일관성을 담당합니다. 결합하면 코드 리뷰·버그 리포트 같은 반복 워크플로우가 매번 같은 형식으로 나옵니다
 
 ### 실행을 제어하는 도구: Hooks와 Custom Agent
 
