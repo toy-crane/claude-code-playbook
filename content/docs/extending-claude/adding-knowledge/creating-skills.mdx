@@ -15,7 +15,7 @@ import { Lesson04SkillAutoTrigger } from '@/components/diagrams/lesson-04-skill-
 ### 학습 목표
 
 - `.claude/skills/<이름>/SKILL.md` 구조로 Skill을 수동 작성할 수 있습니다
-- 수동 작성에서 막히는 지점 (description · 구조 판단)을 구체적으로 설명할 수 있습니다
+- 수동 작성에서 막히는 지점 (description·구조 판단)을 구체적으로 설명할 수 있습니다
 - Skill Creator 플러그인을 설치하고 같은 Skill을 자동 생성해 차이를 비교할 수 있습니다
 
 ### 시작하기 전 확인사항
@@ -112,7 +112,7 @@ Skill이 수동·자동 두 방식 모두로 호출되는지 확인합니다.
 Skill이 일단 돌아가지만, Step 1 끝에 남은 질문들이 해소되지는 않았습니다. Anthropic 공식 플러그인인 **Skill Creator**를 설치해 같은 Skill을 다시 만들어 봅니다.
 
 <Callout type="info" title="Plugin 이란?">
-Plugin은 Skills · Commands · MCP · Hooks를 하나로 묶는 Claude Code 전용 확장 패키지입니다. 자세한 구조와 다른 Plugin 설치 방법은 다음 레슨에서 다룹니다. 여기서는 Skill Creator 하나를 설치하는 것만 체험합니다.
+Plugin은 Skills·Commands·MCP·Hooks를 하나로 묶는 Claude Code 전용 확장 패키지입니다. 자세한 구조와 다른 Plugin 설치 방법은 다음 레슨에서 다룹니다. 여기서는 Skill Creator 하나를 설치하는 것만 체험합니다.
 </Callout>
 
 Claude Code 안에서 `/plugin` 을 입력해 플러그인 관리 화면을 엽니다.
@@ -175,7 +175,7 @@ SKILL.md 안에서 "breaking change가 감지되면 `references/breaking-change-
 ## 핵심 포인트 정리
 
 1. **Skill은 폴더 단위 + description이 자동 호출의 열쇠**: `.claude/skills/<이름>/SKILL.md` 로 만들고, description의 세 조각 (하는 일 + 긍정 트리거 + 부정 트리거)이 자동 호출 정확도를 결정합니다
-2. **수동 작성의 막막함은 Skill Creator가 풀어줍니다**: description 튜닝 · 본문/참조 분리 · 누락 확인을 도구가 받아줍니다. 수동이 익숙하다면 그것도 방법입니다
+2. **수동 작성의 막막함은 Skill Creator가 풀어줍니다**: description 튜닝·본문/참조 분리·누락 확인을 도구가 받아줍니다. 수동이 익숙하다면 그것도 방법입니다
 3. **Command를 Skill로 옮기면 수동 호출이 자동 호출로**: `/commit` 같은 슬래시 입력 외에도 "커밋해줘" 같은 자연어에 반응합니다
 
 ## FAQ
