@@ -1,0 +1,198 @@
+---
+title: '반복 프롬프트를 자동 호출로 | Skill 만들기'
+description: commit Command 를 수동으로 Skill 로 옮겨 보고, 작성 중에 부딪힌 막막함을 Skill Creator 로 풀어보는 흐름을 체험합니다
+public: true
+---
+
+import { Lesson04SkillAutoTrigger } from '@/components/diagrams/lesson-04-skill-auto-trigger';
+
+## Overview
+
+앞 레슨에서 Skill 의 원리를 봤습니다. 이번 레슨은 직접 Skill 을 하나 만들어 봅니다. Chapter 06 Lesson 02 에서 만든 `/commit` Custom Command 는 사용자가 슬래시로 호출해야만 동작했습니다. 같은 내용을 Skill 로 옮기면 **"변경사항 커밋해줘" 라고 자연어로 말해도 Claude 가 알아서 호출** 하게 됩니다.
+
+흐름은 두 단계입니다. 먼저 수동으로 `SKILL.md` 를 직접 써봅니다. 쓰다 보면 "description 이 이대로 맞을까?", "본문에 뭘 더 담아야 할까?" 같은 막막함이 남습니다. 이 지점에서 **Skill Creator** 플러그인을 설치해 같은 Skill 을 다시 만들어 봅니다 — 답답했던 부분이 Skill Creator 에서 어떻게 해소되는지 직접 비교합니다.
+
+### 학습 목표
+
+- `.claude/skills/<이름>/SKILL.md` 구조로 Skill 을 수동 작성할 수 있습니다
+- 수동 작성에서 막히는 지점 (description · 구조 판단) 을 구체적으로 설명할 수 있습니다
+- Skill Creator 플러그인을 설치하고 같은 Skill 을 자동 생성해 차이를 비교할 수 있습니다
+
+### 시작하기 전 확인사항
+
+- 실습 프로젝트의 시작 브랜치로 전환합니다 (`git checkout ch06-04`)
+
+`ch06-04` 브랜치에는 앞 레슨에서 만든 `.claude/commands/commit.md` 가 포함돼 있습니다. 이 Command 를 Skill 로 옮기는 것이 이번 실습의 출발점입니다.
+
+## Step 1: 수동으로 SKILL.md 작성하기
+
+Skill 은 마크다운 파일 하나가 아니라 **폴더 단위** 로 저장합니다. 프로젝트 루트에 `.claude/skills/commit/` 폴더를 만듭니다.
+
+```shell
+mkdir -p .claude/skills/commit
+```
+
+폴더 이름이 곧 Skill 이름이 됩니다. 이 폴더 안에 `SKILL.md` 본체와 선택적으로 참조 파일들이 들어갑니다.
+
+```plain text
+.claude/skills/commit/
+  SKILL.md                    # 본문 (2단계에서 로드)
+  references/                 # 참조 자료 (3단계에서 필요 시)
+```
+
+`.claude/skills/commit/SKILL.md` 를 다음과 같이 작성합니다.
+
+```markdown
+---
+name: commit
+description: Conventional Commit 형식으로 변경사항을 커밋합니다. 코드 변경 후 커밋 요청, "커밋해줘", "변경사항 정리해줘" 요청 시 사용. 단순 git 명령어 질문에는 사용하지 않습니다.
+---
+
+# Commit Skill
+
+## 커밋 절차
+
+1. `git status` 와 `git diff --staged` 로 전체 상태를 파악합니다
+2. 스테이징된 변경이 없으면 `git diff` 와 `git status` 로 수정된 파일·untracked 파일을 확인하고 관련 파일을 스테이징합니다
+3. 변경 내용을 분석해 Conventional Commit 형식으로 메시지를 작성하고 자동으로 커밋합니다
+
+## 커밋 메시지 규칙
+
+- 형식: `<type>(<scope>): <description>`
+- type: feat, fix, refactor, test, docs, chore
+- scope: 변경된 주요 모듈·컴포넌트 이름
+- description: 영어, 소문자, 현재형, 50자 이내
+
+## 예시
+
+- `feat(todo): add filter tabs for completion status`
+- `fix(todo-item): resolve checkbox toggle not persisting`
+```
+
+Custom Command 와 가장 큰 차이는 **frontmatter 의 `description`** 입니다. 이 한 줄이 Claude 의 자동 호출 판단 기준이 됩니다. 위 예시를 세 부분으로 분해하면 이렇게 됩니다.
+
+- **하는 일**: "Conventional Commit 형식으로 변경사항을 커밋합니다"
+- **긍정 트리거**: "코드 변경 후 커밋 요청, '커밋해줘', '변경사항 정리해줘' 요청 시 사용"
+- **부정 트리거**: "단순 git 명령어 질문에는 사용하지 않습니다"
+
+## Step 2: 자동 호출 확인
+
+Skill 이 수동·자동 두 방식 모두로 호출되는지 확인합니다.
+
+**수동 호출**
+
+```plain text
+/commit
+```
+
+**자동 호출**
+
+```plain text
+변경사항 커밋해줘
+```
+
+자동 호출이 성공하면 프롬프트 밑에 `Skill(commit) Successfully loaded skill` 이 표시되고, Claude 가 커밋 절차를 바로 시작합니다.
+
+<Lesson04SkillAutoTrigger />
+
+수동·자동이 모두 동작합니다. 앞서 만든 `/commit` Custom Command 는 그대로 둬도 됩니다 — 같은 이름이 두 곳에 있으면 **Skill 이 우선** 하므로 충돌은 발생하지 않습니다.
+
+### 다 됐는데 석연치 않은 세 지점
+
+일단 돌아갑니다. 하지만 수동으로 쓰는 동안 감으로만 처리한 부분이 남습니다.
+
+- **description 의 트리거가 충분하고 좁은지** — "작업 마무리해줘" 라고 말해도 호출될까? "git 로그 보여줘" 질문에 끼어들진 않을까? 감으로만 판단했습니다
+- **본문에 빠진 게 없는지** — breaking change 가 있을 때, co-author 표기가 필요할 때는 어떻게 처리할지 본문에 담지 않았습니다. 놓친 건지 확인할 길이 없습니다
+- **참조 파일로 뭘 뺄지 기준** — 나중에 `references/commit-conventions.md` 같은 걸 추가할 때 본문에서 뭘 남기고 뭘 빼야 할지 모호합니다
+
+이 세 지점이 Step 4 에서 Skill Creator 를 만나며 어떻게 해소되는지 확인합니다.
+
+## Step 3: Skill Creator 플러그인 설치
+
+Skill 이 일단 돌아가지만, Step 1 끝에 남은 질문들이 해소되지는 않았습니다. Anthropic 공식 플러그인인 **Skill Creator** 를 설치해 같은 Skill 을 다시 만들어 봅니다.
+
+<Callout type="info" title="Plugin 이란?">
+Plugin 은 Skills · Commands · MCP · Hooks 를 하나로 묶는 Claude Code 전용 확장 패키지입니다. 자세한 구조와 다른 Plugin 설치 방법은 다음 레슨에서 다룹니다. 여기서는 Skill Creator 하나를 설치하는 것만 체험합니다.
+</Callout>
+
+Claude Code 안에서 `/plugin` 을 입력해 플러그인 관리 화면을 엽니다.
+
+```plain text
+/plugin
+```
+
+Anthropic 공식 마켓플레이스에서 `skill-creator` 를 찾아 설치합니다. 설치가 끝나면 `/skill-creator` 를 입력했을 때 응답이 돌아오는지 확인합니다.
+
+## Step 4: Skill Creator 로 같은 Skill 다시 만들기
+
+수동으로 만든 commit Skill 을 먼저 삭제합니다. 같은 이름으로 두 개가 있으면 자동 호출이 어느 쪽으로 가는지 예측하기 어려워지기 때문입니다.
+
+```shell
+rm -rf .claude/skills/commit
+```
+
+그리고 Skill Creator 를 호출합니다.
+
+```plain text
+/skill-creator Conventional Commit 형식으로 커밋하는 Skill 을 만들어줘
+```
+
+Skill Creator 는 **대화로 요구사항을 정리합니다**. 예를 들어 이런 질문이 돌아옵니다.
+
+- 어떤 타입을 허용하는지 (feat/fix 만인지, 확장 타입까지인지)
+- description 언어·길이 제한이 있는지
+- breaking change 는 어떻게 표기하는지
+- 여러 파일 변경 시 scope 를 어떻게 잡는지
+
+Step 2 끝에서 막막했던 세 지점을 도구가 **질문으로 끌어냅니다**. 응답을 모아 SKILL.md 를 자동으로 구성하고, description 도 샘플 프롬프트 몇 개로 돌려보며 긍정·부정 트리거를 튜닝합니다. 감으로 적을 때와 달리, 놓친 게 있으면 대화 중에 드러납니다.
+
+## Skill Creator 가 편한 세 지점
+
+수동으로 써본 뒤 Skill Creator 를 쓰면 특히 편한 지점이 세 가지입니다. 감으로 넘어갔던 부분을 도구가 받아줍니다.
+
+**description 튜닝** — 수동으로 쓸 땐 긍정·부정 트리거가 맞는지 감으로 판단했습니다. Skill Creator 는 description 을 다양한 샘플 프롬프트로 돌려보며 의도한 자연어가 실제로 트리거되는지 자동으로 검증합니다.
+
+**본문과 참조 파일 분리** — 뭘 `SKILL.md` 본문에 두고 뭘 `references/` 로 뺄지 기준이 모호했습니다. Skill Creator 는 Progressive Disclosure 를 의식해 "매번 필요한 것 / 조건부로 필요한 것" 으로 나눠 제안합니다.
+
+**누락 확인** — 수동으로 썼을 땐 빠진 게 없는지 알 길이 없었습니다. Skill Creator 는 놓치기 쉬운 부분을 질문으로 짚어줍니다 (Step 4 의 질문 목록이 그 예시입니다).
+
+세 지점 모두 **Skill Creator 를 쓰면 더 편합니다.** 다만 수동 작성이 익숙하고 내 방식대로 쓰는 걸 선호한다면 그것도 방법입니다 — 결과물로서의 SKILL.md 는 어느 쪽으로 만들든 같은 파일입니다.
+
+## Skill 이 자라는 방향
+
+Skill 은 처음부터 완벽할 필요가 없습니다. 한 파일만 있다가, 사용하면서 참조 자료를 하나씩 덧붙이는 방식이 가장 현실적입니다.
+
+```plain text
+.claude/skills/commit/
+  SKILL.md                         # 시작: 본문만
+  references/
+    commit-conventions.md          # 나중 추가: 타입별 예시 모음
+    breaking-change-guide.md       # 나중 추가: breaking change 감지 규칙
+```
+
+SKILL.md 안에서 "breaking change 가 감지되면 `references/breaking-change-guide.md` 를 읽는다" 처럼 조건부로 참조 파일을 가리키면, Claude 는 **그 조건을 만났을 때만** 참조 파일을 읽습니다.
+
+## 핵심 포인트 정리
+
+1. **Skill 은 폴더 단위 + description 이 자동 호출의 열쇠**: `.claude/skills/<이름>/SKILL.md` 로 만들고, description 의 세 조각 (하는 일 + 긍정 트리거 + 부정 트리거) 이 자동 호출 정확도를 결정합니다
+2. **수동 작성의 막막함은 Skill Creator 가 풀어줍니다**: description 튜닝 · 본문/참조 분리 · 누락 확인을 도구가 받아줍니다. 수동이 익숙하다면 그것도 방법입니다
+3. **Command 를 Skill 로 옮기면 수동 호출이 자동 호출로**: `/commit` 같은 슬래시 입력 외에도 "커밋해줘" 같은 자연어에 반응합니다
+
+## FAQ
+
+- **Q: Command 와 Skill 에 같은 이름이 둘 다 있으면 어떻게 되나요?**
+  - A: 공식 동작은 **Skill 이 우선** 입니다. `/commit` 입력 시 Skill 이 호출되고, 자연어 호출도 Skill 자동 판단으로 넘어갑니다. 충돌은 없으므로 Command 를 유지해도 되고 `.claude/commands/commit.md` 를 정리해도 됩니다
+
+- **Q: Skill 이 원치 않는 상황에서 자동 로드됩니다**
+  - A: description 에 부정 트리거를 추가합니다. 예를 들어 `"단순 git 명령어 질문에는 사용하지 않음"` 처럼 제외 조건을 명시하면 Claude 가 해당 상황에서 Skill 을 로드하지 않습니다
+
+- **Q: Skill 의 자동 호출을 끄고 싶을 때는요?**
+  - A: SKILL.md 의 frontmatter 에 `disable-model-invocation: true` 를 추가하면 사용자가 `/skill-name` 으로 직접 부를 때만 로드됩니다. 배포·데이터 삭제처럼 실수가 치명적인 작업에 권장합니다
+
+## 이어서 배울 내용
+
+내 Skill 을 만드는 방법을 익혔습니다. 그런데 모든 Skill 을 직접 만들 필요는 없습니다. Anthropic 공식 플러그인과 커뮤니티 Skill 을 그대로 가져다 쓸 수 있습니다. 다음 레슨에서는 Skill 마켓 두 곳 — Plugin 과 skills.sh — 을 비교하고, shadcn Skill 을 설치해 Todo 앱에 적용해 봅니다.
+
+- `/plugin` 으로 Anthropic 공식 Plugin 설치
+- `npx skills add` 로 커뮤니티 Skill 설치
+- 직접 만들기 vs 가져다 쓰기 판단 기준

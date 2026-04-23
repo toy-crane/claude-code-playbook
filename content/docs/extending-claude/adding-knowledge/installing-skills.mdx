@@ -1,0 +1,149 @@
+---
+title: '남이 만든 Skill 바로 쓰기 | Skill 설치하기'
+description: Anthropic 공식 Plugin 과 커뮤니티 레지스트리 skills.sh 로 이미 만들어진 Skill 을 설치하고, 직접 만들 때와 가져다 쓸 때를 구분합니다
+public: true
+---
+
+import { Lesson05PluginBundle } from '@/components/diagrams/lesson-05-plugin-bundle';
+
+## Overview
+
+앞 레슨에서 내 Skill 을 직접 만들어 봤습니다. 그런데 모든 Skill 을 직접 만들 필요는 없습니다. shadcn/ui 컴포넌트를 다루는 Skill, PDF 를 파싱하는 Skill, 브라우저를 자동으로 조작하는 Skill — 이미 누군가 만들어 둔 것들이 있습니다.
+
+이번 레슨은 두 가지 설치 경로를 다룹니다. **Plugin** (Anthropic 공식) 과 **skills.sh** (Vercel 이 운영하는 커뮤니티 레지스트리). Todo 앱에 shadcn Skill 을 설치해 UI 에 적용해 보고, 마지막으로 "언제 직접 만들고 언제 가져다 쓰는가" 를 정리합니다.
+
+### 학습 목표
+
+- `/plugin` 으로 Anthropic 공식 Plugin 의 구조를 확인할 수 있습니다
+- `skills.sh` 의 커뮤니티 Skill 을 CLI 로 설치해 프로젝트에 적용할 수 있습니다
+- 직접 만들기와 가져다 쓰기의 판단 기준을 사용할 수 있습니다
+
+### 시작하기 전 확인사항
+
+- 실습 프로젝트의 시작 브랜치로 전환합니다 (`git checkout ch06-05`)
+
+`ch06-05` 브랜치에는 앞 레슨에서 만든 `.claude/skills/commit/` 이 포함돼 있습니다.
+
+## Step 1: Plugin 마켓 열어 보기
+
+Claude Code 안에서 `/plugin` 을 입력하면 플러그인 관리 화면이 열립니다.
+
+```plain text
+/plugin
+```
+
+Plugin 은 Claude Code 전용 확장 패키지입니다. Skill 뿐 아니라 Commands, MCP 서버, Hooks 까지 하나의 번들로 묶어서 배포합니다. 앞 레슨에서 설치한 `skill-creator` 도 Plugin 의 한 예입니다 — `/skill-creator` 로 호출되는 Skill 과 관련 설정이 함께 번들로 들어옵니다.
+
+Anthropic 이 관리하는 공식 마켓플레이스가 기본으로 등록돼 있습니다. 공식 외에도 누구나 GitHub 저장소로 Plugin 마켓플레이스를 만들어 배포할 수 있습니다.
+
+## Step 2: Plugin 이 번들로 묶는 것들
+
+<Lesson05PluginBundle />
+
+**Marketplaces** 탭에서 등록된 마켓플레이스 목록을 볼 수 있고, 각 마켓에서 설치 가능한 Plugin 을 브라우즈합니다. 앞 레슨에서 설치한 `skill-creator` 는 여기서 왔습니다. 하나의 Plugin 을 설치하면 그 안에 담긴 Skill·Command·MCP·Hooks 가 함께 따라옵니다 — 그래서 Plugin 은 "여러 기능을 함께 배포하는 도구" 에 적합합니다.
+
+설치된 Plugin 은 **Installed** 탭에서 확인합니다. Plugin 안에 포함된 각 항목이 분리돼 나열됩니다.
+
+## Step 3: skills.sh 로 커뮤니티 Skill 설치하기
+
+두 번째 설치 경로는 [skills.sh](https://skills.sh) — Vercel 이 운영하는 Skill 디렉토리입니다. Anthropic 공식 Skill 부터 커뮤니티 Skill 까지 검색하고 설치할 수 있습니다. Plugin 과 달리 **SKILL.md 파일 하나 단위** 로 설치합니다.
+
+shadcn/ui 컴포넌트를 Todo 앱에 적용하는 `shadcn` Skill 을 설치합니다.
+
+```shell
+npx skills add https://github.com/shadcn-ui/ui --skill shadcn
+```
+
+<Callout type="info" title="bun 을 쓰고 있다면">
+`npx` 대신 `bunx skills add ...` 를 써도 동일하게 동작합니다. 이 강의 본문은 Node.js 생태계 표준인 `npx` 를 기준으로 설명합니다.
+</Callout>
+
+<Callout type="info" title="shadcn 의 registry 란?">
+shadcn/ui 는 복사해서 쓰는 UI 컴포넌트 모음입니다. **Registry** 는 이 컴포넌트들이 등록된 저장소로, shadcn 공식 외에도 커뮤니티가 만든 registry 가 많습니다. 커뮤니티 registry 를 쓰려면 `components.json` 에 별도로 등록해야 합니다.
+</Callout>
+
+명령어를 실행하면 세 가지 선택 프롬프트가 순서대로 나타납니다.
+
+1. **에이전트 선택** — 화살표 키로 이동 후 **스페이스바** 로 `Claude Code (.claude/skills)` 를 선택하고 Enter
+2. **설치 범위** — **Project** 선택 (프로젝트의 `.claude/skills/` 에만 설치)
+3. **설치 방법** — Symlink 또는 Copy. Claude Code 만 쓴다면 결과는 동일합니다 (수정이 목적이면 Copy 권장)
+
+<Callout type="info" title="Enter 전에 스페이스바를 눌러야 합니다">
+1 단계에서 Enter 만 누르면 아무것도 선택되지 않은 채 넘어가 설치가 실패합니다. 반드시 스페이스바로 원하는 에이전트를 먼저 체크해야 합니다.
+</Callout>
+
+## Step 4: shadcn Skill 로 Todo UI 개선하기
+
+설치 후 Claude 에게 자연어로 요청하면 shadcn Skill 이 자동으로 로드됩니다.
+
+```plain text
+Shadcn Best Practice 참고해서 UI 개선해줘
+```
+
+또는 registry 탐색까지 맡길 수 있습니다.
+
+```plain text
+registry 를 탐색해서 이 프로젝트에 맞는 컴포넌트를 찾고, UI 전체를 개선해줘
+```
+
+Skill 이 로드되면 Claude 는 shadcn 컴포넌트의 전제(디자인 토큰, 컴포지션 규칙) 를 따라 제안합니다. 수동 설치할 때마다 "이 스타일을 따라줘" 라고 매번 말하지 않아도 됩니다.
+
+### 같은 방식으로 맛볼 수 있는 커뮤니티 Skill
+
+| Skill | 하는 일 | 추천 프롬프트 |
+|---|---|---|
+| `vercel-react-best-practices` | Vercel 이 관리하는 React/Next.js 모범 사례 | "React Best Practice 참고해서 컴포넌트 구조 개선해줘" |
+| `agent-browser` | Claude 가 브라우저를 직접 조작해 테스트·폼 입력·스크린샷 | "localhost:3000 열어서 Todo 추가·삭제 기능 테스트해줘" |
+| `web-design-guidelines` | 타이포그래피·색상·레이아웃 원칙 | "웹 디자인 가이드라인 참고해서 랜딩 페이지 만들어줘" |
+| `defuddle` | 웹 페이지에서 광고·네비게이션 제거하고 본문만 Markdown 으로 추출 | "이 URL 내용 정리해줘" |
+
+## Plugin vs skills.sh: 무엇이 다른가
+
+| | Plugin (`/plugin`) | skills.sh (`npx skills add`) |
+|---|---|---|
+| **운영** | Anthropic (공식 마켓) | Vercel |
+| **대상 에이전트** | Claude Code 전용 | Claude Code·Cursor·Copilot 등 다수 |
+| **설치 단위** | 번들 (Skills + Commands + MCP + Hooks) | SKILL.md 파일 하나 |
+| **설치 방식** | Claude Code 안에서 `/plugin` | 터미널에서 `npx skills add` |
+| **업데이트** | `/plugin` 에서 Installed 항목 재설치 | `npx skills add` 재실행 |
+
+**Plugin** 은 여러 기능을 하나의 패키지로 묶어 배포합니다. `skill-creator` 처럼 Skill·Command·설정이 함께 필요한 도구에 적합합니다.
+
+**skills.sh** 는 SKILL.md 하나만 설치합니다. shadcn 처럼 특정 프레임워크의 모범 사례를 담은 단일 지침에 적합합니다.
+
+## 직접 만들기 vs 가져다 쓰기
+
+| 상황 | 선택 |
+|---|---|
+| 프로젝트 고유의 규칙 (배포 절차, 코드 컨벤션) | 직접 만들기 |
+| 범용 기능 (PDF 처리, 문서 생성, 브라우저 자동화) | 가져다 쓰기 |
+| 팀 내부 워크플로우 (리뷰 절차, 릴리스 체크리스트) | 직접 만들기 |
+
+프로젝트에 특화된 지식은 직접 만들 수밖에 없습니다. 범용 기능은 공식 Plugin 이나 skills.sh 를 먼저 뒤져본 뒤, 없을 때만 직접 만들면 효율적입니다.
+
+팀 내부 워크플로우를 Skill 로 만들어 git 에 커밋하면, 팀원 전체가 같은 워크플로우를 공유할 수 있습니다. `.claude/skills/` 폴더를 커밋하는 것만으로 팀 차원의 공유가 끝납니다.
+
+## 핵심 포인트 정리
+
+1. **설치 경로는 두 개**: Anthropic 공식 Plugin (`/plugin`) 은 번들을, skills.sh (`npx skills add`) 는 단일 SKILL.md 를 설치합니다. 용도에 따라 골라 씁니다
+2. **가져다 쓸 때는 범용 / 직접 만들 때는 고유**: 프로젝트 고유 규칙·팀 워크플로우는 직접, 범용 기능은 가져다 씁니다
+3. **팀 공유는 git 커밋**: `.claude/skills/` 를 git 에 커밋하면 팀 전체가 같은 Skill 을 자동으로 받습니다. 온보딩 문서 한 줄이 줄어듭니다
+
+## FAQ
+
+- **Q: Plugin 과 skills.sh 둘 다 같은 Skill 을 제공하면요?**
+  - A: 먼저 확인하는 건 Plugin 입니다. 공식 Anthropic Plugin 이 있다면 업데이트 주기가 빠르고 Claude Code 호환성이 검증돼 있습니다. 없을 때 skills.sh 로 넘어갑니다
+
+- **Q: 설치한 Skill 이 자동 로드되지 않는데요?**
+  - A: 해당 Skill 의 SKILL.md 를 열어 `description` 을 확인합니다. 긍정 트리거가 너무 좁게 적혀 있으면 자동 호출이 안 됩니다. 사용자가 `/skill-name` 으로 직접 부르는 것으로 먼저 테스트한 뒤, description 을 보강합니다
+
+- **Q: skills.sh 의 Skill 을 내 프로젝트 스타일에 맞게 수정하려면요?**
+  - A: Copy 방식으로 설치하면 `.claude/skills/` 에 파일이 복사되므로 자유롭게 수정할 수 있습니다. Symlink 는 원본을 참조하므로 수정하면 원본에도 영향이 갑니다. 포크가 목적이면 Copy 를 고릅니다
+
+## 이어서 배울 내용
+
+직접 만들기와 가져다 쓰기를 모두 경험했습니다. 그런데 만든·가져온 Skill 이 실제로 의도대로 동작하는지 어떻게 확인할까요? "잘 되는 것 같은데?" 와 "10 번 중 10 번 통과" 는 다릅니다. 다음 레슨에서는 **Eval** 로 Skill 의 품질을 객관적으로 측정하고, Skill 을 고쳤을 때 실제로 개선됐는지 비교하는 방법을 배웁니다.
+
+- Eval 의 세 조각: 테스트 프롬프트 / 기대 결과 / 판정
+- "수정 전 vs 수정 후" A/B 비교로 개선 확인
+- Skill Creator 의 Improve 기능으로 Eval 자동 실행
