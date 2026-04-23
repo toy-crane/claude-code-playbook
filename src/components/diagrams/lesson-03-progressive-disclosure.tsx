@@ -14,14 +14,14 @@ const STAGES: Stage[] = [
     title: '이름표',
     trigger: '매 대화 시작',
     loaded: 'name + description',
-    tokens: '~30-50 토큰',
+    tokens: '한 줄씩',
   },
   {
     level: '2단계',
     title: '본문',
     trigger: 'Skill 호출 시',
     loaded: 'SKILL.md 전체',
-    tokens: '~2,000-5,000 토큰',
+    tokens: '해당 Skill 만',
   },
   {
     level: '3단계',

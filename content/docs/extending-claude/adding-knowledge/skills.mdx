@@ -20,7 +20,7 @@ import { Lesson03ProgressiveDisclosure } from '@/components/diagrams/lesson-03-p
 
 ## 매뉴얼이 다시 두꺼워지는 순간
 
-Rules 로 규칙을 경로별로 쪼갰고, Custom Command 로 반복 프롬프트를 한 단어로 줄였습니다. 그런데 프로젝트가 커지면 또 다른 층위가 늘어납니다 — **작업 방식 자체가 한 페이지짜리 지침** 이 됩니다.
+Rules 로 규칙을 경로별로 쪼갰고, Custom Command 로 반복 프롬프트를 한 단어로 줄였습니다. 그런데 프로젝트가 커지면 이번엔 새로운 종류의 반복이 생깁니다 — **작업 방식 자체가 한 페이지짜리 지침** 이 됩니다.
 
 - "코드 리뷰는 이 순서로, 이 관점 5개를 체크하고, 이 형식으로 답해"
 - "Todo 앱을 배포할 때는 이 체크리스트를 이 순서대로 돌리고, 실패 시 이 절차로 롤백해"
@@ -55,7 +55,7 @@ Skill 이 Context 를 아끼는 핵심 메커니즘은 **Progressive Disclosure(
 
 **1단계 — 이름표 (매 대화)**
 
-세션이 시작되면 Claude 는 등록된 Skill 들의 `name` 과 `description` 만 읽습니다. Skill 하나당 약 30~50 토큰입니다.
+세션이 시작되면 Claude 는 등록된 Skill 들의 `name` 과 `description` 만 읽습니다. Skill 하나당 한 줄 정도의 아주 적은 분량입니다.
 
 ```plain text
 # Claude 가 세션 시작 시 보는 Skill 목록
@@ -64,17 +64,17 @@ Skill 이 Context 를 아끼는 핵심 메커니즘은 **Progressive Disclosure(
 - deploy-checklist: Production 배포 절차와 롤백 기준
 ```
 
-Skill 10 개를 등록해도 300~500 토큰입니다. CLAUDE.md 에 같은 내용을 전부 넣으면 수만 토큰이니 비교가 되지 않습니다.
+Skill 이 10 개 있어도 이름표 목록 전체가 짧은 한 단락 크기입니다. CLAUDE.md 에 같은 내용을 전부 넣으면 수만 토큰이 쌓이니 비교가 되지 않습니다.
 
 **2단계 — 지침 본문 (호출 시)**
 
-사용자가 `/commit` 으로 직접 부르거나, Claude 가 description 을 보고 "지금 이 Skill 이 필요하다" 고 판단하면 해당 Skill 의 `SKILL.md` 본문을 읽습니다. 보통 2,000~5,000 토큰입니다.
+사용자가 `/commit` 으로 직접 부르거나, Claude 가 description 을 보고 "지금 이 Skill 이 필요하다" 고 판단하면 해당 Skill 의 `SKILL.md` 본문을 읽습니다. CLAUDE.md 와 달리 **필요한 Skill 의 본문만 선택적으로** 로드됩니다.
 
 **3단계 — 참조 파일 (필요 시)**
 
 Skill 폴더 안에 넣어둔 긴 레퍼런스·템플릿·스크립트는 실제로 필요한 순간에만 추가로 읽습니다. `breaking-change-guide.md` 는 breaking change 가 감지될 때만 로드됩니다.
 
-이 구조 덕분에 Skill 에 참조 자료를 아무리 번들해도 **사용하기 전까지는 Context 를 먹지 않습니다.**
+이 구조 덕분에 Skill 에 참조 자료를 아무리 번들해도 **사용하기 전까지는 Context 에 쌓이지 않습니다.**
 
 ## Command vs Skill: 누가 호출하는가
 
@@ -96,13 +96,13 @@ Claude Code 초기에는 Custom Command 가 유일한 프롬프트 재사용 방
 ## 핵심 포인트 정리
 
 1. **지침의 저주가 다시 온다**: 프로젝트가 자라면 지침 종류가 늘어납니다. CLAUDE.md 에 전부 쌓으면 매 대화마다 전체가 로드되어 Context 도 낭비되고 준수율도 떨어집니다
-2. **Progressive Disclosure 가 Context 를 아낍니다**: 세션 시작 시엔 이름표(30 토큰) 만, 호출 시 본문(~5,000 토큰), 필요 시 참조 파일. 단계별로만 로드됩니다
+2. **Progressive Disclosure 가 Context 를 아낍니다**: 세션 시작 시엔 이름표만, 호출 시 본문, 필요 시 참조 파일. 단계별로만 로드됩니다
 3. **Command 와 Skill 의 차이는 호출 주체**: Command 는 사용자만, Skill 은 Claude 도 자동으로 꺼냅니다. 자동 호출이 되므로 "커밋해줘" 같은 자연어 요청에도 반응합니다
 
 ## FAQ
 
 - **Q: Skill 을 몇 개까지 등록할 수 있나요?**
-  - A: 기술적 제한은 없습니다. 이름표가 Skill 당 30~50 토큰이라 100 개를 등록해도 3,000~5,000 토큰입니다. 단 Skill 이 너무 많으면 어느 것을 고를지 Claude 가 헷갈릴 수 있으므로, `description` 을 구체적으로 써서 자동 판단의 정확도를 높이는 게 중요합니다
+  - A: 기술적 제한은 없습니다. 이름표 한 줄이 워낙 작아서 100 개를 등록해도 전체 부담은 한두 페이지 분량입니다. 단 Skill 이 너무 많으면 어느 것을 고를지 Claude 가 헷갈릴 수 있으므로, `description` 을 구체적으로 써서 자동 판단의 정확도를 높이는 게 중요합니다
 
 - **Q: CLAUDE.md 에 "배포 요청일 때만 이 섹션을 읽어라" 같은 조건문을 두면 안 되나요?**
   - A: Claude 는 조건을 판단하기 전에 이미 CLAUDE.md 전체를 읽어 컨텍스트에 올립니다. 조건문은 어떤 지침을 **따를지** 만 결정하지, 로드 자체를 막지 못합니다. Skill 은 조건에 맞을 때만 본문이 로드되므로 Context 소비 자체를 줄입니다
