@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { DiagramFrame } from './primitives';
 
-export function Lesson04SkillAutoTrigger() {
+export function SkillAutoTrigger() {
   return (
     <DiagramFrame>
       <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6">

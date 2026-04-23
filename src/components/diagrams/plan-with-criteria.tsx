@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson03PlanWithCriteria() {
+export function PlanWithCriteria() {
   return (
     <DiagramFrame>
       <div className="text-center mb-4">

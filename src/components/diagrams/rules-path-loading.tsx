@@ -6,7 +6,7 @@ type Rule = {
   active: boolean;
 };
 
-export function Lesson01RulesPathLoading() {
+export function RulesPathLoading() {
   return (
     <DiagramFrame>
       <div
