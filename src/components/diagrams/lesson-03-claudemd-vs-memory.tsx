@@ -22,7 +22,7 @@ export function ClaudemdVsMemory() {
               <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-primary)" />
             </marker>
             <marker
-              id="cvm-arrow-yellow"
+              id="cvm-arrow-warning"
               viewBox="0 0 10 10"
               refX="9"
               refY="5"
@@ -30,7 +30,7 @@ export function ClaudemdVsMemory() {
               markerHeight="6"
               orient="auto"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-yellow)" />
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-warning)" />
             </marker>
           </defs>
 
@@ -108,15 +108,15 @@ export function ClaudemdVsMemory() {
           />
 
           {/* RIGHT: writer pill — Claude */}
-          <Pill x={540} y={50} width={120} label="Claude" color="yellow" />
+          <Pill x={540} y={50} width={120} label="Claude" color="warning" />
           <line
             x1="600"
             y1="82"
             x2="600"
             y2="112"
-            stroke="var(--diagram-yellow)"
+            stroke="var(--diagram-warning)"
             strokeWidth="1.5"
-            markerEnd="url(#cvm-arrow-yellow)"
+            markerEnd="url(#cvm-arrow-warning)"
           />
           <text
             x="610"
@@ -133,7 +133,7 @@ export function ClaudemdVsMemory() {
             y={120}
             title="Memory"
             items={['개인 선호', '자주 하는 교정', '작업 패턴']}
-            accent="yellow"
+            accent="warning"
           />
 
           {/* RIGHT: scope */}
@@ -141,7 +141,7 @@ export function ClaudemdVsMemory() {
             x={500}
             y={275}
             label="로컬 · 개인 전용"
-            color="yellow"
+            color="warning"
           />
         </svg>
       </div>
@@ -173,14 +173,14 @@ function Pill({
   y: number;
   width: number;
   label: string;
-  color: 'primary' | 'yellow';
+  color: 'primary' | 'warning';
 }) {
   const fill =
     color === 'primary'
       ? 'var(--diagram-primary-soft)'
-      : 'var(--diagram-yellow-soft)';
+      : 'var(--diagram-warning-soft)';
   const stroke =
-    color === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-yellow)';
+    color === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-warning)';
   const textFill =
     color === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-text)';
   return (
@@ -220,14 +220,14 @@ function FileCard({
   y: number;
   title: string;
   items: string[];
-  accent: 'primary' | 'yellow';
+  accent: 'primary' | 'warning';
 }) {
   const fill =
     accent === 'primary'
       ? 'var(--diagram-primary-soft)'
-      : 'var(--diagram-yellow-soft)';
+      : 'var(--diagram-warning-soft)';
   const stroke =
-    accent === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-yellow)';
+    accent === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-warning)';
   const titleColor =
     accent === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-text)';
   return (
@@ -285,12 +285,12 @@ function ScopeTag({
   x: number;
   y: number;
   label: string;
-  color: 'primary' | 'yellow';
+  color: 'primary' | 'warning';
 }) {
   const textColor =
     color === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-text)';
   const stroke =
-    color === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-yellow)';
+    color === 'primary' ? 'var(--diagram-primary)' : 'var(--diagram-warning)';
   return (
     <g>
       <rect

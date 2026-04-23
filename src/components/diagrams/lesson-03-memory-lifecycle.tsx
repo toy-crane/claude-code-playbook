@@ -22,7 +22,7 @@ export function MemoryLifecycle() {
               <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-primary)" />
             </marker>
             <marker
-              id="ml-arrow-yellow"
+              id="ml-arrow-warning"
               viewBox="0 0 10 10"
               refX="9"
               refY="5"
@@ -30,7 +30,7 @@ export function MemoryLifecycle() {
               markerHeight="6"
               orient="auto"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-yellow)" />
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-warning)" />
             </marker>
           </defs>
 
@@ -59,10 +59,10 @@ export function MemoryLifecycle() {
           {/* ① Arrow: Session 1 bottom → Memory top-left */}
           <path
             d="M 140 150 C 140 195, 240 205, 335 200"
-            stroke="var(--diagram-yellow)"
+            stroke="var(--diagram-warning)"
             strokeWidth="1.75"
             fill="none"
-            markerEnd="url(#ml-arrow-yellow)"
+            markerEnd="url(#ml-arrow-warning)"
           />
           <text
             x="170"
@@ -222,15 +222,15 @@ function MemoryFile({ x, y }: { x: number; y: number }) {
       {/* file shape with folded corner */}
       <path
         d={`M ${x} ${y} L ${x + w - 20} ${y} L ${x + w} ${y + 20} L ${x + w} ${y + h} L ${x} ${y + h} Z`}
-        fill="var(--diagram-yellow-soft)"
-        stroke="var(--diagram-yellow)"
+        fill="var(--diagram-warning-soft)"
+        stroke="var(--diagram-warning)"
         strokeWidth="1.75"
       />
       {/* fold line */}
       <path
         d={`M ${x + w - 20} ${y} L ${x + w - 20} ${y + 20} L ${x + w} ${y + 20}`}
         fill="none"
-        stroke="var(--diagram-yellow)"
+        stroke="var(--diagram-warning)"
         strokeWidth="1"
       />
       <text
