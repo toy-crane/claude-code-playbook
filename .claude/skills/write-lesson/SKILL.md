@@ -1,6 +1,6 @@
 ---
 name: write-lesson
-description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wrap-up·Course Wrap-up 을 사이트 컨벤션에 맞춰 작성하는 스킬. "레슨 써줘", "새 레슨", "레슨 작성", "Part N wrap-up", "Course wrap-up", "write-lesson" 같은 표현에 매칭. 기존 레슨 편집은 lesson-review 스킬이 담당.
+description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wrap-up·Course Wrap-up 을 사이트 컨벤션에 맞춰 작성하는 스킬. "레슨 써줘", "새 레슨", "레슨 작성", "Part N wrap-up", "Course wrap-up", "write-lesson" 같은 표현에 매칭.
 ---
 
 # write-lesson
@@ -53,13 +53,12 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 - **3a. 본문 작성**:
   1. 선택한 템플릿 파일(`assets/templates/*.mdx`) 을 Read 로 읽는다 — **이것이 뼈대의 유일 출처**
   2. 프런트매터 · 모든 H2 · H3 순서를 **그대로 복사**해 새 파일을 시작. 템플릿이 정한 헤더 이름은 변경·삭제 금지
-  3. 본문 내용을 채우면서 `references/style-guide.md` 준수. `public: true` 로 저장
+  3. 본문 내용을 채우면서 아래 [문체] 섹션 준수. `public: true` 로 저장
   4. frontmatter `description` 은 OG 이미지에 렌더되므로 한 문장·50~70자로 간결히 작성 (최대 90자)
 - **3b. 어려운 용어 Callout**:
   - 본문에서 초보자에게 모호할 수 있는 전문용어를 AI 가 자율 판단으로 후보 추출
   - **Step 1 컨텍스트로 이미 소개된 용어는 제외**
   - 남은 용어 각각에 대해 **비유 후보 3-4개** 생성해 유저에게 제시 → 유저가 선택한 비유로 `<Callout type="info" title="X란?">` 삽입
-  - 참조: `references/style-guide.md` 의 "용어 정의 Callout" 섹션
 - **3c. 이미지 placeholder 리스트**: `![lesson-NN-kebab-case](./attachments/...)` 형태만 배치하고, 아래 목록으로 출력
   - 각 항목: `{파일명, 위치(H2 기준), 이미지 주제, 유형}`
   - `유형` 은 `diagram` 또는 `illustration` — [이미지 유형 분류 휴리스틱] 으로 자동 판정, 유저 override 가능
@@ -131,6 +130,7 @@ Part Wrap-up / Course Wrap-up 은 산출물 유형에서 직접 선택.
 
 애매하면 `diagram` 우선 (코드로 정밀 편집 가능, 다이어그램 패턴 재사용).
 
-## 문체·포맷 규칙
+## 문체
 
-`references/style-guide.md` 참조. 문체(문장형·명사형·인용) / 문단 묶기 / 내부 링크 / 이미지 / Fumadocs / Callout 사용 / frontmatter 규칙 포함.
+- **합니다체** (`~합니다 / ~입니다`) — prose 전체. 헤딩·frontmatter title·코드 펜스·블록쿼트·기능 요구사항 명세 리스트는 예외 (해라체 허용).
+- 번역투 없이 원어민처럼. 한자어보다 일상어. 과한 비유·의인화 피하되 문장 리듬은 살리기.
