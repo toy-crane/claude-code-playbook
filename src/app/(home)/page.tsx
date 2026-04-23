@@ -1,26 +1,29 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { appName } from '@/lib/shared';
+
+const description = '손으로 익히는 Claude Code 실전 가이드';
 
 export const metadata: Metadata = {
-  title: 'Claude Code, 제대로 배우기',
-  description: '손으로 익히는 Claude Code 실전 가이드',
+  title: appName,
+  description,
   openGraph: {
-    title: 'Claude Code, 제대로 배우기',
-    description: '손으로 익히는 Claude Code 실전 가이드',
+    title: appName,
+    description,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Claude Code, 제대로 배우기',
-    description: '손으로 익히는 Claude Code 실전 가이드',
+    title: appName,
+    description,
   },
 };
 
 export default function HomePage() {
   return (
     <div className="flex flex-col justify-center text-center flex-1 px-4 py-16">
-      <h1 className="text-3xl md:text-5xl font-bold mb-4">Claude Code, 제대로 배우기</h1>
+      <h1 className="text-3xl md:text-5xl font-bold mb-4">{appName}</h1>
       <p className="text-fd-muted-foreground mb-8 max-w-2xl mx-auto">
-        손으로 익히는 Claude Code 실전 가이드
+        {description}
       </p>
       <div className="flex gap-3 justify-center">
         <Link

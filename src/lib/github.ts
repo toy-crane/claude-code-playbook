@@ -4,10 +4,9 @@ import {
   type ActionResponse,
   type PageFeedback,
 } from '@/components/feedback/schema';
+import { gitConfig } from './shared';
 
-export const owner = 'toy-crane';
-export const repo = 'claude-code-playbook';
-export const DocsCategory = 'Docs Feedback';
+const DocsCategory = 'Docs Feedback';
 
 let instance: Octokit | undefined;
 
@@ -23,8 +22,8 @@ async function getOctokit(): Promise<Octokit> {
   const app = new App({ appId, privateKey });
 
   const { data } = await app.octokit.request('GET /repos/{owner}/{repo}/installation', {
-    owner,
-    repo,
+    owner: gitConfig.user,
+    repo: gitConfig.repo,
     headers: { 'X-GitHub-Api-Version': '2022-11-28' },
   });
 
@@ -48,7 +47,7 @@ async function getFeedbackDestination() {
     repository,
   }: { repository: RepositoryInfo } = await octokit.graphql(`
     query {
-      repository(owner: "${owner}", name: "${repo}") {
+      repository(owner: "${gitConfig.user}", name: "${gitConfig.repo}") {
         id
         discussionCategories(first: 25) {
           nodes { id name }
@@ -83,7 +82,7 @@ async function createDiscussionThread(pageId: string, body: string) {
     search: { nodes: { id: string; url: string }[] };
   } = await octokit.graphql(`
     query {
-      search(type: DISCUSSION, query: ${JSON.stringify(`${title} in:title repo:${owner}/${repo} author:@me`)}, first: 1) {
+      search(type: DISCUSSION, query: ${JSON.stringify(`${title} in:title repo:${gitConfig.user}/${gitConfig.repo} author:@me`)}, first: 1) {
         nodes {
           ... on Discussion { id, url }
         }
