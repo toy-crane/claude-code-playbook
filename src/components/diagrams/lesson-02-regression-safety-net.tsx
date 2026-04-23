@@ -3,8 +3,13 @@ import { DiagramFrame } from './primitives';
 export function Lesson02RegressionSafetyNet() {
   return (
     <DiagramFrame>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6">
         <BaselineColumn />
+        <div
+          className="hidden md:block self-stretch border-l"
+          style={{ borderColor: 'var(--diagram-border-strong)' }}
+          aria-hidden
+        />
         <ExtendedColumn />
       </div>
       <figcaption

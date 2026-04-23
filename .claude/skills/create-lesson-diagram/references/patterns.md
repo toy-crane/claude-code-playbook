@@ -28,11 +28,13 @@
 **언제**: 두 개념을 좌/우로 나란히 비교 (예: LLM + Tool vs Agent).
 
 **참조 컴포넌트**:
-- `src/components/diagrams/llm-vs-agent-flow.tsx`
+- `src/components/diagrams/lesson-01-rules-path-loading.tsx` — 두 시나리오 비교 + 가운데 세로 구분선
+- `src/components/diagrams/llm-vs-agent-flow.tsx` — 두 개념 카드 비교
 
 **핵심 구조**:
-- `grid grid-cols-1 md:grid-cols-2 gap-8` 로 좌/우 분할
-- 한쪽은 default (bg-card), 다른 한쪽은 accent (primary-soft) — 어느 쪽을 강조할지 의도에 따라 결정
+- `grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6` 로 좌/divider/우 3 column 분할
+- **가운데에 세로 구분선 필수**: `<div className="hidden md:block self-stretch border-l" style={{ borderColor: 'var(--diagram-border-strong)' }} aria-hidden />` (모바일에서는 숨겨 수직 stack)
+- 한쪽은 default (bg-card), 다른 한쪽은 accent (primary-soft) — 어느 쪽을 강조할지 의도에 따라 결정. 양쪽이 대등한 시나리오 비교라면 둘 다 같은 톤도 가능
 - 하단 figcaption 으로 핵심 차이 한 줄 요약
 - SVG 가 아니라 Flexbox/Grid + small inline SVG arrow 로 구현 (단순한 비교일 때 SVG 보다 깔끔)
 

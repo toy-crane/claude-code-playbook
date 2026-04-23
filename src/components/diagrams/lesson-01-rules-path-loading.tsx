@@ -20,13 +20,18 @@ export function Lesson01RulesPathLoading() {
         같은 Claude Code 세션
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6">
         <ScenarioBlock
           file="components/ui/button.tsx"
           rules={[
             { name: 'shadcn.md', paths: 'components/ui/**', active: true },
             { name: 'workflow.md', paths: null, active: true },
           ]}
+        />
+        <div
+          className="hidden md:block self-stretch border-l"
+          style={{ borderColor: 'var(--diagram-border-strong)' }}
+          aria-hidden
         />
         <ScenarioBlock
           file="lib/todo-store.ts"
