@@ -1,9 +1,9 @@
 {
   "title": "Chapter 7 · 외부 연결",
   "pages": [
-    "mcp-introduction",
-    "cli-tools",
+    "cli-connection",
+    "mcp-connection",
     "building-mcp-server",
-    "external-tools-and-skills"
+    "tools-and-skills"
   ]
 }
