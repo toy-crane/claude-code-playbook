@@ -39,6 +39,15 @@
 - `bunx playwright test` — E2E 전수 검사 + 스크린샷 생성
 - `bunx playwright test --grep starting-conversations` — 파트별 실행
 
+## 레슨 본문의 CLI 예시
+
+본문에 Node 생태계 CLI 를 예시로 쓸 때는 **bunx / bun** 을 기본으로 표기합니다.
+
+- ✅ `bunx skills add ...`
+- ❌ `npx skills add ...` (동작은 동일하지만 사이트 전체가 bun 으로 통일됐음)
+
+npm/npx/pnpm 사용자를 위한 보조 안내는 짧은 Callout 으로.
+
 ## 노출 관리
 
 사이트에 노출하지 않을 페이지는 frontmatter 에 `public: false` 추가. `src/lib/source.ts` 의 Loader 필터가 input 레벨에서 차단 (빌드/네비/검색/URL 전부).
