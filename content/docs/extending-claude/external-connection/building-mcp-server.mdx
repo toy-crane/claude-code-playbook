@@ -121,7 +121,18 @@ claude mcp add weather -s project -- bun run "$(pwd)/weather-mcp-server/src/inde
 위 명령어로 현재 프로젝트에 MCP 서버를 등록해줘.
 ```
 
-Claude 가 명령어를 실행하면 `.mcp.json` 에 서버 정보가 저장됩니다. `$(pwd)` 는 현재 절대 경로로 치환되므로, 결과 파일에는 절대 경로가 남습니다.
+명령어가 6 개 부분으로 나뉩니다.
+
+| 부분 | 의미 |
+|------|------|
+| `claude mcp add` | Claude Code 에 MCP 서버를 등록하는 명령 |
+| `weather` | 서버 이름 — `/mcp` 에 이 이름으로 표시됨 |
+| `-s project` | 스코프. `project` = 현재 프로젝트 루트의 `.mcp.json` 에 저장 |
+| `--` | 구분자. 이 뒤가 서버 실행 명령어 |
+| `bun run` | Bun 런타임으로 파일 실행. TypeScript 를 컴파일 없이 바로 돌림 |
+| `"$(pwd)/weather-mcp-server/src/index.ts"` | 서버 소스 파일 절대 경로 (`$(pwd)` 는 현재 폴더로 치환) |
+
+Claude 가 명령어를 실행하면 `.mcp.json` 에 서버 정보가 저장됩니다.
 
 ## Step 6: 연결 확인하고 날씨 조회 테스트하기
 
