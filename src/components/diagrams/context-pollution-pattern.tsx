@@ -101,25 +101,25 @@ export function ContextPollutionPattern() {
           </text>
 
           {/* file cards — row 1 */}
-          <FileCard x={193} y={88} label="auth.ts" />
-          <FileCard x={283} y={88} label="token.ts" />
-          <FileCard x={373} y={88} label="login.tsx" />
-          <FileCard x={463} y={88} label="session.ts" />
-          <FileCard x={553} y={88} label="middleware" />
+          <FileCard x={185} y={88} label="auth.ts" />
+          <FileCard x={273} y={88} label="token.ts" />
+          <FileCard x={361} y={88} label="login.tsx" />
+          <FileCard x={449} y={88} label="session.ts" />
+          <FileCard x={537} y={88} label="middleware" />
 
           {/* file cards — row 2 */}
-          <FileCard x={193} y={138} label="user.ts" />
-          <FileCard x={283} y={138} label="api.ts" />
-          <FileCard x={373} y={138} label="hooks.ts" />
-          <FileCard x={463} y={138} label="config.ts" />
-          <FileCard x={553} y={138} label="route.ts" />
+          <FileCard x={185} y={138} label="user.ts" />
+          <FileCard x={273} y={138} label="api.ts" />
+          <FileCard x={361} y={138} label="hooks.ts" />
+          <FileCard x={449} y={138} label="config.ts" />
+          <FileCard x={537} y={138} label="route.ts" />
 
           {/* file cards — row 3 (muted) */}
-          <FileCard x={193} y={188} label="..." muted />
-          <FileCard x={283} y={188} label="..." muted />
-          <FileCard x={373} y={188} label="..." muted />
-          <FileCard x={463} y={188} label="..." muted />
-          <FileCard x={553} y={188} label="..." muted />
+          <FileCard x={185} y={188} label="..." muted />
+          <FileCard x={273} y={188} label="..." muted />
+          <FileCard x={361} y={188} label="..." muted />
+          <FileCard x={449} y={188} label="..." muted />
+          <FileCard x={537} y={188} label="..." muted />
 
           <text
             x="400"
@@ -195,7 +195,7 @@ function FileCard({
       <rect
         x={x}
         y={y}
-        width="80"
+        width="78"
         height="32"
         rx="4"
         fill={fill}
@@ -203,7 +203,7 @@ function FileCard({
         strokeWidth="1"
       />
       <text
-        x={x + 40}
+        x={x + 39}
         y={y + 21}
         textAnchor="middle"
         fontSize="11"
