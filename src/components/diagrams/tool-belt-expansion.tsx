@@ -46,7 +46,7 @@ export function ToolBeltExpansion() {
         <CommandArrow />
 
         <BeltCard
-          title="MCP 를 꽂으면"
+          title="MCP 를 연결하면"
           subtitle="내장 + MCP Tool"
           totalCount={
             BUILTIN_TOOLS.length + CHROME_TOOLS.length + FIGMA_TOOLS.length
@@ -70,7 +70,7 @@ export function ToolBeltExpansion() {
           borderColor: 'var(--diagram-border)',
         }}
       >
-        MCP 를 꽂을 때마다 Claude 가 쓸 수 있는{' '}
+        MCP 를 붙일 때마다 Claude 가 쓸 수 있는{' '}
         <span
           className="font-semibold"
           style={{ color: 'var(--diagram-primary)' }}
