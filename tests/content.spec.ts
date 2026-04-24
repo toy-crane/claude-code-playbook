@@ -50,7 +50,7 @@ function extractHeadings(body: string): string[] {
 }
 
 function countImages(body: string): number {
-  return (body.match(/!\[[^\]]*\]\(\.?\/?attachments\//g) ?? []).length;
+  return (body.match(/!\[[^\]]*\]\(\/docs\//g) ?? []).length;
 }
 
 function discover(): Page[] {
