@@ -4,8 +4,8 @@ description: MCP Builder Skill 로 날씨 API 를 감싸는 MCP 서버를 직접
 public: true
 ---
 
-import { Lesson03McpServerRuntime } from '@/components/diagrams/lesson-03-mcp-server-runtime';
-import { Lesson03ToolDefinitionAnatomy } from '@/components/diagrams/lesson-03-tool-definition-anatomy';
+import { McpServerRuntime } from '@/components/diagrams/mcp-server-runtime';
+import { ToolDefinitionAnatomy } from '@/components/diagrams/tool-definition-anatomy';
 
 ## Overview
 
@@ -25,7 +25,7 @@ import { Lesson03ToolDefinitionAnatomy } from '@/components/diagrams/lesson-03-t
 - Claude Code 인증 완료 (`claude --version`)
 - 이 실습은 기존 강의 프로젝트와 무관한 **독립 프로젝트** 로 시작합니다 — 새 폴더에서 진행합니다
 
-<Lesson03McpServerRuntime />
+<McpServerRuntime />
 
 위 그림처럼, Custom MCP 서버는 내 컴퓨터의 파일입니다. Claude Code 가 시작될 때 자동으로 이 파일을 프로세스로 띄우고 stdio 로 통신합니다.
 
@@ -92,7 +92,7 @@ server.registerTool(
 );
 ```
 
-<Lesson03ToolDefinitionAnatomy />
+<ToolDefinitionAnatomy />
 
 `server.registerTool()` 은 세 개의 인자를 받습니다.
 

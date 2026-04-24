@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson04CapabilityVsProcedure() {
+export function CapabilityVsProcedure() {
   return (
     <DiagramFrame>
       <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6 items-stretch">

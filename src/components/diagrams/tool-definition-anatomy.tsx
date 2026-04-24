@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson03ToolDefinitionAnatomy() {
+export function ToolDefinitionAnatomy() {
   return (
     <DiagramFrame>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson02McpThreeStrengths() {
+export function McpThreeStrengths() {
   return (
     <DiagramFrame>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

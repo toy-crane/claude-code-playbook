@@ -4,8 +4,8 @@ description: CLI 와 MCP 는 외부 시스템에 닿는 가능성을, Skill 은 
 public: true
 ---
 
-import { Lesson04CapabilityVsProcedure } from '@/components/diagrams/lesson-04-capability-vs-procedure';
-import { Lesson04CombinedWorkflow } from '@/components/diagrams/lesson-04-combined-workflow';
+import { CapabilityVsProcedure } from '@/components/diagrams/capability-vs-procedure';
+import { CombinedWorkflow } from '@/components/diagrams/combined-workflow';
 
 ## Overview
 
@@ -23,7 +23,7 @@ import { Lesson04CombinedWorkflow } from '@/components/diagrams/lesson-04-combin
 
 ## 도구는 할 수 있게, Skill 은 매번 같게
 
-<Lesson04CapabilityVsProcedure />
+<CapabilityVsProcedure />
 
 망가진 캐비닛을 고치러 철물점에 갔다고 해봅니다. 작업대 위에는 접착제·클램프·경첩·전동 드릴이 전부 준비돼 있습니다. 도구가 어디서 왔는지는 중요하지 않습니다 — 매대에서 새로 사 온 것이든, 집에서 가져온 것이든 **작업대 위에 올라오는 순간 그냥 도구** 입니다.
 
@@ -38,7 +38,7 @@ import { Lesson04CombinedWorkflow } from '@/components/diagrams/lesson-04-combin
 
 ## CLI + Skill 로 코드 리뷰 매번 같은 기준으로
 
-<Lesson04CombinedWorkflow />
+<CombinedWorkflow />
 
 `gh` CLI 로 PR diff 를 가져오는 것 자체는 한 줄이면 됩니다. 그런데 "이 PR 리뷰해줘" 라고만 하면 매번 리뷰 범위 · 형식 · 심각도 기준이 달라집니다. 여기에 **code-review Skill** 을 붙이면 달라집니다.
 

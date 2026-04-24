@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson04CombinedWorkflow() {
+export function CombinedWorkflow() {
   return (
     <DiagramFrame>
       <div className="overflow-x-auto">

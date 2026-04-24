@@ -1,17 +1,17 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson01CliSharedTool() {
+export function McpServerRuntime() {
   return (
     <DiagramFrame>
       <div className="overflow-x-auto">
         <svg
           viewBox="0 0 800 320"
-          className="w-full min-w-[600px] h-auto"
+          className="w-full min-w-[640px] h-auto"
           style={{ fontFamily: 'inherit' }}
         >
           <defs>
             <marker
-              id="cst-arrow-primary"
+              id="msr-arrow-primary"
               viewBox="0 0 10 10"
               refX="9"
               refY="5"
@@ -22,7 +22,7 @@ export function Lesson01CliSharedTool() {
               <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-primary)" />
             </marker>
             <marker
-              id="cst-arrow-muted"
+              id="msr-arrow-muted"
               viewBox="0 0 10 10"
               refX="9"
               refY="5"
@@ -37,81 +37,79 @@ export function Lesson01CliSharedTool() {
           {/* Group labels */}
           <text
             x="110"
-            y="30"
+            y="28"
             textAnchor="middle"
             fontSize="11"
             fill="var(--diagram-text-muted)"
           >
-            요청하는 쪽
+            내 프로젝트 폴더
           </text>
           <text
-            x="410"
-            y="30"
+            x="400"
+            y="28"
             textAnchor="middle"
             fontSize="11"
             fill="var(--diagram-text-muted)"
           >
-            공유 도구
+            Claude Code 실행 시
           </text>
           <text
-            x="720"
-            y="30"
+            x="690"
+            y="28"
             textAnchor="middle"
             fontSize="11"
             fill="var(--diagram-text-muted)"
           >
-            외부 서비스
+            외부 API
           </text>
 
           {/* Arrows (beneath nodes) */}
-          {/* Developer → gh CLI */}
+          {/* .mcp.json → Claude Code */}
           <path
-            d="M 180 107 Q 250 107 328 150"
+            d="M 200 100 Q 270 100 328 155"
             stroke="var(--diagram-primary)"
             strokeWidth="1.5"
             fill="none"
-            markerEnd="url(#cst-arrow-primary)"
+            markerEnd="url(#msr-arrow-primary)"
           />
-          {/* Claude → gh CLI */}
+          {/* index.ts → Claude Code (spawned) */}
           <path
-            d="M 180 237 Q 250 237 328 190"
+            d="M 200 240 Q 270 240 328 188"
             stroke="var(--diagram-primary)"
             strokeWidth="1.5"
             fill="none"
-            markerEnd="url(#cst-arrow-primary)"
+            markerEnd="url(#msr-arrow-primary)"
           />
-          {/* gh CLI → GitHub */}
+          {/* Claude Code / Server → Open-Meteo */}
           <path
-            d="M 490 170 L 648 170"
+            d="M 500 170 L 608 170"
             stroke="var(--diagram-text-muted)"
             strokeWidth="1.5"
             fill="none"
-            markerEnd="url(#cst-arrow-muted)"
+            markerEnd="url(#msr-arrow-muted)"
           />
 
-          {/* Command labels on arrows */}
+          {/* Labels on arrows */}
           <text
-            x="250"
-            y="92"
+            x="265"
+            y="85"
             textAnchor="middle"
-            fontSize="11"
+            fontSize="10"
             fill="var(--diagram-primary)"
-            fontFamily="ui-monospace, monospace"
           >
-            gh issue list
+            등록 정보 읽기
           </text>
           <text
-            x="250"
-            y="257"
+            x="265"
+            y="258"
             textAnchor="middle"
-            fontSize="11"
+            fontSize="10"
             fill="var(--diagram-primary)"
-            fontFamily="ui-monospace, monospace"
           >
-            gh issue list
+            서브프로세스로 실행
           </text>
           <text
-            x="569"
+            x="554"
             y="162"
             textAnchor="middle"
             fontSize="10"
@@ -120,108 +118,177 @@ export function Lesson01CliSharedTool() {
             HTTPS
           </text>
 
-          {/* Developer actor pill */}
+          {/* .mcp.json file box (top-left) */}
           <rect
             x="40"
-            y="85"
-            width="140"
-            height="44"
-            rx="22"
+            y="70"
+            width="160"
+            height="60"
+            rx="6"
             fill="var(--diagram-bg-card)"
             stroke="var(--diagram-border-strong)"
             strokeWidth="1.25"
           />
           <text
-            x="110"
+            x="120"
+            y="92"
+            textAnchor="middle"
+            fontSize="12"
+            fontFamily="ui-monospace, monospace"
+            fill="var(--diagram-text)"
+          >
+            .mcp.json
+          </text>
+          <text
+            x="120"
             y="112"
             textAnchor="middle"
-            fontSize="13"
-            fill="var(--diagram-text)"
+            fontSize="10"
+            fill="var(--diagram-text-muted)"
           >
-            개발자
+            서버 등록 정보
           </text>
 
-          {/* Claude actor pill */}
+          {/* index.ts file box (bottom-left) */}
           <rect
             x="40"
-            y="215"
-            width="140"
-            height="44"
-            rx="22"
+            y="210"
+            width="160"
+            height="60"
+            rx="6"
             fill="var(--diagram-bg-card)"
             stroke="var(--diagram-border-strong)"
             strokeWidth="1.25"
           />
           <text
-            x="110"
-            y="242"
+            x="120"
+            y="232"
             textAnchor="middle"
-            fontSize="13"
+            fontSize="12"
+            fontFamily="ui-monospace, monospace"
             fill="var(--diagram-text)"
           >
-            Claude
+            src/index.ts
+          </text>
+          <text
+            x="120"
+            y="252"
+            textAnchor="middle"
+            fontSize="10"
+            fill="var(--diagram-text-muted)"
+          >
+            MCP 서버 소스
           </text>
 
-          {/* gh CLI shared tool box (primary) */}
+          {/* Claude Code + Spawned Server (middle) */}
           <rect
             x="330"
-            y="130"
-            width="160"
-            height="80"
-            rx="8"
+            y="90"
+            width="170"
+            height="170"
+            rx="10"
             fill="var(--diagram-primary-soft)"
             stroke="var(--diagram-primary)"
             strokeWidth="1.75"
           />
           <text
-            x="410"
-            y="162"
+            x="415"
+            y="115"
             textAnchor="middle"
-            fontSize="15"
+            fontSize="13"
             fontWeight="600"
             fill="var(--diagram-primary)"
-            fontFamily="ui-monospace, monospace"
           >
-            gh CLI
+            Claude Code
           </text>
+          {/* inner box: server subprocess */}
+          <rect
+            x="350"
+            y="135"
+            width="130"
+            height="80"
+            rx="6"
+            fill="var(--diagram-bg-card)"
+            stroke="var(--diagram-primary)"
+            strokeWidth="1.25"
+            strokeDasharray="4 3"
+          />
           <text
-            x="410"
-            y="188"
+            x="415"
+            y="160"
             textAnchor="middle"
             fontSize="11"
+            fontWeight="600"
+            fill="var(--diagram-text)"
+          >
+            weather MCP
+          </text>
+          <text
+            x="415"
+            y="177"
+            textAnchor="middle"
+            fontSize="10"
             fill="var(--diagram-text-muted)"
           >
-            설치된 도구 한 벌
+            bun run index.ts
+          </text>
+          <text
+            x="415"
+            y="194"
+            textAnchor="middle"
+            fontSize="10"
+            fill="var(--diagram-text-muted)"
+          >
+            (stdio 통신)
+          </text>
+          <text
+            x="415"
+            y="240"
+            textAnchor="middle"
+            fontSize="10"
+            fill="var(--diagram-text-muted)"
+          >
+            같은 프로세스 트리
           </text>
 
-          {/* GitHub external */}
+          {/* Open-Meteo (right) */}
           <rect
-            x="650"
-            y="142"
-            width="140"
-            height="56"
+            x="610"
+            y="130"
+            width="160"
+            height="80"
             rx="8"
             fill="var(--diagram-bg-card)"
             stroke="var(--diagram-border-strong)"
             strokeWidth="1.25"
           />
           <text
-            x="720"
-            y="168"
+            x="690"
+            y="160"
             textAnchor="middle"
             fontSize="13"
+            fontWeight="600"
             fill="var(--diagram-text)"
           >
-            GitHub
+            Open-Meteo
           </text>
           <text
-            x="720"
-            y="187"
+            x="690"
+            y="180"
+            textAnchor="middle"
+            fontSize="11"
+            fill="var(--diagram-text-muted)"
+          >
+            날씨 API
+          </text>
+          <text
+            x="690"
+            y="196"
             textAnchor="middle"
             fontSize="10"
             fill="var(--diagram-text-muted)"
           >
-            저장소 · 이슈 · PR
+            API 키 불필요
           </text>
         </svg>
       </div>
@@ -229,14 +296,14 @@ export function Lesson01CliSharedTool() {
         className="mt-4 text-center text-xs"
         style={{ color: 'var(--diagram-text-muted)' }}
       >
-        개발자와 Claude 가{' '}
+        Claude Code 가 시작될 때{' '}
         <span
           className="font-semibold"
           style={{ color: 'var(--diagram-primary)' }}
         >
-          같은 gh CLI
+          내 로컬 파일
         </span>
-        {' '}를 공유합니다 — 같은 명령, 같은 결과
+        을 서브프로세스로 띄워 외부 API 에 닿습니다
       </figcaption>
     </DiagramFrame>
   );

@@ -1,6 +1,6 @@
 import { DiagramFrame } from './primitives';
 
-export function Lesson02McpArchitecture() {
+export function McpArchitecture() {
   return (
     <DiagramFrame>
       <div className="overflow-x-auto">
