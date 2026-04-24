@@ -9,7 +9,7 @@ export function CapabilityVsProcedure() {
           title="할 수 있게"
           items={[
             { label: 'gh CLI', sub: 'GitHub 접근' },
-            { label: 'Chrome DevTools MCP', sub: '브라우저 상태' },
+            { label: 'Claude in Chrome', sub: '내 Chrome 세션' },
             { label: 'Weather MCP', sub: '내 API 감싸기' },
           ]}
         />
