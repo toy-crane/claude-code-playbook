@@ -4,6 +4,7 @@
     "llm-basics",
     "getting-started",
     "context-management",
-    "todo-app"
+    "todo-app",
+    "wrap-up"
   ]
 }
