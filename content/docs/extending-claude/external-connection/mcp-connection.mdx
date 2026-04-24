@@ -1,0 +1,177 @@
+---
+title: 'MCP 로 Claude 의 Tool 늘리기 | MCP 연결'
+description: Claude in Chrome 으로 내 Chrome 세션에 접근하고 Figma MCP 를 추가해 Claude 의 Tool 을 확장합니다
+public: true
+---
+
+import { ToolBeltExpansion } from '@/components/diagrams/tool-belt-expansion';
+import { McpArchitecture } from '@/components/diagrams/mcp-architecture';
+
+## Overview
+
+앞 레슨에서 gh CLI 로 Claude 가 실시간 GitHub 데이터를 가져오게 만들었습니다. 그래도 CLI 만으로는 채워지지 않는 영역이 있었습니다 — 지금 열어둔 크롬 탭 상태, Figma 의 편집 상태, 챗 앱의 인터랙티브 UI.
+
+이번 레슨은 이런 영역을 **MCP** 로 해결합니다. Claude Code 에 이미 들어 있는 **Claude in Chrome** 으로 내 실제 브라우저 세션에 접근하고, **Figma MCP** 를 외부에서 추가해 Claude 가 쓸 수 있는 Tool 이 한눈에 늘어나는 것을 체험합니다.
+
+### 학습 목표
+
+- MCP 가 CLI 로 대체되기 어려운 세 가지 상황을 구분합니다
+- MCP 의 Server · Client · Host 구조를 이해합니다
+- Claude in Chrome 과 Figma MCP 를 붙여 Claude 의 Tool 을 직접 확장해봅니다
+
+### 시작하기 전 확인사항
+
+- Chrome 또는 Microsoft Edge 사용 (Brave · Arc 등 Chromium 변형은 미지원)
+- Anthropic 직접 플랜 (Pro · Max · Team · Enterprise) — Bedrock · Vertex AI 같은 제3자 제공자에서는 Claude in Chrome 사용 불가
+- 실습 프로젝트 시작 브랜치로 전환 — `git checkout ch07-02`
+
+## CLI 가 다 되는데 MCP 를 배워야 할까?
+
+"지금 로그인된 대시보드의 콘솔 에러 좀 봐줘" — 이 한 문장이 CLI 의 한계를 드러냅니다.
+
+CLI 는 항상 **새 프로세스로 시작** 합니다. `curl` 이든 헤드리스 브라우저 CLI 든 내 실제 Chrome 에는 붙지 못합니다. 방금 내가 로그인해서 보고 있는 대시보드의 에러를 CLI 로 확인하려면 새 브라우저를 띄우고 로그인을 다시 해야 합니다.
+
+**CLI 는 내가 이미 쓰고 있는 세션에는 붙지 못합니다.** 이 경계를 넘는 게 MCP 가 하는 일입니다.
+
+## MCP 가 여전히 더 나은 세 가지 상황
+
+<ToolBeltExpansion />
+
+MCP 는 외부 시스템을 Claude 가 쓸 수 있는 **Tool** 로 감싸는 표준 프로토콜입니다. MCP 서버 하나를 붙이면 그 서버가 노출하는 Tool 들을 Claude 가 내장 도구처럼 호출합니다. **MCP 를 하나 붙일 때마다 Claude 의 Tool 상자가 커집니다.**
+
+CLI 가 있어도 MCP 가 더 나은 상황은 세 가지입니다.
+
+### ① 실행 중인 내 앱 세션에 접근
+
+Chrome 에서 방금 로그인해 둔 대시보드, Playwright 로 띄운 테스트 페이지, Figma 데스크톱 앱의 열린 파일 — 전부 **이미 실행 중인 앱 내부의 세션** 입니다. CLI 는 프로세스 밖에서만 동작하므로 이 안에는 들어가지 못합니다. Claude in Chrome 이나 Playwright MCP 는 이 세션에 직접 붙습니다.
+
+### ② 공식 CLI 자체가 없는 SaaS
+
+Figma · Notion · Linear 같은 일부 SaaS 는 공식 CLI 가 없거나, 있어도 3rd 파티 커뮤니티 버전뿐입니다. 공식 MCP 서버를 붙이면 같은 서비스에 공식 인증 · 공식 Tool 로 닿습니다.
+
+### ③ 팀 공유 설정 (`.mcp.json`)
+
+MCP 설정을 `.mcp.json` 파일에 넣고 커밋하면, **팀원이 저장소를 받는 순간 같은 MCP 를 같은 설정으로 쓸 수 있습니다.** CLI 는 각자 `brew install` · `PATH` · `alias` 를 맞춰야 하지만, MCP 는 파일 하나가 설정의 단일 출처입니다.
+
+## MCP 의 동작 방식: Server · Client · Host
+
+<McpArchitecture />
+
+MCP 는 세 개의 역할로 나뉩니다.
+
+- **MCP Server** — 외부 시스템을 감싸서 Tool 로 노출하는 프로세스. `claude-in-chrome` 서버, `figma` 서버, 각자가 자기 시스템을 랩 합니다
+- **MCP Client** — Server 에 연결해서 Tool 을 호출하는 쪽. Claude Code 가 이 역할입니다
+- **MCP Host** — Client 를 품고 있는 사용자 프로그램. Claude Code 자체가 Host 이기도 합니다. Claude Desktop · Cursor · Windsurf 도 각각 Host
+
+사용자 입장에서는 **내장 Tool 과 MCP Tool 의 차이를 느끼지 못합니다.** 똑같이 "Claude 가 쓸 수 있는 도구" 로 보입니다.
+
+## [실습 1] Claude in Chrome 으로 내 세션 관찰하기
+
+Claude Code 는 이미 `--chrome` 플래그로 **Claude in Chrome** 이라는 MCP 를 지원합니다. 이걸 켜서 내 실제 Chrome 탭을 Claude 가 보게 합니다.
+
+### Step 1: Chrome 확장 설치
+
+Chrome Web Store 에서 **Claude in Chrome** 을 검색해 설치합니다 ([확장 페이지](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn)). 버전 1.0.36 이상이 필요합니다.
+
+설치 후 Chrome 툴바의 확장 아이콘을 클릭하고 Claude 계정으로 로그인합니다.
+
+<Callout type="info" title="Beta 기능">
+Claude in Chrome 은 2026 년 4 월 기준 beta 입니다. 공식 docs ([code.claude.com/docs/en/chrome](https://code.claude.com/docs/en/chrome)) 에 "beta" 로 표기돼 있고, Tool 이름 · 설치 절차가 바뀔 수 있습니다. 본문 명령어가 안 먹히면 먼저 공식 docs 를 확인하세요.
+</Callout>
+
+### Step 2: Claude Code 에서 Chrome 활성화
+
+```shell
+claude --chrome
+```
+
+진행 중인 세션에서 켜려면:
+
+```plain text
+/chrome
+```
+
+### Step 3: `/mcp` 로 확인
+
+```plain text
+/mcp
+```
+
+`claude-in-chrome` 이 MCP 서버 목록에 "Connected" 로 표시됩니다. **이것도 MCP 라는 점이 중요합니다** — Claude Code 의 `--chrome` 플래그는 사실 이 MCP 서버를 자동으로 활성화하는 단축입니다.
+
+### Step 4: 내 탭 관찰 요청
+
+Chrome 에 아무 페이지나 열어두고 Claude 에게 요청합니다.
+
+```plain text
+지금 열려 있는 탭의 콘솔 메시지를 확인해줘
+```
+
+Claude 는 `read_console` · `get_current_tab` 같은 Tool 을 호출해 **내가 지금 보고 있는 탭의 상태** 를 그대로 읽습니다. `curl` 로 페이지를 받으면 JS 가 안 돌아간 HTML 원본만 오지만, Claude in Chrome 은 JS 가 돌아가고 내가 로그인해 둔 그 화면을 그대로 봅니다.
+
+스크린샷도 찍어봅니다.
+
+```plain text
+현재 탭을 스크린샷으로 찍어줘
+```
+
+Claude 가 `screenshot` Tool 을 호출해 이미지를 반환합니다.
+
+## [실습 2] 외부 MCP 도 같은 패턴으로 추가: Figma MCP
+
+Claude in Chrome 은 Claude Code 안에 들어 있지만, **다른 MCP 는 외부에서 `claude mcp add` 로 추가** 합니다. Figma 가 제공하는 공식 MCP 를 붙여 Tool 을 더 늘려봅니다.
+
+### Step 1: MCP 추가
+
+```shell
+claude mcp add --transport http figma https://mcp.figma.com/mcp
+```
+
+| 부분 | 의미 |
+|------|------|
+| `figma` | MCP 서버 이름 — `/mcp` 에 이 이름으로 표시됨 |
+| `--transport http` | Figma MCP 는 HTTP 기반 원격 서버 방식 |
+| `https://mcp.figma.com/mcp` | Figma 공식 MCP 엔드포인트 |
+
+`-s project` 를 덧붙이면 프로젝트 루트 `.mcp.json` 에 저장돼 팀원이 같은 저장소를 받으면 같은 설정이 자동으로 적용됩니다.
+
+### Step 2: 새 세션에서 확인
+
+Claude Code 를 재시작하고 다시 `/mcp` 를 실행합니다. `figma` 서버가 "Connected" 로 표시됩니다. 이전보다 **Tool 목록이 길어진 것** 을 확인할 수 있습니다 — Claude in Chrome 의 Tool 들에 Figma 의 Tool (`write_to_canvas` · `extract_design_context` · `get_design_tokens` 등) 이 추가됐습니다.
+
+<Callout type="info" title="Figma 계정이 없으면">
+Figma 계정이 없어도 **설치 · 등록 · `/mcp` 확인까지는** 체험할 수 있습니다. 실제 Tool 호출 단계에서 OAuth 인증이 필요하므로, 인증 없이도 이번 레슨의 핵심인 "외부 MCP 를 붙이면 Tool 이 늘어난다" 는 이미 확인한 셈입니다.
+</Callout>
+
+## MCP 를 연결할 때 치르는 비용
+
+MCP 에도 대가가 있습니다. 서버 하나를 연결하면 그 서버가 제공하는 **모든 Tool 의 설명이 Context Window 에 로드** 됩니다. Tool 이 수십 개 있는 MCP 서버 하나만으로도 수천 토큰이 소비됩니다.
+
+그래서 기본 원칙은 **"현재 작업에 필요한 MCP 만 연결한다"** 입니다. `.mcp.json` 을 프로젝트별로 관리하면, 이 프로젝트엔 Figma 만, 다른 프로젝트엔 Linear 만 로드되도록 깔끔하게 분리됩니다.
+
+CLI 는 실행할 때만 결과가 들어오므로 이 비용이 없습니다. 그래서 **CLI 로 해결되는 일엔 CLI, MCP 가 꼭 필요한 영역엔 MCP** 가 기본 전략입니다.
+
+## 핵심 포인트 정리
+
+1. **MCP 를 붙일 때마다 Claude 의 Tool 이 늘어납니다**: `--chrome` 으로 Claude in Chrome 을 켜면 내 실제 Chrome 세션을 다루는 Tool 이, `claude mcp add figma` 로 Figma 를 붙이면 디자인 파일을 다루는 Tool 이 추가됩니다
+2. **MCP 는 CLI 가 못 닿는 영역에 쓰입니다**: 실행 중 내 앱 세션 · 공식 CLI 없는 SaaS · 팀 공유 설정 — 이 세 가지 상황에서 MCP 가 여전히 더 나은 선택입니다
+3. **MCP 는 Context 를 소비하므로 필요한 것만 연결**: `.mcp.json` 을 프로젝트별로 분리해서 현재 작업에 쓸 MCP 만 붙입니다
+
+## FAQ
+
+- **Q: 팀원과 `.mcp.json` 으로 공유 가능한가요?**
+  - A: Figma 같은 외부 MCP 는 `-s project` 로 추가하면 `.mcp.json` 에 저장돼 팀원과 같은 설정을 공유합니다. Claude in Chrome 은 `--chrome` 플래그 방식이라 `.mcp.json` 공유에 대한 공식 가이드가 없으니, 각자 설치하는 쪽이 안전합니다
+
+- **Q: MCP 는 텍스트만 반환하나요? 버튼 · 폼 같은 인터랙티브 UI 도 가능한가요?**
+  - A: 가능합니다. MCP 에는 **MCP Apps** 라는 공식 확장이 있어서 서버가 HTML · UI 컴포넌트를 반환하면 Claude · ChatGPT 같은 챗 앱이 그대로 렌더링합니다. CLI 로는 터미널 텍스트 한계 때문에 애초에 불가능한 영역입니다
+
+- **Q: MCP 를 많이 붙이면 Claude 가 더 똑똑해지나요?**
+  - A: 아닙니다. MCP 는 **접근 범위** 를 넓힐 뿐 추론 능력을 올리지 않습니다. Tool 설명이 Context 를 차지해서 오히려 성능이 떨어질 수 있습니다
+
+## 이어서 배울 내용
+
+Claude in Chrome 과 Figma MCP 같은 공개 MCP 는 설치만 하면 바로 씁니다. 하지만 **사내 API 나 자체 데이터베이스** 처럼 세상에 공개된 MCP 서버가 없는 경우는 어떻게 할까요? 다음 레슨에서는 MCP 서버를 직접 만드는 방법을 배웁니다.
+
+- MCP Builder Skill 로 MCP 서버 프로젝트 자동 생성
+- Tool 정의의 세 요소 (이름 · description · 입력 스키마)
+- 날씨 API 를 감싸는 MCP 서버 만들어 연결하기
