@@ -145,7 +145,7 @@ export function McpArchitecture() {
             fill="var(--diagram-text-muted)"
             fontFamily="ui-monospace, monospace"
           >
-            chrome-devtools-mcp
+            claude-in-chrome
           </text>
           <text
             x="440"
@@ -154,7 +154,7 @@ export function McpArchitecture() {
             fontSize="10"
             fill="var(--diagram-text-muted)"
           >
-            (Tool 33 개 노출)
+            (Tool 여러 개 노출)
           </text>
 
           {/* External: Chrome */}
