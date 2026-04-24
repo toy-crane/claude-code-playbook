@@ -121,7 +121,7 @@ export function SubagentIsolation() {
             fontSize="12"
             fill="var(--diagram-text)"
           >
-            "인증 코드 정리해줘"
+            &quot;인증 코드 정리해줘&quot;
           </text>
 
           {/* conclusion (returned) */}
