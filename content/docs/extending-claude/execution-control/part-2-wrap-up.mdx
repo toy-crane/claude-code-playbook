@@ -48,7 +48,7 @@ CLAUDE.md 에 모든 규칙을 넣으면 작업과 무관한 규칙까지 매번
 Commands와 Skills는 Claude의 지식을 확장합니다. 하지만 Claude가 접근할 수 있는 범위 자체는 로컬 파일과 내장 도구에 묶여 있습니다. **CLI와 MCP**는 외부 시스템에 대한 접근권을 부여합니다.
 
 - **CLI**: 개발자가 이미 쓰던 터미널 도구를 Claude 에게 그대로 빌려줍니다. `gh`·`aws`·`kubectl` 같은 유명 CLI 는 Claude 가 이미 학습해서 바로 호출합니다. 결과를 파이프로 가공하고, 실행한 명령어를 개발자가 터미널에서 직접 재현할 수 있습니다
-- **MCP**: CLI 가 대세가 된 지금도 MCP 가 더 나은 세 가지 상황이 있습니다 — 실행 중인 앱 관찰 (Chrome DevTools · Playwright · Figma), OAuth 가 복잡한 외부 서비스 (Linear · Notion · Sentry), `.mcp.json` 을 공유하는 팀 설정. Claude Code (Host + Client) 가 서버 프로세스를 띄워 stdio 로 통신합니다
+- **MCP**: MCP 하나를 꽂을 때마다 Claude 의 Tool 상자가 커집니다. CLI 가 대세가 된 지금도 MCP 가 더 나은 세 가지 상황이 있습니다 — 실행 중인 내 앱 세션 접근 (Claude in Chrome · Playwright MCP), 공식 CLI 자체가 없는 SaaS (Figma · Notion · Linear), `.mcp.json` 을 공유하는 팀 설정. Claude Code (Host + Client) 가 서버 프로세스를 띄워 stdio 로 통신합니다
 - **Custom MCP**: 공개된 MCP 가 없는 내부 시스템은 직접 만들어 연결합니다. MCP Builder Skill 을 쓰면 프로젝트 구조·SDK 설정·Tool 정의까지 자동 생성됩니다. Tool 의 품질은 `description` (Claude 선택 근거) · `inputSchema` (Claude 와의 계약) · 표준 `content` 반환 형식으로 결정됩니다
 - **도구는 가능성, Skill 은 일관성**: CLI·MCP 가 외부 시스템에 닿는 가능성을, Skill 이 매번 같은 방식으로 쓰게 만드는 일관성을 담당합니다. 결합하면 코드 리뷰·버그 리포트 같은 반복 워크플로우가 매번 같은 형식으로 나옵니다
 
