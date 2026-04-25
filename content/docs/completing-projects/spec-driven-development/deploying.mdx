@@ -1,0 +1,84 @@
+---
+title: 'Vercel로 프로젝트 배포하기 | Deploy'
+description: 'Vercel에 GitHub 저장소를 연결해 push 한 번으로 빌드와 배포가 자동으로 이뤄지게 합니다'
+public: true
+---
+
+## Overview
+
+Lesson 6에서 코드 구현이 끝났습니다. 로컬에서는 동작하지만, 누구나 접속할 수 있는 URL은 아직 없습니다.
+
+이 레슨에서는 **Vercel**에 GitHub 저장소를 연결해 자동 배포 환경을 만듭니다. Vercel은 Next.js를 만든 회사의 배포 플랫폼으로, 한 번 연결해두면 push마다 자동으로 빌드와 배포가 이뤄집니다.
+
+### 학습 목표
+
+- Vercel에 GitHub 저장소를 연결하고 첫 배포를 실행합니다
+- push와 PR이 어떻게 자동 배포·Preview URL로 이어지는지 설명합니다
+- 배포 실패 시 어디부터 확인할지 판단합니다
+
+### 시작하기 전 확인사항
+
+- Vercel 계정 — https://vercel.com 에서 GitHub 계정으로 가입합니다 (별도 토큰·권한 설정 불필요)
+- 프로젝트가 GitHub 저장소에 push되어 있어야 합니다
+
+## Step 1: 프로젝트 Import + Deploy
+
+Vercel 대시보드에서 **Add New... > Project**를 클릭합니다.
+
+![vercel-add-project](/docs/completing-projects/spec-driven-development/vercel-add-project.png)
+
+GitHub 저장소 목록에서 프로젝트를 찾아 **Import**를 클릭합니다.
+
+![vercel-import-repo](/docs/completing-projects/spec-driven-development/vercel-import-repo.png)
+
+다음 화면에서 **Deploy** 버튼을 클릭하면 Vercel이 자동으로 Framework를 감지(Next.js)하고 빌드를 시작합니다. 별도 설정은 필요 없습니다.
+
+빌드가 완료되면 `.vercel.app` 도메인의 고유 URL이 생성됩니다.
+
+![vercel-deployed](/docs/completing-projects/spec-driven-development/vercel-deployed.png)
+
+이 URL로 접속해 로컬과 동일하게 동작하는지 확인합니다.
+
+## Step 2: 자동 배포와 Preview URL
+
+한 번 연결되면 그 다음부터는 손댈 일이 없습니다. **push가 곧 배포**가 됩니다.
+
+| 이벤트 | Vercel 동작 |
+|---|---|
+| `main` 브랜치에 push | 새 빌드 → `.vercel.app` 운영 URL 갱신 |
+| PR 생성 | **Preview URL** 자동 생성 — 머지 전에 배포 결과를 미리 확인 |
+| PR 갱신 | 같은 Preview URL이 새 커밋으로 갱신 |
+
+PR Preview URL은 머지 전 검토자에게 "동작하는 모습"을 직접 보여줄 수 있게 해줍니다 -- 코드 리뷰 외에 시각 확인까지 한 자리에서 됩니다.
+
+## 배포 실패 시 확인할 것
+
+배포가 실패하면 Vercel 대시보드의 **빌드 로그**에 원인이 적혀 있습니다. 가장 흔한 케이스 두 가지입니다.
+
+| 증상 | 확인할 것 |
+|---|---|
+| 빌드 로그에 TypeScript 또는 ESLint 에러 | 로컬에서 `bun run build` 실행 → 같은 에러 재현 → 고친 뒤 push |
+| 환경 변수 누락 (예: API 키) | Vercel 프로젝트 Settings > Environment Variables 에 추가 후 재배포 |
+
+로컬 `bun run build`가 통과하는데 Vercel만 실패하면 환경 변수일 가능성이 큽니다. 통과하지 않으면 코드 문제입니다.
+
+## 핵심 포인트 정리
+
+1. **연결은 한 번만**: Vercel에 GitHub 저장소를 한 번 연결하면, 그 다음부터 push가 곧 배포입니다
+2. **PR Preview로 머지 전 검토**: PR마다 Preview URL이 자동 생성되어, 머지 전에 시각 확인까지 한 자리에서 됩니다
+3. **빌드 실패는 로컬에서 재현**: Vercel 빌드 로그를 보고 `bun run build`로 로컬 재현이 가능하면 코드 문제, 아니면 환경 변수 문제일 가능성이 큽니다
+
+## FAQ
+
+- **Q: 커스텀 도메인을 연결할 수 있나요?**
+  - A: 가능합니다. Vercel 프로젝트 Settings > Domains에서 도메인을 추가하고 안내된 DNS 레코드를 설정하면 됩니다.
+
+- **Q: 배포 횟수에 제한이 있나요?**
+  - A: 무료 플랜에도 push마다 자동 배포가 무제한입니다. 다만 빌드 시간과 대역폭에 월 한도가 있어, 트래픽이 많은 서비스라면 Pro 플랜으로 올립니다.
+
+- **Q: 환경 변수를 코드에 어떻게 사용하나요?**
+  - A: Next.js의 경우 `process.env.<NAME>`으로 접근합니다. 클라이언트에서 사용하려면 변수명에 `NEXT_PUBLIC_` 접두사를 붙입니다.
+
+## 이어서 배울 내용
+
+배포까지 끝나면 한 사이클이 닫힙니다. 다음 레슨은 Compound -- 한 사이클을 돌며 쌓인 약한 신호를 도구로 승격해 다음 사이클을 더 빠르게 만드는 단계를 봅니다.
