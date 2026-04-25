@@ -5,8 +5,7 @@ import { ExternalArrow } from './external-arrow';
 
 export function Hero() {
   return (
-    <section className="w-full max-w-[var(--fd-layout-width,100rem)] mx-auto px-4 md:px-6 pt-20 md:pt-[120px] pb-20 md:pb-[100px]">
-      <div className="max-w-[1100px]">
+    <section className="w-full max-w-[1100px] mx-auto px-6 md:px-10 pt-20 md:pt-[120px] pb-20 md:pb-[100px]">
       <FadeIn>
         <div className="font-mono text-sm font-semibold tracking-[0.18em] uppercase text-fd-muted-foreground mb-7">
           2026 · 실전 가이드
@@ -38,7 +37,6 @@ export function Hero() {
           </span>
         </div>
       </FadeIn>
-      </div>
     </section>
   );
 }
