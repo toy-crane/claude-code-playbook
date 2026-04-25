@@ -1,4 +1,5 @@
 import { RootProvider } from 'fumadocs-ui/provider/next';
+import { Analytics } from '@vercel/analytics/next';
 import './global.css';
 import { Noto_Sans_KR } from 'next/font/google';
 import type { Metadata } from 'next';
@@ -18,6 +19,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
     <html lang="ko" className={notoSansKR.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
         <RootProvider>{children}</RootProvider>
+        <Analytics />
       </body>
     </html>
   );

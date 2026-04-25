@@ -13,6 +13,7 @@
     "lint:links": "bun ./scripts/lint-links.ts"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "fumadocs-core": "16.8.0",
     "fumadocs-mdx": "14.3.1",
