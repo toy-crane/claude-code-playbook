@@ -30,7 +30,7 @@ export function Hero() {
             href="/docs"
             className="inline-flex items-center gap-2 px-6 py-3.5 rounded-md text-[15px] font-semibold bg-fd-primary text-fd-primary-foreground hover:opacity-80 transition-opacity"
           >
-            Chapter 01부터 읽기
+            시작하기
             <ExternalArrow size={14} />
           </Link>
           <span className="text-[13px] text-fd-muted-foreground font-mono">
