@@ -1,0 +1,111 @@
+---
+title: '개인 프로젝트 실습'
+description: 'Chapter 9의 6단계 사이클을 본인 프로젝트로 한 번 더 돌리고, Part 3 전체를 정리합니다'
+public: true
+---
+
+## Overview
+
+Chapter 9에서 feedme.wiki 클론으로 SDD 6단계 사이클을 처음부터 끝까지 경험했습니다. Chapter 10에서 Agent Teams와 Worktree를 배웠습니다. 이제는 **본인이 만들고 싶은 프로젝트**에 같은 워크플로우를 적용합니다.
+
+어떤 프로젝트를 선택하고, 3시간 안에 닫을 수 있는 크기인지 판단하는 것이 이번 실습의 핵심입니다.
+
+### 학습 목표
+
+- 본인 프로젝트 아이디어를 실습 가능한 크기로 좁힙니다
+- SDD 6단계 사이클을 처음부터 끝까지 독립적으로 완주합니다
+- 막혔을 때 어디로 돌아가야 하는지 판단합니다
+
+## 적절한 크기 — 3시간 안에 닫을 수 있는
+
+**"멋진 프로젝트를 만드는 것"보다 "SDD 사이클을 완주하는 것"이 이 실습의 목적입니다.** 3시간 안에 Spec부터 Vercel 배포까지 한 사이클을 닫을 수 있는 크기를 선택합니다.
+
+| 항목 | 권장 |
+|------|------|
+| 페이지 수 | 2~3개 |
+| 핵심 기능 | 1~2개 |
+| 시나리오 | 5~7개 |
+
+만들 수 있는 프로젝트 예시:
+
+- **습관 트래커**: 매일 체크하는 습관 목록 + 연속 달성 표시
+- **날씨 대시보드**: Open-Meteo API + 위치별 날씨 카드
+- **북마크 관리자**: URL 저장 + 태그 분류 + 검색
+- **식단 기록기**: 날짜별 식사 기록 + 칼로리 요약
+
+<Callout type="info" title="프로젝트 크기 조절이 가장 중요합니다">
+3시간 안에 6단계를 한 번 닫는 것이 우선입니다. 기능을 더 넣고 싶다면 다음 사이클에서 확장하세요 -- Compound 단계가 그 자리를 만들어 줍니다.
+</Callout>
+
+## 아이디어 찾기
+
+아이디어가 바로 떠오르지 않아도 됩니다. 두 가지 진입로가 있습니다.
+
+### (선택) `/idea-refine`으로 다듬기
+
+Chapter 9에서는 이미 구체적인 요구사항(`examples/requirements.md`)이 있어 Ideate 단계를 건너뛰었습니다. 본 실습은 막연한 아이디어로 시작할 가능성이 높으므로 `/idea-refine`이 유용합니다.
+
+```
+/idea-refine
+```
+
+AI가 평소 불편한 점, 관심 분야, 기술적 호기심을 질문하며 **확산-수렴 사고**로 아이디어를 다듬습니다. 산출물은 `artifacts/<feature>/idea.md`이고, 이 문서가 다음 단계 `/write-spec`의 입력이 됩니다.
+
+### 직접 정리
+
+요구사항이 이미 머릿속에 구체적으로 있다면 5~10줄 마크다운으로 직접 적고 곧장 `/write-spec`으로 갑니다. Chapter 9에서 본 `examples/requirements.md` 형태가 좋은 본보기입니다.
+
+## SDD 6단계 사이클 따르기
+
+Chapter 9에서 본 흐름을 그대로 따릅니다. 차이는 입력이 본인의 아이디어라는 점뿐입니다.
+
+| 단계 | 호출 | 산출물 |
+|------|------|--------|
+| Ideate | `/idea-refine` (선택) | `idea.md` |
+| Specify | `/write-spec` | `spec.md` |
+| Sketch | `/sketch-wireframe` | `wireframe.html` |
+| Plan | `/draft-plan` | `plan.md` |
+| Build | `/execute-plan` | 코드 + 커밋 + `learnings.md` |
+| Compound | `/self-improve` | (이번 사이클에는 보류 -- 다음 feature 사이클에서) |
+
+본 실습은 한 사이클이므로 Compound는 실행할 필요가 없습니다. 두세 번째 feature 사이클을 더 돈 뒤 호출합니다.
+
+## 배포 시 환경 변수 설정
+
+프로젝트에 외부 API 키(Supabase URL 등)가 있다면 환경 변수 설정이 필요합니다.
+
+**로컬**: Next.js는 프로젝트 루트의 `.env.local` 파일에서 환경 변수를 읽습니다. `NEXT_PUBLIC_` 접두사가 붙은 변수만 브라우저에서 접근할 수 있습니다. **API 키처럼 노출되면 안 되는 값에는 이 접두사를 붙이지 않습니다.**
+
+**Vercel**: Import 화면의 **Environment Variables** 섹션에서 Key/Value를 등록합니다.
+
+![vercel-configure](/docs/completing-projects/personal-project/vercel-configure.png)
+
+`.env.local` 파일이 있다면 **Import .env** 버튼으로 한 번에 등록할 수 있습니다.
+
+![vercel-env-vars](/docs/completing-projects/personal-project/vercel-env-vars.png)
+
+<Callout type="info" title="로컬과 Vercel 양쪽에 등록해야 합니다">
+`.env.local`에 있는 값을 Vercel에도 동일하게 등록해야 프로덕션에서 동작합니다.
+</Callout>
+
+## 실습 규칙
+
+1. **6단계를 건너뛰지 않습니다**: 단계마다 산출물이 다음 단계의 입력입니다. spec 없이 plan을 세우면 추측이 plan에 들어갑니다
+2. **Task 단위를 작게 유지합니다**: Task 하나가 끝나면 커밋하고 새 대화를 시작합니다 -- Vertical Slice가 끝날 때마다 시스템이 동작 가능 상태에 있어야 합니다
+3. **막히면 이전 단계로 돌아갑니다**: plan이 막막하면 spec이 모호한 것입니다. 코드를 고치는 것보다 spec/plan을 고치는 비용이 낮습니다
+4. **새 도구는 하나씩 추가합니다**: Supabase 연동을 확인한 뒤 Vercel 배포를 시도합니다. 동시에 여러 도구를 추가하면 문제가 생겼을 때 원인을 찾기 어렵습니다
+
+## FAQ
+
+- **Q: Agent Teams를 이 실습에서 꼭 사용해야 하나요?**
+  - A: 아닙니다. Agent Teams는 6개 이상의 독립적인 Task가 있을 때 효과적입니다. 3시간 실습에서 만드는 기능은 보통 4~5개 Task 규모이므로, 단일 Agent가 더 안전하고 빠릅니다.
+
+- **Q: shadcn preset은 나중에 바꿀 수 있나요?**
+  - A: 가능합니다. `shadcn preset을 {다른-preset-id}로 바꿔줘`를 입력하면 색상과 스타일이 모든 컴포넌트에 반영됩니다.
+
+- **Q: spec 단계에서 미결정 항목이 너무 많이 남으면?**
+  - A: high-cost 결정만 답하고 low-cost는 기본값으로 두면 됩니다. 답하지 못한 항목은 spec.md의 "미결정 항목" 섹션에 그대로 두고, plan 단계에서 다시 검토합니다.
+
+## 이어서 배울 내용
+
+개인 프로젝트 실습이 끝나면 Part 3 전체를 정리합니다.
