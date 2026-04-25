@@ -36,24 +36,16 @@ Part 2에서 테스트를 정답지로 활용했습니다. 테스트 몇 개를 
 
 <SddCycle />
 
-| 단계 | 정의하는 것 | 산출물 | 본 챕터 |
-|------|------------|--------|--------|
-| **Ideate** | 모호한 아이디어를 추진할 형태로 정리 | `idea.md` (선택) | 사용 안 함 |
-| **Specify** | "무엇을" -- 시나리오, 성공 기준, 미결정 사항 | `spec.md` | Lesson 3 |
-| **Sketch** | "어떻게 보이는가" -- 화면 구조, 컴포넌트 배치 | `wireframe.html` | Lesson 4 |
-| **Plan** | "어떻게 만드는가" -- Task 분해, 의존성 순서 | `plan.md` | Lesson 5 |
-| **Build** | 코드 작성 -- 수용 기준으로 검증 | 코드 + 커밋 + `learnings.md` | Lesson 6 |
-| **Compound** | 누적된 약한 신호를 원칙으로 승격 | Skill·Hook·Rule·CLAUDE.md 갱신 | Lesson 8 |
+| 단계 | 정의하는 것 | 산출물 |
+|------|------------|--------|
+| **Ideate** | 모호한 아이디어를 추진할 형태로 정리 | `idea.md` (선택) |
+| **Specify** | "무엇을" -- 시나리오, 성공 기준, 미결정 사항 | `spec.md` |
+| **Sketch** | "어떻게 보이는가" -- 화면 구조, 컴포넌트 배치 | `wireframe.html` |
+| **Plan** | "어떻게 만드는가" -- Task 분해, 의존성 순서 | `plan.md` |
+| **Build** | 코드 작성 -- 수용 기준으로 검증 | 코드 + 커밋 + `learnings.md` |
+| **Compound** | 누적된 약한 신호를 원칙으로 승격 | Skill·Hook·Rule·CLAUDE.md 갱신 |
 
 각 단계의 출력이 다음 단계의 입력이 됩니다. Specify의 spec.md가 Sketch의 입력이 되고, spec.md + wireframe.html이 Plan의 입력이 되며, plan.md가 Build의 입력이 됩니다. **Build의 결과는 Specify가 정한 성공 기준으로 검증되고, 그 과정의 학습은 Compound로 누적되어 다음 사이클의 시작 조건을 바꿉니다.**
-
-<Callout type="info" title="이 챕터에서 /idea-refine은 쓰지 않습니다">
-**Ideate 단계가 비는 이유**: 본 챕터는 `examples/requirements.md`라는 이미 구체적인 요구사항을 입력으로 받습니다. 아이디어의 형태가 정해져 있으므로 곧장 Specify로 갑니다.
-
-**`/idea-refine`을 쓰면 좋은 경우**: 아이디어가 막연하고 MVP 범위를 좁혀야 할 때, "뭘 먼저 만들지" 자체가 결정되지 않은 때. 확산-수렴 사고로 추진할 만한 one-pager가 산출됩니다.
-
-**쓰지 않아도 되는 경우**: 요구사항이 이미 구체적이거나, 버그 수정·한 줄 변경처럼 범위가 좁은 작업.
-</Callout>
 
 ## 왜 지금 SDD가 가능한가
 

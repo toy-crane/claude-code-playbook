@@ -1,7 +1,7 @@
 import { DiagramFrame } from './primitives';
 
 const STAGES = [
-  { label: 'Ideate', artifact: 'idea.md', muted: true },
+  { label: 'Ideate', artifact: 'idea.md' },
   { label: 'Specify', artifact: 'spec.md' },
   { label: 'Sketch', artifact: 'wireframe.html' },
   { label: 'Plan', artifact: 'plan.md' },
@@ -86,7 +86,6 @@ export function SddCycle() {
                 height={boxHeight}
                 label={stage.label}
                 artifact={stage.artifact}
-                muted={stage.muted}
                 index={i + 1}
               />
             );
@@ -110,28 +109,6 @@ export function SddCycle() {
             );
           })}
 
-          {/* "이 챕터의 시작점" indicator on Specify */}
-          <text
-            x={startX + 1 * (boxWidth + gap) + boxWidth / 2}
-            y={boxY + boxHeight + 50}
-            textAnchor="middle"
-            fontSize="11"
-            fill="var(--diagram-primary)"
-            fontWeight="600"
-          >
-            ↑ 이 챕터의 시작점
-          </text>
-
-          {/* "사용 안 함" indicator on Ideate */}
-          <text
-            x={startX + boxWidth / 2}
-            y={boxY + boxHeight + 50}
-            textAnchor="middle"
-            fontSize="10"
-            fill="var(--diagram-text-muted)"
-          >
-            (사용 안 함)
-          </text>
         </svg>
       </div>
       <figcaption
@@ -158,7 +135,6 @@ function StageBox({
   height,
   label,
   artifact,
-  muted,
   index,
 }: {
   x: number;
@@ -167,12 +143,8 @@ function StageBox({
   height: number;
   label: string;
   artifact: string;
-  muted?: boolean;
   index: number;
 }) {
-  const fill = muted ? 'var(--diagram-bg-card)' : 'var(--diagram-primary-soft)';
-  const stroke = muted ? 'var(--diagram-border-strong)' : 'var(--diagram-primary)';
-  const labelColor = muted ? 'var(--diagram-text-muted)' : 'var(--diagram-primary)';
   return (
     <g>
       <rect
@@ -181,10 +153,9 @@ function StageBox({
         width={width}
         height={height}
         rx="8"
-        fill={fill}
-        stroke={stroke}
+        fill="var(--diagram-primary-soft)"
+        stroke="var(--diagram-primary)"
         strokeWidth="1.25"
-        strokeDasharray={muted ? '4 3' : undefined}
       />
       <text
         x={x + width / 2}
@@ -192,7 +163,7 @@ function StageBox({
         textAnchor="middle"
         fontSize="13"
         fontWeight="600"
-        fill={labelColor}
+        fill="var(--diagram-primary)"
       >
         {`${index}. ${label}`}
       </text>
@@ -201,8 +172,8 @@ function StageBox({
         y={y + 44}
         textAnchor="middle"
         fontSize="10"
-        fill={muted ? 'var(--diagram-text-muted)' : 'var(--diagram-primary)'}
-        opacity={muted ? 0.7 : 0.85}
+        fill="var(--diagram-primary)"
+        opacity={0.85}
       >
         {artifact}
       </text>
