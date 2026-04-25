@@ -1,22 +1,22 @@
 ---
 title: '엔지니어링 템플릿으로 프로젝트 시작하기 | 프로젝트 셋업'
-description: >-
-  harness-engineering-template을 클론하고, 미리 구성된 도구(CLAUDE.md, Hooks, Rules, Skills,
-  Agent)의 역할을 확인합니다
+description: '템플릿을 클론하고 SDD 6단계가 어떤 도구(Skills·Hooks·Rules·Agent)로 자동화되어 있는지 확인합니다'
 public: true
 ---
 
+import { TemplateToolsMap } from '@/components/diagrams/template-tools-map';
+
 ## Overview
 
-SDD의 5단계 사이클을 이해했습니다. Part 2에서 배운 Skills, Hooks, Rules, Agent는 각각 독립적으로 동작했습니다. **SDD에서는 이 도구들이 하나의 시스템으로 연결되어야 합니다.**
+Lesson 1에서 SDD 6단계 사이클을 이해했습니다. 6단계를 매번 직접 구성하면 부담이 큽니다 -- 어떤 Skill을 만들지, 어떤 Hook으로 강제할지, 검증을 어디서 자동화할지를 매 프로젝트마다 정해야 합니다.
 
-이번 레슨에서는 이 연결이 미리 구성된 **엔지니어링 템플릿**을 클론하고, 각 도구가 SDD의 어떤 단계를 담당하는지 확인합니다.
+이번 레슨에서는 이 구성이 미리 끝나 있는 **엔지니어링 템플릿**을 클론하고, 각 도구가 어떤 단계를 담당하는지 확인합니다.
 
 ### 학습 목표
 
-- 엔지니어링 템플릿을 GitHub에서 클론하고 실행할 수 있습니다
-- 템플릿에 포함된 도구(CLAUDE.md, Hooks, Rules, Skills, Agent)의 역할을 설명할 수 있습니다
-- Spec Test 워크플로우의 전체 흐름을 이해합니다
+- 엔지니어링 템플릿을 GitHub에서 클론하고 실행합니다
+- 템플릿에 포함된 도구(CLAUDE.md, Skills, Agents, Hooks, Rules)가 어떤 SDD 단계를 담당하는지 매핑합니다
+- 도구가 단계를 어떻게 자동화하는지 설명합니다
 
 ## Step 1: GitHub에서 템플릿 클론
 
@@ -39,9 +39,9 @@ bun dev
 
 `http://localhost:3000`에서 초기 화면이 나타나면 셋업이 완료된 것입니다.
 
-## Step 2: shadcn preset 적용
+## Step 2: shadcn preset 적용 (선택)
 
-템플릿은 기본 shadcn 스타일을 사용합니다. 프로젝트의 색상, 폰트, 테마를 바꾸고 싶다면 **preset**을 적용합니다.
+템플릿은 기본 shadcn 스타일을 사용합니다. 색상·폰트·테마를 바꾸고 싶다면 **preset**을 적용합니다.
 
 https://ui.shadcn.com/create 에 접속하면 다양한 스타일 preset을 확인할 수 있습니다.
 
@@ -53,43 +53,71 @@ Claude Code에서 다음과 같이 입력하면 preset이 프로젝트에 적용
 shadcn preset을 {preset-id}로 바꿔줘
 ```
 
-<Callout type="info" title="preset 적용은 선택사항입니다">
-기본 스타일로도 충분합니다. 디자인을 커스텀하고 싶을 때만 적용하세요.
+<Callout type="info" title="기본 스타일로도 충분합니다">
+preset 적용은 디자인을 커스텀하고 싶을 때만 진행합니다. 본 챕터의 흐름과 무관하므로, 기본 스타일로도 다음 레슨을 진행할 수 있습니다.
 </Callout>
 
-## Step 3: 템플릿 도구 확인
+## Step 3: 6단계를 담당하는 도구 확인
 
-![template-overview](/docs/completing-projects/spec-driven-development/template-overview.png)
+<TemplateToolsMap />
 
 템플릿에는 SDD 워크플로우에 필요한 도구가 미리 구성되어 있습니다.
 
-| 구분 | 이름 | 역할 |
-|------|------|------|
-| CLAUDE.md | - | TDD 워크플로우 정의, 불변 계약(spec.yaml) 규칙, 테스트 파일 컨벤션 |
-| Hooks | lint.sh (PostToolUse) | 파일 수정 후 ESLint 자동 수정 |
-| Hooks | 완료 검증 (Stop) | AI 작업 완료 시 TDD 단계별 완료 조건 확인 |
-| Rules | shadcn-guard | shadcn 컴포넌트 수정 차단 |
-| Skills | /writing-spec | 요구사항 문서 생성 (대화형) |
-| Skills | /sketching-wireframe | HTML 와이어프레임 생성 |
-| Skills | /writing-plan | 구현 계획 생성 (Spec Test 포함) |
-| Skills | /make-something | 프로젝트 아이디어 탐색 |
-| Agent | spec-reviewer | Spec 문서 품질 검토 |
-| Agent | plan-reviewer | Plan 문서 품질 검토 |
-| Example | artifacts/example/requirements.md | 칸반 보드 요구사항 예시 |
+| 구분 | 이름 | 역할 | 담당 |
+|------|------|------|------|
+| CLAUDE.md | -- | 6단계 워크플로우 · 수용 기준 테스팅 · 아키텍처 의존성 순서 | 전 단계 공통 |
+| Skills | `/idea-refine` | 아이디어 확산-수렴 (선택) | Ideate |
+| Skills | `/write-spec` | 시나리오·수용 기준으로 spec.md 생성 | Specify |
+| Skills | `/sketch-wireframe` | HTML 와이어프레임 생성 | Sketch |
+| Skills | `/draft-plan` | Vertical slicing TDD 계획 생성 | Plan |
+| Skills | `/execute-plan` | TDD 구현 + learnings.md 기록 | Build |
+| Skills | `/self-improve` | 누적 회고로 도구 갱신 | Compound |
+| Skills (참조) | `next-best-practices` · `vercel-react-best-practices` · `web-design-guidelines` · `shadcn` | 라이브러리·프레임워크 best practices 자동 로드 | Build (참조) |
+| Agents | `plan-reviewer` | spec ↔ plan 정합성 4차원 검토 | Plan (검증) |
+| Agents | `code-reviewer` | 변경 5차원 리뷰 (정확성·가독성·아키텍처·보안·성능) | Build (검증) |
+| Hooks | `WorktreeCreate` (worktree-create.sh) | 워크트리 생성 시 main 동기화 + 의존성 설치 | 환경 |
+| Hooks | `PostToolUse` (lint-fix.sh) | Write/Edit 후 ESLint 자동 수정 | Build (강제) |
+| Rules | `shadcn-guard` | `components/ui/*` 직접 수정 차단 | Build (가드) |
+| Examples | `examples/requirements.md` | feedme.wiki 클론 요구사항 (다음 레슨 입력) | Specify 입력 |
 
-**CLAUDE.md**에는 TDD 워크플로우가 정의되어 있습니다. Spec Test(`*.spec.test.tsx`)를 먼저 작성하고, 구현 테스트(`*.test.tsx`)와 최소 코드를 작성하는 순서입니다.
+**CLAUDE.md**에는 6단계 phase 표, 수용 기준 테스팅 원칙, 아키텍처 의존성 순서(`types → config → lib → services → hooks → components → app`)가 정의되어 있어, AI가 매번 이 규약을 참조하면서 작업합니다.
 
-**Hooks**는 두 시점에 자동으로 실행됩니다. AI가 파일을 수정하면 lint.sh가 ESLint를 실행하여 코드 스타일을 자동 수정합니다. AI가 작업을 마치려 할 때는 Stop Hook이 현재 TDD 단계(Red/Green)를 판별하고, 테스트 상태가 해당 단계의 완료 조건을 충족하는지 확인합니다.
+**Skills**는 SDD의 각 단계를 자동화합니다. `/write-spec`이 Specify를, `/sketch-wireframe`이 Sketch를 담당하는 식으로 단계마다 절차가 미리 정의되어 있습니다.
 
-**Skills**는 SDD의 각 단계를 구조화합니다. `/writing-spec`이 Spec 단계를, `/sketching-wireframe`이 Wireframe 단계를, `/writing-plan`이 Plan 단계를 담당합니다.
+**Agents**(`plan-reviewer`, `code-reviewer`)는 별도 컨텍스트에서 검증을 수행합니다. 메인 컨텍스트가 작업으로 채워져 있어도 검증 결과만 돌려받기 때문에, 독립적인 시각을 컨텍스트 오염 없이 얻습니다.
 
-`artifacts/example/requirements.md`에 칸반 보드 프로젝트의 요구사항 예시가 포함되어 있습니다. 다음 레슨부터 이 예시를 기반으로 SDD 사이클을 진행합니다.
+**Hooks와 Rules**는 강제와 가드를 담당합니다. `lint-fix.sh`는 파일 수정 후 자동으로 ESLint를 돌리고, `shadcn-guard`는 shadcn 컴포넌트 직접 수정을 차단합니다.
+
+`examples/requirements.md`에는 feedme.wiki 클론 프로젝트의 요구사항이 들어 있습니다. 다음 레슨부터 이 요구사항을 입력으로 SDD 사이클을 진행합니다.
+
+## 도구는 SDD 단계를 자동화한다
+
+Part 2에서 본 도구의 역할이 이 템플릿에서 다시 등장합니다.
+
+- **Skills** -- procedure layer입니다. 단계마다 어떤 순서로 무엇을 묻고 무엇을 산출하는지가 정의되어 있어, 매번 처음부터 설명할 필요가 없습니다
+- **Agents** -- 별도 컨텍스트에서 검증합니다. 메인은 결론만 받으므로 컨텍스트 오염 없이 독립적인 시각을 얻습니다
+- **Hooks** -- 권고가 아니라 강제입니다. AI가 건너뛸 수 없으므로, 매번 같은 품질 게이트를 통과시킵니다
+- **Rules** -- 경로별로 활성화되는 가드입니다. 작업 영역에서만 로드되어 컨텍스트 비용을 줄입니다
+- **CLAUDE.md** -- 전 단계 공통 컨텍스트입니다. 워크플로우·테스팅·아키텍처 규약이 한 곳에 모여 모든 단계의 기준이 됩니다
+
+이 다섯 층이 6단계 위에 얹혀, **사람은 사이클 자체에 집중**할 수 있습니다.
 
 ## 핵심 포인트 정리
 
-1. **템플릿은 환경을 제공합니다**: CLAUDE.md, Hooks, Rules, Skills, Agent가 미리 구성되어 있으므로, SDD 사이클 자체에 집중할 수 있습니다
-2. **각 도구가 SDD의 특정 단계를 담당합니다**: Skills가 Spec/Wireframe/Plan 단계를 구조화하고, Hooks가 Implementation 단계에서 자동 검증을 제공합니다
+1. **템플릿이 환경을 제공합니다**: CLAUDE.md, Skills, Agents, Hooks, Rules가 미리 구성되어 있어, SDD 사이클 자체에 집중할 수 있습니다
+2. **각 도구가 SDD의 특정 단계를 담당합니다**: 6 Skill이 6단계를 자동화하고, Agents가 Plan·Build를 검증하며, Hooks·Rules가 Build에서 강제와 가드를 수행하고, CLAUDE.md가 전 단계의 공통 컨텍스트가 됩니다
+
+## FAQ
+
+- **Q: 기존 프로젝트에 `.claude/`만 복사해서 적용해도 되나요?**
+  - A: 가능합니다. 다만 CLAUDE.md의 아키텍처·테스팅 규약이 기존 프로젝트와 맞는지 확인이 필요합니다. 충돌이 있으면 CLAUDE.md를 프로젝트에 맞게 조정한 뒤 사용합니다.
+
+- **Q: 템플릿의 Skills를 빼거나 추가할 수 있나요?**
+  - A: 네. 각 Skill은 `.claude/skills/<name>/SKILL.md` 파일 하나로 동작합니다. 빼고 싶으면 디렉터리를 삭제하고, 추가하고 싶으면 같은 위치에 새 디렉터리를 만들면 됩니다.
+
+- **Q: Reference Skill은 일반 Skill과 어떻게 다른가요?**
+  - A: 동작 방식은 같습니다. `next-best-practices` 같은 Skill은 라이브러리·프레임워크의 사용 규약을 담고 있어 Build 단계에서 자동으로 로드됩니다. 절차 자동화가 아닌 지식 제공이 주된 역할입니다.
 
 ## 이어서 배울 내용
 
-프로젝트 셋업이 완료되었습니다. 다음 레슨에서는 SDD의 첫 번째 단계인 Spec 작성을 배웁니다. 칸반 보드 예시를 사용하여 `/writing-spec` 스킬의 동작을 확인합니다.
+프로젝트 셋업이 완료되었습니다. 다음 레슨에서는 SDD의 첫 단계인 Specify를 배웁니다. `examples/requirements.md`의 feedme.wiki 요구사항을 입력으로 `/write-spec`을 실행합니다.
