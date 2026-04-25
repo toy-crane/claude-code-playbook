@@ -5,7 +5,7 @@ export function Pillars() {
   return (
     <section
       id="about"
-      className="max-w-[1100px] mx-auto px-6 md:px-10 pt-20 md:pt-[80px] pb-20 md:pb-[100px] border-t border-fd-border"
+      className="max-w-[1100px] px-6 md:px-10 pt-20 md:pt-[80px] pb-20 md:pb-[100px] border-t border-fd-border"
     >
       <FadeIn>
         <div className="font-mono text-sm font-semibold tracking-[0.18em] uppercase text-fd-muted-foreground mb-[18px]">

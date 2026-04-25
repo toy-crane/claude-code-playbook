@@ -5,7 +5,7 @@ import { ExternalArrow } from './external-arrow';
 
 export function Hero() {
   return (
-    <section className="max-w-[1100px] mx-auto px-6 md:px-10 pt-20 md:pt-[120px] pb-20 md:pb-[100px]">
+    <section className="max-w-[1100px] px-6 md:px-10 pt-20 md:pt-[120px] pb-20 md:pb-[100px]">
       <FadeIn>
         <div className="font-mono text-sm font-semibold tracking-[0.18em] uppercase text-fd-muted-foreground mb-7">
           2026 · 실전 가이드
