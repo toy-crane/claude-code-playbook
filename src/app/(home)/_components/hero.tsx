@@ -30,7 +30,7 @@ export function Hero() {
             href="/docs"
             className="inline-flex items-center gap-2 px-[18px] py-2.5 rounded-md text-[14px] font-semibold bg-fd-primary text-fd-primary-foreground hover:opacity-80 transition-opacity"
           >
-            시작하기
+            지금 시작하기
             <ExternalArrow size={14} />
           </Link>
           <span className="text-[13px] text-fd-muted-foreground font-mono">
