@@ -1,126 +1,167 @@
 ---
-title: '계획에 검증을 심는 법 | Plan 작성'
-description: >-
-  내장 Plan Mode와 /writing-plan 스킬의 차이를 이해하고, Spec Test(불변 계약)가 Plan의 첫 번째 Task로
-  배치되는 워크플로우를 배웁니다
+title: 'Spec과 Wireframe을 실행 단위로 분해한다 | Plan'
+description: '/draft-plan으로 spec·wireframe을 Vertical Task로 쪼개고 plan-reviewer로 검증합니다'
 public: true
 ---
 
+import { VerticalVsHorizontalSlicing } from '@/components/diagrams/vertical-vs-horizontal-slicing';
+
 ## Overview
 
-Shift+Tab의 내장 Plan Mode는 가벼운 수정에 적합합니다. SDD에서는 spec.md, wireframe.html, spec.yaml, 코딩 규칙까지 참조해야 하므로, **매번 프롬프트에 이 목록을 적는 대신 `/writing-plan` 스킬에 담아두면 한 번의 호출로 적용됩니다.**
+Lesson 3에서 spec.md, Lesson 4에서 wireframe.html을 확정했습니다. 두 문서가 "무엇을·어떻게 보이는가"를 정했지만, **어떤 순서로·어떤 단위로·어떻게 검증하며 만들지**는 비어 있습니다.
 
-| 단계 | 하는 일 | 산출물 |
-|------|---------|--------|
-| Step 1 | 미결정 사항 해결 | 확정된 구현 방향 |
-| Step 2 | UI 컴포넌트 탐색 | 사용할 컴포넌트 목록 |
-| Step 3 | Plan 문서 생성 | `artifacts/<feature>/plan.md` |
+이 빈칸을 채우는 단계가 **Plan**입니다. `/draft-plan`은 spec.md와 wireframe.html을 입력으로 받아 Task 단위 plan.md를 생성합니다.
 
 ### 학습 목표
 
-- `/writing-plan` 스킬의 3단계 워크플로우를 이해합니다
-- Spec Test(불변 계약)와 구현 테스트의 차이를 이해합니다
-- Plan 검토 기준을 적용하여 생성된 문서를 평가할 수 있습니다
+- /draft-plan의 4단계 워크플로우를 구별합니다
+- Vertical과 Horizontal Slicing의 차이를 설명합니다
+- plan을 떠받치는 두 축(Required Skills, Task Ordering)이 어떤 역할을 하는지 판단합니다
 
-## Step 1: 미결정 사항 해결
+## Step 1: spec.md와 wireframe.html을 입력으로 호출한다
 
-> `/writing-plan` @`artifacts/kanban/spec.md` @`artifacts/kanban/wireframe.html`
-
-AI가 spec.md, spec.yaml, wireframe.html을 읽고, **구현에 필요한 미결정 사항을 질문합니다.** 변경 비용이 높은 결정만 질문하고, 낮은 것은 건너뜁니다.
-
-> "상태 관리를 어떻게 하시겠습니까?"
-> 1. useState + Context (간단, 소규모)
-> 2. Zustand (중규모, 미들웨어)
-> 3. Jotai (원자적 상태 관리)
-
-한 번에 하나씩 질문하고, 선택지를 2-4개 제시합니다.
-
-## Step 2: UI 컴포넌트 탐색
-
-AI가 wireframe.html의 UI 요소를 분석하고, **shadcn 레지스트리(공식 + 커뮤니티)에서 적합한 컴포넌트를 검색합니다.**
-
-> "카드 드래그 앤 드롭에 @dnd-kit 기반 Sortable 컴포넌트를 추천합니다. 사용하시겠습니까?"
-
-사용자가 선택한 컴포넌트가 Plan의 각 Task에 반영됩니다. 레지스트리에 적합한 컴포넌트가 없을 때만 커스텀 컴포넌트를 만듭니다.
-
-## Step 3: Plan 문서 생성
-
-AI가 다음 구조의 Plan을 생성하고 `artifacts/kanban/plan.md`에 저장합니다.
-
-```markdown
-## Task 1: Spec Test 작성
-- spec.yaml의 성공 기준을 *.spec.test.tsx로 변환
-- 카드 이동, 추가, 삭제, 검색 시나리오 테스트
-
-## Task 2: 기본 레이아웃 구현
-- Wireframe의 Board, Column, Card 컴포넌트 구조
-- Tailwind CSS 레이아웃
-
-## Task 3: 카드 CRUD
-- 카드 추가, 수정, 삭제 기능
-- localStorage 연동
-
-## Task 4: 드래그 앤 드롭
-- 컬럼 간 카드 이동
-- 카드 순서 변경
-
-## Task 5: 검색과 필터
-- 카드 제목/설명 검색
-- 라벨별 필터링
+```
+/draft-plan feedme
 ```
 
-**첫 번째 Task가 항상 Spec Test 작성입니다.** 각 Task는 spec.yaml의 시나리오 ID를 참조하고, 구현 대상(What)과 완료 기준(Acceptance Criteria)을 포함합니다.
+AI가 두 문서를 읽고, 곧장 Task를 쪼개지 않습니다. 두 가지를 먼저 검토합니다.
 
-### 왜 Spec Test가 첫 번째인가
+| 검토 대상 | 무엇을 확인하는가 |
+|---|---|
+| 코드베이스 | 아키텍처, 영향받을 파일, 의존성, 유사 기능 — 위험을 미리 기록 |
+| `.claude/skills/` 디렉터리 | 이번 feature와 관련된 모든 스킬 — 빠진 스킬 때문에 plan이 프로젝트 규약과 어긋나는 게 더 비싸므로, 애매하면 포함 |
 
-Spec Test가 먼저 있으면, 구현 코드가 올바른 방향으로 가고 있는지 매 단계마다 확인할 수 있습니다. **정답지를 먼저 만들고 구현을 시작하는 것**입니다.
+이 단계가 끝나면 AI가 어떤 스킬과 어떤 코드 영역을 plan에 반영할지 결정한 상태입니다.
 
-![spec-test-first-task](/docs/completing-projects/spec-driven-development/spec-test-first-task.png)
+## Step 2: 변경 비용 높은 결정에 답한다
 
-## Spec Test: 불변 계약
+Lesson 3에서 spec 단계의 질문이 "무엇을"에 대한 것이었다면, plan 단계의 질문은 "어떻게 만들지"에 대한 것입니다. 같은 변경 비용 원리를 따라 **나중에 바꾸기 비싼 결정만** 묻습니다.
 
-![contract-vs-worklog](/docs/completing-projects/spec-driven-development/contract-vs-worklog.png)
-
-건물을 짓는 방법은 바뀔 수 있지만, 계약서에 적힌 "방 3개, 화장실 2개"는 바뀌지 않습니다. **Spec Test는 계약서이고, 구현 테스트는 작업 일지입니다.**
-
-Spec의 성공 기준을 테스트 코드로 변환한 것이 **Spec Test**입니다.
-
-```tsx
-test("카드를 다른 컬럼으로 드래그하면 이동한다", async () => {
-  await dragCard("Buy groceries", "Todo", "In Progress");
-  expect(getColumnCards("In Progress")).toContain("Buy groceries");
-  expect(getColumnCards("Todo")).not.toContain("Buy groceries");
-});
+```
+상태 관리를 어떻게 하시겠습니까?
+1. useState + Context (작은 규모, 의존성 없음)
+2. Zustand (중간 규모, 미들웨어 지원)
+3. Jotai (원자적 상태 관리)
 ```
 
-|          | Spec Test (`*.spec.test.tsx`) | 구현 테스트 (`*.test.tsx`) |
-| -------- | ----------------------------- | --------------------- |
-| 질문       | "이 기능이 정상인가?"                 | "이 코드가 정상인가?"         |
-| 출처       | Spec 문서의 성공 기준                | 구현 과정에서 작성            |
-| 수정 가능 여부 | 요구사항 변경 시에만 가능                | 리팩토링 시 변경 가능          |
+한 번에 하나씩, 2~4 선택지를 제시합니다. **이미 코드베이스에 답이 있는 결정은 묻지 않습니다** — Step 1의 탐색 결과가 그 답을 채웁니다.
 
-Spec Test가 실패하면, 테스트가 아니라 구현 코드를 수정합니다.
+## Step 3: plan.md를 받는다 — Vertical Slicing이 핵심
+
+질문에 답하면 AI가 `artifacts/feedme/plan.md`를 생성합니다. 가장 중요한 원칙은 **Vertical Slicing** — 각 Task가 end-to-end로 동작하는 한 단위여야 합니다.
+
+<VerticalVsHorizontalSlicing />
+
+| 방식 | 의미 | 결과 |
+|------|------|------|
+| **Vertical (✅)** | 한 Task가 UI + 로직 + 데이터까지 한 기능을 끝낸다 | Task가 끝나면 기능이 실제로 살아있다 |
+| **Horizontal (❌)** | Task 1=DB만, Task 2=API만, Task 3=UI만 | 통합 시점에 회귀가 한꺼번에 터진다 |
+
+feedme.wiki 예시:
+
+```
+OK (Vertical):
+Task 1: URL 입력 → Markdown 변환 → 결과 표시 (입력 컴포넌트 + 변환 로직 + 결과 영역)
+Task 2: 결과 복사 / .md 다운로드 (액션 버튼 + 핸들러)
+Task 3: 외부 LLM 열기 + 프롬프트 프리셋 (모달 + 프리셋 UI + URL 조립)
+Task 4: 다크모드 토글 (UI 토글 + CSS 변수 갱신)
+
+NG (Horizontal):
+Task 1: 모든 컴포넌트 시각 구조
+Task 2: 모든 비즈니스 로직
+Task 3: 모든 외부 연결
+```
+
+### Task Sizing
+
+목표: **S (1~2 파일) 또는 M (3~5 파일)**. L 이상은 금지 — 리뷰가 사실상 불가능해지고 되돌리기 비용이 급격히 커집니다.
+
+판정 기준: 수용 기준이 너무 많거나, 여러 서브시스템에 닿거나, 제목에 "and"가 들어가면 쪼갭니다.
+
+### 수용 기준 → 검증 방법
+
+각 Task에는 spec의 성공 기준에서 파생된 수용 기준이 있고, **수용 기준마다 검증 방법**이 함께 적힙니다. 가장 낮은 증명 경계를 선택합니다.
+
+| 증명 가능한 곳 | 사용 도구 |
+|---|---|
+| 코드 (DOM, 함수, DB) | Vitest / `bun run build` |
+| 실제 브라우저, CI 반복 | Playwright |
+| 실제 브라우저, 일회성 증거 | Browser MCP |
+| 자동화 불가능 (디자인, 스크린 리더, 느낌) | Human review — 리뷰어·기준 명시 |
+
+**검증 방법까지 plan에 함께 적힌다**는 점이 핵심입니다 — 구현 단계에서 "이게 잘 됐는지 어떻게 알지?"를 다시 고민하지 않아도 됩니다.
+
+## Step 4: plan-reviewer가 plan을 4축으로 검증한다
+
+plan.md가 생성되면 `plan-reviewer` 에이전트가 별도 컨텍스트에서 spec ↔ plan ↔ wireframe 정합성을 검토합니다.
+
+| 검증 축 | 무엇을 보는가 |
+|---|---|
+| **Coverage** | spec의 모든 시나리오·성공 기준이 plan의 어느 Task에든 매핑되는가 |
+| **plan 내부 정합성** | Task 간 의존성·순서가 어긋나지 않는가 |
+| **wireframe 일관성** | wireframe의 컴포넌트가 plan의 Task에 반영되었는가 |
+| **불변 규칙 커버리지** | spec의 불변 규칙(보안·성능·데이터 일관성)이 Task의 검증 방법에 들어가 있는가 |
+
+리뷰 결과가 4축별로 보고되고, 사용자는 어느 피드백을 plan.md에 반영할지 결정합니다. 모든 피드백을 수용할 필요는 없습니다 -- spec 범위를 벗어나는 의견이면 거부하고 근거만 남깁니다.
+
+## Required Skills와 Task Ordering — plan을 떠받치는 두 축
+
+plan.md의 본문을 읽다 보면 Task 목록 외에 두 가지가 plan을 안정적으로 만듭니다.
+
+### Required Skills
+
+Step 1에서 AI가 `.claude/skills/`를 스캔하며 모은 **이번 feature와 관련된 스킬 목록**입니다. plan.md 상단에 "이 plan을 실행할 때 로드되는 스킬"로 기록됩니다.
+
+```
+Required Skills:
+- shadcn (UI 컴포넌트 추가 시)
+- next-best-practices (Next.js App Router 패턴)
+- web-design-guidelines (반응형 레이아웃)
+```
+
+이게 왜 중요한가? **plan이 실행되는 Build 단계에서 어떤 스킬이 자동으로 로드될지를 미리 보여주기 때문**입니다. 학습자는 "이 plan대로 만들면 어떤 규약이 적용되는지"를 plan 단계에서 확인할 수 있습니다. 누락된 스킬이 보이면 추가를 요청합니다.
+
+### Task Ordering
+
+Task가 어떤 순서로 배치되는지는 회귀 비용을 결정합니다. plan.md는 다음 원칙으로 Task 순서를 잡습니다.
+
+| 원칙 | 의미 |
+|------|------|
+| 테스트 파일 먼저 | spec의 수용 기준을 테스트로 표현하면 이후 구현이 그 기준을 향해 정렬됩니다 |
+| 의존성 적은 것 먼저 | 다른 Task가 의존하는 기반 Task를 앞에 둡니다 |
+| **고위험 Task 앞으로 (fail-fast)** | 실패가 일찍 드러나면 sunk cost가 작고 plan 재조정이 쉽습니다 |
+| 각 Task는 시스템을 동작 가능 상태로 | 한 Task가 끝나면 빌드와 테스트가 통과해야 합니다 |
+| 2~3 Task마다 Checkpoint | 누적 실패가 끝에서 한꺼번에 드러나는 것을 막습니다 |
+
+학습자가 plan을 검토할 때 "왜 이 Task가 먼저인가?"를 떠올리면 됩니다. fail-fast 위반(고위험을 뒤로 미룬 plan)이 보이면 순서 조정을 요청합니다.
 
 ## Plan 검토 기준
 
-1. **Spec의 모든 시나리오가 Plan에 반영되어 있는가?** 빠진 시나리오가 있으면 추가를 요청합니다
-2. **Wireframe의 컴포넌트가 Plan의 구조에 반영되어 있는가?** Wireframe에서 정의한 컴포넌트(Board, Column, Card 등)가 Plan에 등장하는지 확인합니다
-3. **구현 순서가 합리적인가?** 기반 UI를 먼저 만들고, 그 위에 상호작용을 얹는 순서가 자연스럽습니다
-4. **Spec Test가 첫 번째 Task인가?** Spec Test 없이 구현을 시작하면, 방향이 맞는지 확인할 수 없습니다
+plan.md를 사용자가 한 번 검토합니다. 4가지만 봅니다.
+
+1. **spec의 모든 시나리오가 어느 Task에든 매핑되어 있는가?** plan-reviewer의 Coverage 결과와 같이 봅니다
+2. **각 Task가 vertical slice인가?** 제목에 "and"가 들어 있거나 여러 layer에 걸쳐 있으면 쪼개기를 요청합니다
+3. **수용 기준에 검증 방법이 함께 적혀 있는가?** 검증 방법이 비어 있으면 Build 단계에서 다시 고민하게 됩니다
+4. **Task 순서가 fail-fast인가?** 가장 위험한 Task가 뒤에 밀려 있으면 앞으로 옮기기를 요청합니다
 
 ## 핵심 포인트 정리
 
-1. **3단계 자동화**: 미결정 사항 해결 -> 컴포넌트 탐색 -> Plan 생성. Spec, Wireframe, spec.yaml을 자동으로 참조하고 Spec Test를 첫 Task로 배치합니다
-2. **Spec Test는 불변 계약입니다**: Spec의 성공 기준이 `*.spec.test.tsx`로 변환되고, 구현이 바뀌어도 이 테스트는 변하지 않습니다. 실패 시 구현 코드를 수정합니다
+1. **spec + wireframe → Task 단위 plan**: /draft-plan이 두 문서를 입력으로 받아 실행 단위로 분해합니다. 코드베이스와 관련 스킬을 자동 검토하는 게 그 분해의 출발점입니다
+2. **Vertical Slicing이 회귀를 분산**: 한 Task가 끝나면 기능이 살아있어야 합니다. Horizontal로 쪼개면 통합 시점에 회귀가 한꺼번에 터집니다
+3. **검증 방법까지 plan에 적힌다**: 수용 기준마다 가장 낮은 증명 경계(Vitest / Playwright / Browser MCP / Human review)를 선택합니다
+4. **Required Skills와 Task Ordering이 plan을 떠받친다**: 어떤 규약 위에서 어떤 순서로 만들지가 plan 단계에서 결정됩니다
 
 ## FAQ
 
-- **Q: Spec Test가 실패했는데 Spec 자체가 잘못된 것 같으면 어떻게 하나요?**
-  - A: Spec 문서를 먼저 수정한 뒤, 수정된 성공 기준에 맞춰 Spec Test를 새로 작성합니다. Spec Test를 직접 수정하는 것이 아니라, Spec → Spec Test 순서를 유지합니다
+- **Q: 내장 Plan Mode로 spec과 wireframe을 직접 참조하면 되지 않나요?**
+  - A: 가능합니다. 다만 매번 "spec.md를 읽고, wireframe.html을 읽고, 관련 스킬을 찾고, Vertical로 쪼개고, 검증 방법을 적어줘"를 반복해야 합니다. /draft-plan은 이 절차를 한 번의 호출로 자동화합니다.
 
-- **Q: 내장 Plan Mode로도 artifacts를 직접 참조하면 되지 않나요?**
-  - A: 가능합니다. 하지만 매번 "spec.md를 읽고, wireframe.html을 읽고, Spec Test를 첫 Task로 배치해줘"를 반복해야 합니다. writing-plan 스킬은 이 절차를 한 번의 호출로 자동화합니다
+- **Q: plan-reviewer가 보고한 피드백을 모두 수용해야 하나요?**
+  - A: 아닙니다. spec 범위를 벗어나는 피드백이면 근거를 남기고 거부합니다. plan-reviewer는 독립 시각을 제공할 뿐, 결정권은 사용자에게 있습니다.
+
+- **Q: Task 하나가 L 크기로 보이는데 어떻게 쪼개나요?**
+  - A: 수용 기준 단위로 쪼갭니다. "할 일 생성·수정·삭제"라면 "할 일 생성" / "할 일 수정" / "할 일 삭제" 세 Task로 갈라, 각각이 vertical slice가 되도록 합니다.
 
 ## 이어서 배울 내용
 
-Spec, Wireframe, Plan이 완성되었습니다. 다음 레슨에서는 Plan의 Task를 실행하고, 완성된 프로젝트를 배포합니다.
+plan.md가 확정되었습니다. 다음 레슨은 Build -- Plan의 Task를 실제로 구현하고, code-reviewer로 검증하고, 학습한 내용을 learnings.md에 기록합니다.
