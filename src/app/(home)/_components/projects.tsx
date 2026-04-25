@@ -5,8 +5,9 @@ export function Projects() {
   return (
     <section
       id="projects"
-      className="max-w-[1100px] px-6 md:px-10 pt-20 md:pt-[80px] pb-20 md:pb-[100px] border-t border-fd-border"
+      className="w-full max-w-[var(--fd-layout-width,100rem)] mx-auto px-4 md:px-6 pt-20 md:pt-[80px] pb-20 md:pb-[100px] border-t border-fd-border"
     >
+      <div className="max-w-[1100px]">
       <FadeIn>
         <div className="font-mono text-sm font-semibold tracking-[0.18em] uppercase text-fd-muted-foreground mb-[18px]">
           강의를 끝내면
@@ -53,6 +54,7 @@ export function Projects() {
             에 올려 수강생 투표로 1·2·3등을 가립니다.
           </ProjectCard>
         </FadeIn>
+      </div>
       </div>
     </section>
   );
