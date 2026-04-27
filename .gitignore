@@ -31,6 +31,10 @@ next-env.d.ts
 /playwright-report/
 /test-results/
 
+# Supabase CLI local cache (created by `supabase link`)
+/supabase/.temp/
+/supabase/.branches/
+
 # Claude Code worktrees
 /.claude/worktrees/
 
