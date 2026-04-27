@@ -4,11 +4,11 @@ import { learnContentRoute, learnRoute } from '@/lib/shared';
 
 const { rewrite: rewriteLearn } = rewritePath(
   `${learnRoute}{/*path}`,
-  `${learnContentRoute}{/*path}/content.md`,
+  `${learnContentRoute}{/*path}`,
 );
 const { rewrite: rewriteSuffix } = rewritePath(
   `${learnRoute}{/*path}.mdx`,
-  `${learnContentRoute}{/*path}/content.md`,
+  `${learnContentRoute}{/*path}`,
 );
 
 export default function proxy(request: NextRequest) {
