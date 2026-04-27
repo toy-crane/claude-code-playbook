@@ -12,6 +12,11 @@ const config = {
       { source: '/llms.mdx/docs/:path*', destination: '/llms.mdx/learn/:path*', permanent: true },
     ];
   },
+  async rewrites() {
+    return [
+      { source: '/learn/:path*.mdx', destination: '/llms.mdx/learn/:path*' },
+    ];
+  },
 };
 
 export default withMDX(config);
