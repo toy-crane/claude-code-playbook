@@ -12,11 +12,9 @@ export function getPageImage(page: PageLike) {
 }
 
 export function getPageMarkdownUrl(page: PageLike) {
-  const segments = page.slugs;
-  const path = segments.length > 0 ? `/${segments.join('/')}` : '';
+  const path = page.slugs.length > 0 ? `/${page.slugs.join('/')}` : '';
 
   return {
-    segments,
     url: `${learnRoute}${path}.mdx`,
   };
 }
