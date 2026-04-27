@@ -140,7 +140,7 @@ Playwright 로 figure 단위 스크린샷:
 ```js
 // tests/snap-<lesson>.mjs (임시 파일)
 import { chromium } from 'playwright';
-const url = 'http://localhost:3000/docs/<path-to-lesson>';
+const url = 'http://localhost:3000/learn/<path-to-lesson>';
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: 2 });
 const page = await ctx.newPage();
