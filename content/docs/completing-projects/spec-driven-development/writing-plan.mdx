@@ -12,11 +12,25 @@ Lesson 3에서 spec.md, Lesson 4에서 wireframe.html을 확정했습니다. 두
 
 이 빈칸을 채우는 단계가 **Plan**입니다. `/draft-plan`은 spec.md와 wireframe.html을 입력으로 받아 Task 단위 plan.md를 생성합니다.
 
+사용자는 **고비용 결정 답변 → plan-reviewer 피드백 처리 → 완성된 plan 검토**, 세 지점에서 결정에 참여합니다. 나머지(코드베이스·스킬 탐색, Task 분해, 검증 방법 매칭)는 AI가 채웁니다.
+
+### 이 단계에서 결정하는 것
+
+검토할 때 어디까지 따져야 하는지 경계를 먼저 잡습니다.
+
+| 결정한다 | 미룬다 |
+|---|---|
+| 변경 비용 높은 기술 선택 (상태 관리·인증 등 골격) | 실제 구현 코드 (Build 단계로) |
+| Task 분해·순서·검증 방법의 적절성 | 함수 시그니처·변수명·내부 디테일 |
+| plan-reviewer 4축 피드백의 수용·기각 | 코드베이스·스킬 탐색 (AI가 자동 수행) |
+
+미루는 항목에 대한 피드백("이 함수는 `formatUrl`로 이름 짓자")이 떠오르면 plan 단계에서는 메모만 남기고 Build 단계에서 다룹니다.
+
 ### 학습 목표
 
-- /draft-plan의 4단계 워크플로우를 구별합니다
-- Vertical과 Horizontal Slicing의 차이를 설명합니다
-- plan을 떠받치는 두 축(Required Skills, Task Ordering)이 어떤 역할을 하는지 판단합니다
+- 고비용 결정 답변·plan-reviewer 피드백 처리·완성된 plan 검토, 세 가지 사용자 참여 지점을 구별합니다
+- plan-reviewer의 4축 보고 중 어느 피드백을 plan에 반영할지 가릅니다
+- Coverage · Vertical Slicing · 검증 방법 · fail-fast 순서 4가지로 plan.md를 검토합니다
 
 ## Step 1: spec.md와 wireframe.html을 입력으로 호출한다
 
