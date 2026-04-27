@@ -10,7 +10,9 @@
     "postinstall": "fumadocs-mdx",
     "prepare": "lefthook install --force",
     "lint": "eslint",
-    "lint:links": "bun ./scripts/lint-links.ts"
+    "lint:links": "bun ./scripts/lint-links.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.104.1",
@@ -44,6 +46,7 @@
     "postcss": "^8.5.9",
     "tailwindcss": "^4.2.2",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.5"
   }
 }
