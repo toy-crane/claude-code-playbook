@@ -3,6 +3,7 @@ import { appName } from '@/lib/shared';
 import { Hero } from './_components/hero';
 import { Pillars } from './_components/pillars';
 import { Projects } from './_components/projects';
+import { Subscribe } from './_components/subscribe';
 
 const description = '손으로 익히는 Claude Code 실전 가이드';
 
@@ -26,6 +27,7 @@ export default function HomePage() {
       <Hero />
       <Pillars />
       <Projects />
+      <Subscribe />
     </>
   );
 }
