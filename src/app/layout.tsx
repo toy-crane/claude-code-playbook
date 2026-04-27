@@ -8,6 +8,7 @@ import { siteUrl } from '@/lib/shared';
 const notoSansKR = Noto_Sans_KR({
   subsets: ['latin'],
   display: 'swap',
+  variable: '--font-sans',
 });
 
 const geistMono = Geist_Mono({
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="ko" className={`${notoSansKR.className} ${geistMono.variable}`} suppressHydrationWarning>
+    <html lang="ko" className={`${notoSansKR.className} ${notoSansKR.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
         <RootProvider>{children}</RootProvider>
         <Analytics />

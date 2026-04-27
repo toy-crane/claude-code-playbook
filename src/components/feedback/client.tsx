@@ -1,5 +1,5 @@
 'use client';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { MessageSquare } from 'lucide-react';
 import {
@@ -61,12 +61,12 @@ export function Feedback({
               href={previous.response?.githubUrl}
               rel="noreferrer noopener"
               target="_blank"
-              className={cn(buttonVariants({ color: 'primary' }), 'text-xs')}
+              className={cn(buttonVariants({ variant: 'default' }), 'text-xs')}
             >
               GitHub에서 보기
             </a>
             <button
-              className={cn(buttonVariants({ color: 'secondary' }), 'text-xs')}
+              className={cn(buttonVariants({ variant: 'secondary' }), 'text-xs')}
               onClick={() => {
                 setPrevious(null);
                 setIsOpen(true);
@@ -92,7 +92,7 @@ export function Feedback({
           <div className="flex flex-row justify-end gap-2">
             <button
               type="button"
-              className={cn(buttonVariants({ color: 'secondary' }), 'px-3')}
+              className={cn(buttonVariants({ variant: 'secondary' }), 'px-3')}
               onClick={() => {
                 setIsOpen(false);
                 setMessage('');
@@ -102,7 +102,7 @@ export function Feedback({
             </button>
             <button
               type="submit"
-              className={cn(buttonVariants({ color: 'primary' }), 'px-3')}
+              className={cn(buttonVariants({ variant: 'default' }), 'px-3')}
               disabled={isPending}
             >
               보내기
@@ -111,7 +111,7 @@ export function Feedback({
         </form>
       ) : (
         <button
-          className={cn(buttonVariants({ color: 'secondary' }), 'self-end gap-2 px-4')}
+          className={cn(buttonVariants({ variant: 'secondary' }), 'self-end gap-2 px-4')}
           onClick={() => setIsOpen(true)}
         >
           <MessageSquare className="size-4" />
