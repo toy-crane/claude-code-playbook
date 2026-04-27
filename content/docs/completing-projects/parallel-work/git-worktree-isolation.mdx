@@ -35,7 +35,7 @@ git checkout ch10-02
 
 ## 같은 디렉토리에서는 두 Claude가 동시에 일하지 못한다
 
-![dual-agent-collision](/docs/completing-projects/parallel-work/dual-agent-collision.png)
+![dual-agent-collision](/learn/completing-projects/parallel-work/dual-agent-collision.png)
 
 Claude A에게 마감일 기능을, Claude B에게 우선순위 기능을 동시에 맡긴다고 가정합니다. 두 Claude 모두 `src/components/todo-item.tsx`를 수정해야 합니다. 같은 디렉토리에서 나란히 실행하면 한쪽이 저장한 내용을 다른 쪽이 덮어쓰거나, 원하지 않는 변경이 함께 커밋됩니다.
 
@@ -148,7 +148,7 @@ Claude가 `gh pr create`로 PR을 생성합니다. GitHub에서 PR을 리뷰한 
 
 ## 세션이 끝나면 무엇이 남는가
 
-![worktree-exit-prompt](/docs/completing-projects/parallel-work/worktree-exit-prompt.png)
+![worktree-exit-prompt](/learn/completing-projects/parallel-work/worktree-exit-prompt.png)
 
 Claude 세션을 종료하면(Ctrl+C 또는 `/exit`), worktree 상태에 따라 동작이 달라집니다.
 

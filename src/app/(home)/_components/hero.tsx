@@ -26,7 +26,7 @@ export function Hero() {
       <FadeIn delay={240}>
         <div className="flex gap-3.5 flex-wrap items-center">
           <Link
-            href="/docs"
+            href="/learn"
             className="inline-flex items-center gap-2 px-[18px] py-2.5 rounded-md text-[14px] font-semibold bg-fd-primary text-fd-primary-foreground hover:opacity-80 transition-opacity"
           >
             지금 시작하기

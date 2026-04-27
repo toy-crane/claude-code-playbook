@@ -15,7 +15,7 @@ const CONTENT = join(process.cwd(), 'content/docs');
 
 type Page = {
   slugs: string[];       // e.g. ["starting-conversations", "llm-basics", "llm-fundamentals"]
-  url: string;           // e.g. "/docs/starting-conversations/llm-basics/llm-fundamentals"
+  url: string;           // e.g. "/learn/starting-conversations/llm-basics/llm-fundamentals"
   title: string;
   description?: string;
   isPublic: boolean;
@@ -50,7 +50,7 @@ function extractHeadings(body: string): string[] {
 }
 
 function countImages(body: string): number {
-  return (body.match(/!\[[^\]]*\]\(\/docs\//g) ?? []).length;
+  return (body.match(/!\[[^\]]*\]\(\/learn\//g) ?? []).length;
 }
 
 function discover(): Page[] {
@@ -59,7 +59,7 @@ function discover(): Page[] {
     const rel = relative(CONTENT, file).replace(/\.mdx$/, '');
     const parts = rel.split(sep);
     const slugs = parts[parts.length - 1] === 'index' ? parts.slice(0, -1) : parts;
-    const url = `/docs${slugs.length ? '/' + slugs.join('/') : ''}`;
+    const url = `/learn${slugs.length ? '/' + slugs.join('/') : ''}`;
     const raw = readFileSync(file, 'utf8');
     const { data, content } = matter(raw);
     return {

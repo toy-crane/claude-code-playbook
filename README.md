@@ -10,7 +10,7 @@
 
 ```bash
 bun install
-bun run dev       # localhost:3000/docs
+bun run dev       # localhost:3000/learn
 ```
 
 ## 주요 스크립트
@@ -30,5 +30,5 @@ bun run dev       # localhost:3000/docs
 - `src/lib/source.ts` — Fumadocs loader, `public: false` 필터
 - `src/lib/shared.ts` — `siteUrl` / `appName` / 라우트 상수 SSOT
 - `source.config.ts` — MDX frontmatter 스키마
-- `src/app/docs/[[...slug]]/page.tsx` — 문서 페이지 + metadata
-- `src/app/og/docs/[...slug]/route.tsx` — OG 이미지 동적 생성
+- `src/app/learn/[[...slug]]/page.tsx` — 문서 페이지 + metadata
+- `src/app/og/learn/[...slug]/route.tsx` — OG 이미지 동적 생성

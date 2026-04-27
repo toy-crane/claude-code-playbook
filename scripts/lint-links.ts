@@ -35,7 +35,7 @@ async function checkLinks() {
   const scanned = await scanURLs({
     preset: 'next',
     populate: {
-      'docs/[[...slug]]': pages.map((page) => ({
+      'learn/[[...slug]]': pages.map((page) => ({
         value: { slug: page.slugs },
         hashes: getHeadings(page),
       })),
