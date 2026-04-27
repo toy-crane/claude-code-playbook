@@ -86,7 +86,7 @@ export function Subscribe() {
                 required
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
-                className="h-4 w-4 rounded-[3px] accent-fd-primary cursor-pointer"
+                className="h-4 w-4 rounded-[3px] accent-fd-primary cursor-pointer relative top-[1px]"
               />
               <span>
                 <span className="text-fd-foreground/80 mr-1">(필수)</span>
