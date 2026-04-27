@@ -3,6 +3,9 @@
 import { useState, useTransition } from 'react';
 import { FadeIn } from './fade-in';
 import { subscribe } from '@/lib/actions/subscribe';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 type Status =
   | { kind: 'idle' }
@@ -63,12 +66,12 @@ export function Subscribe() {
             />
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <input
+              <Input
                 type="email"
                 name="email"
                 required
                 placeholder="you@example.com"
-                className="flex-1 h-11 px-3.5 rounded-md bg-fd-background border border-fd-border text-[14px] text-fd-foreground placeholder:text-fd-muted-foreground focus:outline-none focus:border-fd-primary transition-colors"
+                className="flex-1 h-11 px-3.5 text-[14px]"
               />
               <button
                 type="submit"
@@ -79,20 +82,22 @@ export function Subscribe() {
               </button>
             </div>
 
-            <label className="flex items-center gap-2 text-[13px] text-fd-muted-foreground cursor-pointer select-none">
-              <input
-                type="checkbox"
+            <Label
+              htmlFor="subscribe-consent"
+              className="text-[13px] font-normal text-fd-muted-foreground cursor-pointer"
+            >
+              <Checkbox
+                id="subscribe-consent"
                 name="consent"
                 required
                 checked={consent}
-                onChange={(e) => setConsent(e.target.checked)}
-                className="h-4 w-4 rounded-[3px] accent-fd-primary cursor-pointer relative top-[1px]"
+                onCheckedChange={(value) => setConsent(value === true)}
               />
               <span>
                 <span className="text-fd-foreground/80 mr-1">(필수)</span>
                 강의 출시 및 관련 소식을 이메일로 받는 데 동의합니다.
               </span>
-            </label>
+            </Label>
 
             {status.kind === 'error' && (
               <p className="text-[13px] text-red-500">{status.message}</p>
