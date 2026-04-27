@@ -72,7 +72,17 @@ preset 적용은 디자인을 커스텀하고 싶을 때만 진행합니다. 본
 | Build | `/execute-plan` · `code-reviewer` · Hooks · Rules | [Build 레슨](./implementing) |
 | Compound | `/self-improve` | [Compound 레슨](./compound) |
 
-이 도구들은 다섯 층으로 구성됩니다. **Skills**가 단계별 절차를, **Agents**가 별도 컨텍스트의 검증을, **Hooks·Rules**가 강제와 가드를, **CLAUDE.md**가 전 단계 공통 컨텍스트(6단계 워크플로우 표·테스팅 원칙·아키텍처 레이어 순서)를 담당합니다. 다섯 층이 6단계 위에 얹혀, 사람은 사이클 자체에 집중할 수 있습니다.
+이 도구들은 다섯 층으로 구성됩니다. **Skills**가 단계별 절차를, **Agents**가 별도 컨텍스트의 검증을, **Hooks·Rules**가 강제와 가드를, **CLAUDE.md**가 전 단계 공통 컨텍스트를 담당합니다. 다섯 층이 6단계 위에 얹혀, 사람은 사이클 자체에 집중할 수 있습니다.
+
+### CLAUDE.md -- 전 단계의 기준이 된다
+
+다른 layer는 각 단계 레슨에서 자기 역할로 다시 등장하지만, CLAUDE.md는 어느 한 단계에 묶이지 않고 매번 자동 로드됩니다. 세 가지 규약을 정의합니다.
+
+- **6단계 phase 표** -- 어느 단계에 무엇을 산출하는지
+- **수용 기준 테스팅 원칙** -- 외부 관찰 가능한 동작은 자동화, 디자인 판단은 Human review
+- **아키텍처 레이어 순서** -- `types → config → lib → services → hooks → components → app`. Plan 단계의 Task 순서가 이 레이어를 따릅니다
+
+각 단계 레슨에서 CLAUDE.md의 어느 규약이 적용되는지 다시 만나게 됩니다.
 
 `examples/requirements.md`에는 feedme.wiki 클론 프로젝트의 요구사항이 들어 있습니다. 다음 레슨부터 이 요구사항을 입력으로 SDD 사이클을 진행합니다.
 
