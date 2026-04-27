@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import Image from 'next/image';
 import { FadeIn } from './fade-in';
 
 export function Projects() {
@@ -28,9 +29,17 @@ export function Projects() {
             tag="가이드 프로젝트"
             title="feedme.wiki 클론"
             chips={['Plan Mode', 'Skills', 'MCP', 'Custom Agent', '배포']}
-            placeholder={false}
+            image={{ src: '/learn/feedme-preview.png', alt: 'feedme.wiki 미리보기' }}
           >
-            URL을 붙여 넣으면 본문을 Markdown으로 변환하는 서비스. 강의에서 배운 도구를 실제 서비스 하나에 적용해보며 AI 협업 워크플로우를 체득합니다.
+            <a
+              href="https://www.feedme.wiki"
+              target="_blank"
+              rel="noreferrer"
+              className="text-fd-foreground underline underline-offset-[3px]"
+            >
+              feedme.wiki
+            </a>
+            는 URL을 붙여 넣으면 본문을 Markdown으로 변환해주는 서비스. 강의에서 배운 도구를 실제 서비스 하나에 적용해보며 AI 협업 워크플로우를 체득합니다.
           </ProjectCard>
         </FadeIn>
         <FadeIn delay={100}>
@@ -39,9 +48,9 @@ export function Projects() {
             tag="자유 프로젝트"
             title="개인 프로젝트"
             chips={['Spec Driven', 'Agent Teams', 'Claude Hunt 등록']}
-            placeholder
+            image={{ src: '/learn/claude-hunt-preview.png', alt: 'Claude Hunt 프로젝트 보드 미리보기' }}
           >
-            이번엔 가이드 없이. 원하는 주제로 SDD를 활용해 설계부터 배포까지. 마지막 날{' '}
+            이번에는 가이드 없이, 원하는 주제를 골라 SDD로 설계부터 배포까지 직접 완성합니다. 마지막 날{' '}
             <a
               href="https://claude-hunt.com"
               target="_blank"
@@ -63,11 +72,11 @@ type ProjectCardProps = {
   tag: string;
   title: string;
   chips: string[];
-  placeholder: boolean;
+  image: { src: string; alt: string };
   children: ReactNode;
 };
 
-function ProjectCard({ n, tag, title, chips, placeholder, children }: ProjectCardProps) {
+function ProjectCard({ n, tag, title, chips, image, children }: ProjectCardProps) {
   return (
     <div className="border border-fd-border rounded-[10px] bg-fd-background pt-8 px-7 pb-7 flex flex-col gap-5 h-full">
       <div className="flex items-center gap-2.5">
@@ -80,14 +89,14 @@ function ProjectCard({ n, tag, title, chips, placeholder, children }: ProjectCar
         </span>
       </div>
 
-      <div
-        className={`h-[200px] rounded-lg flex items-center justify-center text-fd-muted-foreground text-[13px] font-mono text-center px-6 ${
-          placeholder
-            ? 'border-[1.5px] border-dashed border-fd-border bg-transparent'
-            : 'border border-fd-border bg-fd-secondary'
-        }`}
-      >
-        {placeholder ? <span>직접 만들 프로젝트</span> : <BrowserMock />}
+      <div className="relative h-[200px] rounded-lg overflow-hidden border border-fd-border bg-fd-secondary">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          sizes="(max-width: 768px) 100vw, 520px"
+          className="object-cover object-top"
+        />
       </div>
 
       <div>
@@ -108,29 +117,6 @@ function ProjectCard({ n, tag, title, chips, placeholder, children }: ProjectCar
             {c}
           </span>
         ))}
-      </div>
-    </div>
-  );
-}
-
-function BrowserMock() {
-  return (
-    <div className="w-full max-w-[360px] rounded-md overflow-hidden border border-fd-border bg-fd-background text-left">
-      <div className="flex items-center gap-1.5 px-2.5 py-[7px] border-b border-fd-border">
-        <span className="w-2 h-2 rounded-full" style={{ background: '#FF5F57' }} />
-        <span className="w-2 h-2 rounded-full" style={{ background: '#FEBC2E' }} />
-        <span className="w-2 h-2 rounded-full" style={{ background: '#28C840' }} />
-        <span className="ml-2.5 text-[10.5px] text-fd-muted-foreground font-mono">
-          feedme.wiki/?url=…
-        </span>
-      </div>
-      <div className="px-3.5 pt-3.5 pb-4 flex flex-col gap-1.5">
-        <div className="h-2 w-[70%] rounded-sm bg-fd-border" />
-        <div className="h-[5px] w-[92%] rounded-sm bg-fd-secondary" />
-        <div className="h-[5px] w-[88%] rounded-sm bg-fd-secondary" />
-        <div className="h-[5px] w-[60%] rounded-sm bg-fd-secondary" />
-        <div className="h-[5px] w-[94%] rounded-sm bg-fd-secondary mt-1" />
-        <div className="h-[5px] w-[76%] rounded-sm bg-fd-secondary" />
       </div>
     </div>
   );
