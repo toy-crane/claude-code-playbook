@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { COURSE } from '../_data';
 import { FadeIn } from './fade-in';
 import { ExternalArrow } from './external-arrow';
+import { Button } from '@/components/ui/button';
 
 export function Hero() {
   return (
@@ -25,13 +26,12 @@ export function Hero() {
       </FadeIn>
       <FadeIn delay={240}>
         <div className="flex gap-3.5 flex-wrap items-center">
-          <Link
-            href="/learn"
-            className="inline-flex items-center gap-2 px-[18px] py-2.5 rounded-md text-[14px] font-semibold bg-fd-primary text-fd-primary-foreground hover:opacity-80 transition-opacity"
-          >
-            지금 시작하기
-            <ExternalArrow size={14} />
-          </Link>
+          <Button asChild>
+            <Link href="/learn">
+              지금 시작하기
+              <ExternalArrow size={14} />
+            </Link>
+          </Button>
           <span className="text-[13px] text-fd-muted-foreground font-mono">
             docs.claude-hunt.com · {COURSE.meta.chapters}개 챕터 · 무료 공개
           </span>

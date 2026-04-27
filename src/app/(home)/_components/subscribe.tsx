@@ -6,6 +6,7 @@ import { subscribe } from '@/lib/actions/subscribe';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 type Status =
   | { kind: 'idle' }
@@ -71,15 +72,11 @@ export function Subscribe() {
                 name="email"
                 required
                 placeholder="you@example.com"
-                className="flex-1 h-11 px-3.5 text-[14px]"
+                className="flex-1"
               />
-              <button
-                type="submit"
-                disabled={pending || !consent}
-                className="inline-flex items-center justify-center px-[18px] py-2.5 rounded-md text-[14px] font-semibold bg-fd-primary text-fd-primary-foreground hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-              >
+              <Button type="submit" disabled={pending || !consent}>
                 {pending ? '신청 중…' : '알림 신청'}
-              </button>
+              </Button>
             </div>
 
             <Label
