@@ -1,0 +1,12 @@
+{
+  "name": "claude-code-playbook",
+  "description": "Claude Code 강의 도우미: 강의 내용 Q&A 및 학습 보조",
+  "author": {
+    "name": "toy-crane",
+    "email": "alwaysfun2183@gmail.com"
+  },
+  "homepage": "https://docs.claude-hunt.com",
+  "repository": "https://github.com/toy-crane/claude-code-playbook",
+  "license": "MIT",
+  "keywords": ["claude-code", "lecture", "korean", "tutorial", "qna"]
+}
