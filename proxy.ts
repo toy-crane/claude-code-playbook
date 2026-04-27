@@ -6,17 +6,8 @@ const { rewrite: rewriteLearn } = rewritePath(
   `${learnRoute}{/*path}`,
   `${learnContentRoute}{/*path}`,
 );
-const { rewrite: rewriteSuffix } = rewritePath(
-  `${learnRoute}{/*path}.mdx`,
-  `${learnContentRoute}{/*path}`,
-);
 
 export default function proxy(request: NextRequest) {
-  const result = rewriteSuffix(request.nextUrl.pathname);
-  if (result) {
-    return NextResponse.rewrite(new URL(result, request.nextUrl));
-  }
-
   if (isMarkdownPreferred(request)) {
     const result = rewriteLearn(request.nextUrl.pathname);
 
