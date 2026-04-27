@@ -11,6 +11,7 @@ type Status =
 
 export function Subscribe() {
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
+  const [consent, setConsent] = useState(false);
   const [pending, startTransition] = useTransition();
 
   function onSubmit(formData: FormData) {
@@ -71,8 +72,8 @@ export function Subscribe() {
               />
               <button
                 type="submit"
-                disabled={pending}
-                className="inline-flex items-center justify-center px-[18px] py-2.5 rounded-md text-[14px] font-semibold bg-fd-primary text-fd-primary-foreground hover:opacity-80 transition-opacity disabled:opacity-50"
+                disabled={pending || !consent}
+                className="inline-flex items-center justify-center px-[18px] py-2.5 rounded-md text-[14px] font-semibold bg-fd-primary text-fd-primary-foreground hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {pending ? '신청 중…' : '알림 신청'}
               </button>
@@ -83,9 +84,14 @@ export function Subscribe() {
                 type="checkbox"
                 name="consent"
                 required
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
                 className="h-4 w-4 rounded-[3px] accent-fd-primary cursor-pointer"
               />
-              <span>강의 출시 및 관련 소식을 이메일로 받는 데 동의합니다.</span>
+              <span>
+                <span className="text-fd-foreground/80 mr-1">(필수)</span>
+                강의 출시 및 관련 소식을 이메일로 받는 데 동의합니다.
+              </span>
             </label>
 
             {status.kind === 'error' && (
