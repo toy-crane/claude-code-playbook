@@ -1,0 +1,14 @@
+{
+  "name": "toy-crane",
+  "owner": {
+    "name": "toy-crane",
+    "email": "alwaysfun2183@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "claude-code-playbook",
+      "source": "./",
+      "description": "Claude Code 강의 도우미: 강의 내용 Q&A 및 학습 보조"
+    }
+  ]
+}
