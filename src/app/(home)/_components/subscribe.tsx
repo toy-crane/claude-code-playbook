@@ -78,12 +78,12 @@ export function Subscribe() {
               </button>
             </div>
 
-            <label className="flex items-start gap-2 text-[13px] text-fd-muted-foreground">
+            <label className="flex items-center gap-2 text-[13px] text-fd-muted-foreground cursor-pointer select-none">
               <input
                 type="checkbox"
                 name="consent"
                 required
-                className="mt-0.5"
+                className="h-4 w-4 rounded-[3px] accent-fd-primary cursor-pointer"
               />
               <span>강의 출시 및 관련 소식을 이메일로 받는 데 동의합니다.</span>
             </label>
