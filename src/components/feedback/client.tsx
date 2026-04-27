@@ -1,6 +1,6 @@
 'use client';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { MessageSquare } from 'lucide-react';
 import {
   type SyntheticEvent,
@@ -57,66 +57,65 @@ export function Feedback({
         <div className="px-3 py-6 flex flex-col items-center gap-3 bg-fd-card text-fd-muted-foreground text-sm text-center rounded-xl">
           <p>피드백을 주셔서 감사합니다!</p>
           <div className="flex flex-row items-center gap-2">
-            <a
-              href={previous.response?.githubUrl}
-              rel="noreferrer noopener"
-              target="_blank"
-              className={cn(buttonVariants({ variant: 'default' }), 'text-xs')}
-            >
-              GitHub에서 보기
-            </a>
-            <button
-              className={cn(buttonVariants({ variant: 'secondary' }), 'text-xs')}
+            <Button asChild size="xs">
+              <a
+                href={previous.response?.githubUrl}
+                rel="noreferrer noopener"
+                target="_blank"
+              >
+                GitHub에서 보기
+              </a>
+            </Button>
+            <Button
+              variant="secondary"
+              size="xs"
               onClick={() => {
                 setPrevious(null);
                 setIsOpen(true);
               }}
             >
               다시 보내기
-            </button>
+            </Button>
           </div>
         </div>
       ) : isOpen ? (
         <form className="flex flex-col gap-3" onSubmit={submit}>
-          <textarea
+          <Textarea
             autoFocus
             required
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="border rounded-lg bg-fd-secondary text-fd-secondary-foreground p-3 resize-none focus-visible:outline-none placeholder:text-fd-muted-foreground"
+            className="resize-none"
             placeholder="오타·잘못된 설명·개선 제안 등 자유롭게 남겨주세요..."
             onKeyDown={(e) => {
               if (!e.shiftKey && e.key === 'Enter') submit(e);
             }}
           />
           <div className="flex flex-row justify-end gap-2">
-            <button
+            <Button
               type="button"
-              className={cn(buttonVariants({ variant: 'secondary' }), 'px-3')}
+              variant="secondary"
               onClick={() => {
                 setIsOpen(false);
                 setMessage('');
               }}
             >
               취소
-            </button>
-            <button
-              type="submit"
-              className={cn(buttonVariants({ variant: 'default' }), 'px-3')}
-              disabled={isPending}
-            >
+            </Button>
+            <Button type="submit" disabled={isPending}>
               보내기
-            </button>
+            </Button>
           </div>
         </form>
       ) : (
-        <button
-          className={cn(buttonVariants({ variant: 'secondary' }), 'self-end gap-2 px-4')}
+        <Button
+          variant="secondary"
+          className="self-end"
           onClick={() => setIsOpen(true)}
         >
-          <MessageSquare className="size-4" />
+          <MessageSquare />
           피드백 남기기
-        </button>
+        </Button>
       )}
     </section>
   );
