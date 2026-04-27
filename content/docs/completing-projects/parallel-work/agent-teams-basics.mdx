@@ -11,7 +11,7 @@ import { SubagentVsTeams } from '@/components/diagrams/subagent-vs-teams';
 
 ## Overview
 
-지난 레슨에서 worktree로 여러 Claude에게 격리된 작업 공간을 줬습니다. 덕분에 두 Agent가 같은 파일을 건드릴 걱정 없이 동시에 돌 수 있게 됐습니다. 하지만 격리는 협업이 아닙니다. 같은 문제를 다각도로 동시에 보고 싶거나, 구현 도중 한 팀원의 결정을 다른 팀원에게 즉시 알려야 할 때, 격리된 두 Claude는 서로의 존재를 모릅니다. 이번 레슨에서는 Anthropic이 제시하는 Agent Teams를 통해, 여러 Claude가 독립 Context에서 병렬로 돌면서 서로 직접 메시지를 주고받는 구조를 배웁니다.
+지난 레슨에서 worktree로 여러 Claude에게 격리된 작업 공간을 줬습니다. 덕분에 두 Agent가 같은 파일을 건드릴 걱정 없이 동시에 돌 수 있게 됐습니다. 하지만 격리는 협업이 아닙니다. 같은 문제를 다각도로 동시에 보고 싶거나, 구현 도중 한 팀원의 결정을 다른 팀원에게 즉시 알려야 할 때, 격리된 두 Claude는 서로의 존재를 모릅니다. 이번 레슨에서는 Anthropic이 제시하는 Agent Teams로, 여러 Claude가 독립 Context에서 병렬로 돌면서 서로 직접 메시지를 주고받는 구조를 배웁니다.
 
 ### 학습 목표
 
@@ -43,7 +43,7 @@ Anthropic 공식 문서는 Agent Teams를 이렇게 정의합니다.
 
 > Teammates work independently, each in its own context window, and communicate directly with each other.
 
-각 팀원은 자기 Context Window를 가진 별도 Claude Code 인스턴스로 돕니다. 동시에 공유 Task 리스트로 작업을 나눠 가지고, 필요하면 리더를 거치지 않고 서로 직접 메시지를 주고받습니다. 세 가지 요소로 작동합니다.
+각 팀원은 자기 Context Window를 갖춘 별도 Claude Code 인스턴스로 돕니다. 동시에 공유 Task 리스트로 작업을 나눠 가지고, 필요하면 리더를 거치지 않고 서로 직접 메시지를 주고받습니다. 세 가지 요소로 작동합니다.
 
 <AgentTeamsArchitecture />
 

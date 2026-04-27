@@ -104,7 +104,7 @@ LLM은 인터넷 텍스트로 학습했습니다. 학습 데이터에 자주 등
 
 ![shadcn-homepage](/learn/starting-conversations/todo-app/shadcn-homepage.png)
 
-**Shadcn**은 UI 컴포넌트 라이브러리지만 작동 방식이 다릅니다. 일반 UI 라이브러리는 `node_modules` 에 설치돼 블랙박스로 동작합니다 — AI가 컴포넌트 속을 보려면 문서에 기댈 수밖에 없습니다. Shadcn은 컴포넌트 소스를 **프로젝트 안으로 복사** 합니다. `components/ui/button.tsx` 처럼 내 코드가 되죠. AI가 파일을 열어 구조를 직접 읽고, 필요하면 바로 수정합니다. 추측 대신 **보고 판단** 할 수 있게 되는 것입니다.
+**Shadcn**은 UI 컴포넌트 라이브러리지만 작동 방식이 다릅니다. 일반 UI 라이브러리는 `node_modules` 에 설치돼 블랙박스로 동작합니다 — AI가 컴포넌트 속을 보려면 문서에 기댈 수밖에 없습니다. Shadcn은 컴포넌트 소스를 **프로젝트 안으로 복사** 합니다. `components/ui/button.tsx` 처럼 내 코드가 되죠. AI가 파일을 열어 구조를 직접 읽고, 필요하면 바로 수정합니다. 추측 대신 **보고 판단**합니다.
 
 Shadcn 컴포넌트는 내부적으로 **Tailwind CSS**로 스타일링됩니다. Tailwind는 스타일을 별도 CSS 파일이 아니라 HTML 클래스에 직접 적습니다. 덕분에 AI가 컴포넌트 파일 하나만 읽으면 구조와 스타일을 동시에 파악합니다. Shadcn을 고르면 Tailwind는 자연스럽게 따라오므로 별도로 고민할 필요가 없습니다.
 
