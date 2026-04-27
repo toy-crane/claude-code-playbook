@@ -10,10 +10,11 @@ import { PluginBundle } from '@/components/diagrams/plugin-bundle';
 
 앞 레슨에서 내 Skill을 직접 만들어 봤습니다. 그런데 모든 Skill을 직접 만들 필요는 없습니다. shadcn/ui 컴포넌트를 다루는 Skill, PDF를 파싱하는 Skill, 브라우저를 자동으로 조작하는 Skill — 이미 누군가 만들어 둔 것들이 있습니다.
 
-이번 레슨은 두 가지 설치 경로를 다룹니다. **Plugin** (Anthropic 공식)과 **skills.sh** (Vercel이 운영하는 커뮤니티 레지스트리). Todo 앱에 shadcn Skill을 설치해 UI에 적용해 보고, 마지막으로 "언제 직접 만들고 언제 가져다 쓰는가"를 정리합니다.
+이번 레슨은 두 가지 설치 경로를 다룹니다. **Plugin** (Anthropic 공식)과 **skills.sh** (Vercel이 운영하는 커뮤니티 레지스트리). 그 전에 설치 없이 이미 쓸 수 있는 번들 Skill부터 가볍게 만져 봅니다. Todo 앱에 shadcn Skill을 설치해 UI에 적용해 보고, 마지막으로 "언제 직접 만들고 언제 가져다 쓰는가"를 정리합니다.
 
 ### 학습 목표
 
+- Claude Code에 기본 내장된 Skill을 바로 활용할 수 있습니다
 - `/plugin` 으로 Anthropic 공식 Plugin의 구조를 확인할 수 있습니다
 - `skills.sh` 의 커뮤니티 Skill을 CLI로 설치해 프로젝트에 적용할 수 있습니다
 - 직접 만들기와 가져다 쓰기의 판단 기준을 사용할 수 있습니다
@@ -23,6 +24,37 @@ import { PluginBundle } from '@/components/diagrams/plugin-bundle';
 - 실습 프로젝트의 시작 브랜치로 전환합니다 (`git checkout ch06-05`)
 
 `ch06-05` 브랜치에는 앞 레슨에서 만든 `.claude/skills/commit/` 이 포함돼 있습니다.
+
+## 설치 없이 쓸 수 있는 기본 Skill
+
+두 설치 경로를 둘러보기 전에, Claude Code 패키지 안에 이미 들어 있는 번들 Skill부터 익혀 봅니다. 별도 설치 없이 바로 호출할 수 있고, "Skill이 어떤 모양인지"를 가장 빠르게 체감하는 방법입니다.
+
+| 명령어 | 무엇을 하는가 | 언제 쓰면 좋은가 |
+|---|---|---|
+| `/simplify` | 최근 변경 파일을 3개 에이전트가 병렬 리뷰해 재사용·품질·효율 이슈를 찾고 자동 수정 | 기능 작업이 끝나갈 때 코드 정리용 |
+| `/debug` | 디버그 로깅을 켜고 세션 로그를 분석 | Claude의 동작이 이상해 원인을 보고 싶을 때 |
+| `/claude-api` | 프로젝트 언어(Python·TS·Java 등)에 맞는 Claude API 레퍼런스 로드. `anthropic` 같은 SDK import를 감지하면 자동으로 활성화됨 | Claude API 코드를 다룰 때 |
+| `/loop [interval] [prompt]` | 프롬프트를 세션 동안 반복 실행. 인터벌을 생략하면 Claude가 페이스를 조절 | 배포 상태 폴링이나 주기적 체크 |
+
+### `/simplify` 짧게 써 보기
+
+최근 변경한 파일이 있을 때 다음 한 줄로 자동 코드 리뷰를 받을 수 있습니다.
+
+```plain text
+/simplify
+```
+
+특정 관심사로 좁히고 싶다면 인자를 붙입니다.
+
+```plain text
+/simplify focus on TypeScript 타입 안정성
+```
+
+3개의 리뷰 에이전트가 병렬로 ① 재사용 가능한 코드, ② 코드 품질, ③ 효율성을 각각 점검한 뒤 결과를 모아 수정 제안을 적용합니다. Skill을 직접 만들거나 외부에서 가져오는 단계 없이도 이런 작업이 바로 가능합니다.
+
+<Callout type="info" title="번들 Skill 외 두 가지가 더 있어요">
+공식 번들에는 `/batch` (코드베이스 전역 변경을 git worktree 다중 에이전트로 병렬 실행)와 `/fewer-permission-prompts` (자주 쓰는 도구를 권한 허용 목록에 자동 추가) 도 있습니다. 각각 git worktree·권한 개념이 먼저 필요해 이번 레슨에서는 이름만 짚고 넘어갑니다.
+</Callout>
 
 ## Step 1: Plugin 마켓 열어 보기
 
