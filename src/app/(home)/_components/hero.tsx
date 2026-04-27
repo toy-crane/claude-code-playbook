@@ -26,7 +26,7 @@ export function Hero() {
       </FadeIn>
       <FadeIn delay={240}>
         <div className="flex gap-3.5 flex-wrap items-center">
-          <Button asChild>
+          <Button asChild size="xl">
             <Link href="/learn">
               지금 시작하기
               <ExternalArrow size={14} />

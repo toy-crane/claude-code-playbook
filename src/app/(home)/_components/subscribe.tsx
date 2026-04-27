@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import { Loader2 } from 'lucide-react';
 import { FadeIn } from './fade-in';
 import { subscribe } from '@/lib/actions/subscribe';
 import { Input } from '@/components/ui/input';
@@ -66,7 +67,7 @@ export function Subscribe() {
               aria-hidden
             />
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <Input
                 type="email"
                 name="email"
@@ -74,8 +75,8 @@ export function Subscribe() {
                 placeholder="you@example.com"
                 className="flex-1"
               />
-              <Button type="submit" disabled={pending || !consent}>
-                {pending ? '신청 중…' : '알림 신청'}
+              <Button type="submit" size="lg" disabled={pending || !consent}>
+                {pending ? <Loader2 className="animate-spin" /> : '알림 신청'}
               </Button>
             </div>
 
