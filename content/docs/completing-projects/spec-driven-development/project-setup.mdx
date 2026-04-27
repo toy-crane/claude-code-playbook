@@ -61,46 +61,20 @@ preset 적용은 디자인을 커스텀하고 싶을 때만 진행합니다. 본
 
 <TemplateToolsMap />
 
-템플릿에는 SDD 워크플로우에 필요한 도구가 미리 구성되어 있습니다.
+템플릿에는 SDD 워크플로우에 필요한 도구가 미리 구성되어 있습니다. 각 단계의 핵심 도구는 다음과 같으며, 동작 방식과 활용은 해당 레슨에서 자세히 다룹니다.
 
-| 구분 | 이름 | 역할 | 담당 |
-|------|------|------|------|
-| CLAUDE.md | -- | 6단계 워크플로우 · 수용 기준 테스팅 · 아키텍처 의존성 순서 | 전 단계 공통 |
-| Skills | `/idea-refine` | 아이디어 확산-수렴 (선택) | Ideate |
-| Skills | `/write-spec` | 시나리오·수용 기준으로 spec.md 생성 | Specify |
-| Skills | `/sketch-wireframe` | HTML 와이어프레임 생성 | Sketch |
-| Skills | `/draft-plan` | Vertical slicing TDD 계획 생성 | Plan |
-| Skills | `/execute-plan` | TDD 구현 + learnings.md 기록 | Build |
-| Skills | `/self-improve` | 누적 회고로 도구 갱신 | Compound |
-| Skills (참조) | `next-best-practices` · `vercel-react-best-practices` · `web-design-guidelines` · `shadcn` | 라이브러리·프레임워크 best practices 자동 로드 | Build (참조) |
-| Agents | `plan-reviewer` | spec ↔ plan 정합성 4차원 검토 | Plan (검증) |
-| Agents | `code-reviewer` | 변경 5차원 리뷰 (정확성·가독성·아키텍처·보안·성능) | Build (검증) |
-| Hooks | `WorktreeCreate` (worktree-create.sh) | 워크트리 생성 시 main 동기화 + 의존성 설치 | 환경 |
-| Hooks | `PostToolUse` (lint-fix.sh) | Write/Edit 후 ESLint 자동 수정 | Build (강제) |
-| Rules | `shadcn-guard` | `components/ui/*` 직접 수정 차단 | Build (가드) |
-| Examples | `examples/requirements.md` | feedme.wiki 클론 요구사항 (다음 레슨 입력) | Specify 입력 |
+| 단계 | 핵심 도구 | 다음 레슨 |
+|------|----------|-------|
+| Ideate (선택) | `/idea-refine` | -- |
+| Specify | `/write-spec` | [Specify 레슨](./writing-spec) |
+| Sketch | `/sketch-wireframe` | [Sketch 레슨](./sketching-wireframe) |
+| Plan | `/draft-plan` · `plan-reviewer` | [Plan 레슨](./writing-plan) |
+| Build | `/execute-plan` · `code-reviewer` · Hooks · Rules | [Build 레슨](./implementing) |
+| Compound | `/self-improve` | [Compound 레슨](./compound) |
 
-**CLAUDE.md**에는 6단계 phase 표, 수용 기준 테스팅 원칙, 아키텍처 의존성 순서(`types → config → lib → services → hooks → components → app`)가 정의되어 있어, AI가 매번 이 규약을 참조하면서 작업합니다.
-
-**Skills**는 SDD의 각 단계를 자동화합니다. `/write-spec`이 Specify를, `/sketch-wireframe`이 Sketch를 담당하는 식으로 단계마다 절차가 미리 정의되어 있습니다.
-
-**Agents**(`plan-reviewer`, `code-reviewer`)는 별도 컨텍스트에서 검증을 수행합니다. 메인 컨텍스트가 작업으로 채워져 있어도 검증 결과만 돌려받기 때문에, 독립적인 시각을 컨텍스트 오염 없이 얻습니다.
-
-**Hooks와 Rules**는 강제와 가드를 담당합니다. `lint-fix.sh`는 파일 수정 후 자동으로 ESLint를 돌리고, `shadcn-guard`는 shadcn 컴포넌트 직접 수정을 차단합니다.
+이 도구들은 다섯 층으로 구성됩니다. **Skills**가 단계별 절차를, **Agents**가 별도 컨텍스트의 검증을, **Hooks·Rules**가 강제와 가드를, **CLAUDE.md**가 전 단계 공통 컨텍스트를 담당합니다. 다섯 층이 6단계 위에 얹혀, 사람은 사이클 자체에 집중할 수 있습니다.
 
 `examples/requirements.md`에는 feedme.wiki 클론 프로젝트의 요구사항이 들어 있습니다. 다음 레슨부터 이 요구사항을 입력으로 SDD 사이클을 진행합니다.
-
-## 도구는 SDD 단계를 자동화한다
-
-Part 2에서 본 도구의 역할이 이 템플릿에서 다시 등장합니다.
-
-- **Skills** -- procedure layer입니다. 단계마다 어떤 순서로 무엇을 묻고 무엇을 산출하는지가 정의되어 있어, 매번 처음부터 설명할 필요가 없습니다
-- **Agents** -- 별도 컨텍스트에서 검증합니다. 메인은 결론만 받으므로 컨텍스트 오염 없이 독립적인 시각을 얻습니다
-- **Hooks** -- 권고가 아니라 강제입니다. AI가 건너뛸 수 없으므로, 매번 같은 품질 게이트를 통과시킵니다
-- **Rules** -- 경로별로 활성화되는 가드입니다. 작업 영역에서만 로드되어 컨텍스트 비용을 줄입니다
-- **CLAUDE.md** -- 전 단계 공통 컨텍스트입니다. 워크플로우·테스팅·아키텍처 규약이 한 곳에 모여 모든 단계의 기준이 됩니다
-
-이 다섯 층이 6단계 위에 얹혀, **사람은 사이클 자체에 집중**할 수 있습니다.
 
 ## 핵심 포인트 정리
 
