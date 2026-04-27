@@ -1,7 +1,9 @@
 import { docs } from 'collections/server';
 import { type InferPageType, loader, update } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
-import { learnImageRoute, learnRoute } from './shared';
+import { learnRoute } from './shared';
+
+export { getPageImage, getPageMarkdownUrl } from './page-url';
 
 // `public: false` frontmatter hides a page entirely (build, nav, search, URL).
 const filteredSource = update(docs.toFumadocsSource())
@@ -19,25 +21,6 @@ export const source = loader({
   source: filteredSource,
   plugins: [lucideIconsPlugin()],
 });
-
-export function getPageImage(page: InferPageType<typeof source>) {
-  const segments = [...page.slugs, 'image.png'];
-
-  return {
-    segments,
-    url: `${learnImageRoute}/${segments.join('/')}`,
-  };
-}
-
-export function getPageMarkdownUrl(page: InferPageType<typeof source>) {
-  const segments = page.slugs;
-  const path = segments.length > 0 ? `/${segments.join('/')}` : '';
-
-  return {
-    segments,
-    url: `${learnRoute}${path}.mdx`,
-  };
-}
 
 export async function getLLMText(page: InferPageType<typeof source>) {
   const processed = await page.data.getText('processed');
