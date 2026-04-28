@@ -142,7 +142,17 @@ git version 2.47.1
 
 ## 5. Node.js (npm 포함)
 
-Node.js는 JavaScript 런타임이며, 설치하면 패키지 매니저인 npm이 함께 설치됩니다. 일부 실습에서 npm을 사용합니다.
+Node.js는 JavaScript 런타임이며, 설치하면 패키지 매니저인 **npm**과 패키지 실행 도구인 **npx**가 함께 설치됩니다. 강의에서 다루는 MCP 서버 설치와 일부 보조 도구가 `npx`를 통해 실행되므로 반드시 설치해 주세요.
+
+<Callout type="warn" title="Node.js를 설치하지 않으면 자주 만나는 오류">
+아래와 같은 메시지가 보인다면 대부분 Node.js/npm 미설치가 원인입니다.
+
+- macOS / Linux: `command not found: npx` 또는 `command not found: npm`
+- Windows PowerShell: `'npx' 용어가 cmdlet, 함수, 스크립트 파일... 인식되지 않습니다`
+- MCP 서버 설치/실행 시 `npx` 또는 `npm` 관련 오류
+
+아래 설치 절차를 따라 Node.js를 설치한 뒤, 터미널을 닫았다가 다시 열어 주세요.
+</Callout>
 
 공식 문서: [nodejs.org](https://nodejs.org)
 
