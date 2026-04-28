@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { MessageSquare } from 'lucide-react';
+import { Loader2, MessageSquare } from 'lucide-react';
 import {
   type SyntheticEvent,
   useEffect,
@@ -103,6 +103,7 @@ export function Feedback({
               취소
             </Button>
             <Button type="submit" disabled={isPending}>
+              {isPending && <Loader2 className="animate-spin" />}
               보내기
             </Button>
           </div>

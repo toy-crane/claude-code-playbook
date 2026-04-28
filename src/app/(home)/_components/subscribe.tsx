@@ -76,7 +76,8 @@ export function Subscribe() {
                 className="flex-1"
               />
               <Button type="submit" size="lg" disabled={pending || !consent}>
-                {pending ? <Loader2 className="animate-spin" /> : '알림 신청'}
+                {pending && <Loader2 className="animate-spin" />}
+                알림 신청
               </Button>
             </div>
 
