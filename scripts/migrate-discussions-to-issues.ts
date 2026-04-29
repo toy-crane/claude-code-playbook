@@ -1,6 +1,22 @@
-import { getOctokit } from '../src/lib/github';
+import { execSync } from 'node:child_process';
+import { Octokit } from 'octokit';
 import { gitConfig } from '../src/lib/shared';
-import { buildIssueBody, buildIssueTitle } from '../src/lib/feedback-issue';
+import { buildIssueTitle } from '../src/lib/feedback-issue';
+
+function getGhToken(): string {
+  try {
+    return execSync('gh auth token', { encoding: 'utf8' }).trim();
+  } catch (e) {
+    throw new Error(
+      'Failed to read `gh auth token`. Run `gh auth login` first.\n' +
+        (e as Error).message,
+    );
+  }
+}
+
+async function getOctokit(): Promise<Octokit> {
+  return new Octokit({ auth: getGhToken() });
+}
 
 const DOCS_CATEGORY = 'Docs Feedback';
 const FEEDBACK_LABEL = 'feedback';
