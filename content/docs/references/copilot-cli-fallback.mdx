@@ -50,13 +50,12 @@ winget install GitHub.Copilot
 | 프로젝트 `CLAUDE.md` | 자동 로드 |
 | `.claude/skills/<name>/SKILL.md` | 자동 로드 ([공식 문서](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills) 에 인식 경로 명시) |
 | MCP 서버 | `~/.copilot/mcp-config.json` 에 정의, `/mcp add` 로 추가 |
-| Hooks | `hooks.json` 으로 6개 이벤트 (sessionStart/End, preToolUse, postToolUse, userPromptSubmitted, errorOccurred) |
 | Plan Mode | Shift+Tab 으로 토글 |
 | 세션 재개 | `--resume`, `--continue`, `/resume` |
 | IDE 연결 | `/ide` |
 | 모델 선택 | Sonnet 4.5/4.6, Opus 4.5/4.6/4.7, Haiku 4.5 — `/model` 또는 `--model` |
 
-## 주의해야 할 차이 Top 3
+## 주의해야 할 차이
 
 ### 1. 커스텀 슬래시 커맨드 (`.claude/commands/`) — 미지원
 
@@ -96,6 +95,22 @@ cp ~/.claude/CLAUDE.md ~/.copilot/copilot-instructions.md
 ```
 
 프로젝트 루트의 `CLAUDE.md` 는 그대로 인식되므로 강의 실습 디렉터리는 손댈 필요 없습니다.
+
+### 4. Hooks — 양쪽에 있지만 스키마가 다름
+
+Hooks 기능 자체는 양쪽에 있으나, 파일 위치·이벤트명·스키마 구조가 모두 달라 그대로 옮길 수 없습니다. 강의에서 hooks 를 만들었다면 새로 작성해야 합니다.
+
+| 항목 | Claude Code | Copilot CLI |
+|---|---|---|
+| 파일 위치 | `.claude/settings.json` 의 `hooks` 블록 | 별도 `hooks.json` 파일 |
+| 이벤트명 표기 | PascalCase (`PreToolUse`, `SessionStart`) | camelCase (`preToolUse`, `sessionStart`) |
+| 이벤트 종류 | 약 29개 | 6개 (`sessionStart`, `sessionEnd`, `userPromptSubmitted`, `preToolUse`, `postToolUse`, `errorOccurred`) |
+| 스키마 구조 | matcher 그룹 중첩 | 평탄한 hook 배열 |
+| 셸 명령 필드 | `command` | `bash` 또는 `powershell` |
+| 타임아웃 필드 | `timeout` | `timeoutSec` |
+| 훅 타입 | `command` / `http` / `mcp_tool` / `prompt` / `agent` | `command` 만 |
+
+대응 이벤트가 없는 경우 (`Stop`, `Notification`, `SubagentStart` 등) 는 옮길 수 없습니다. 개인 프로젝트 시간에는 보통 hooks 까지 손대는 경우가 드물어 무시해도 무방하지만, hooks 에 의존하는 워크플로우가 있다면 위 표를 참고해 다시 짜셔야 합니다.
 
 ## 요금·한도
 
