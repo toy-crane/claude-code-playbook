@@ -42,7 +42,7 @@ export default async function Page(props: PageProps<'/learn/[[...slug]]'>) {
           })}
         />
       </DocsBody>
-      <Feedback onSendAction={onPageFeedbackAction} />
+      <Feedback title={page.data.title} onSendAction={onPageFeedbackAction} />
     </DocsPage>
   );
 }

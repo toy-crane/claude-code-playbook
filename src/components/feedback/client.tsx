@@ -26,8 +26,10 @@ const pageFeedbackResult = z.extend(pageFeedback, {
  * A feedback component to be attached at the end of page
  */
 export function Feedback({
+  title,
   onSendAction,
 }: {
+  title: string;
   onSendAction: (feedback: PageFeedback) => Promise<ActionResponse>;
 }) {
   const url = usePathname();
@@ -41,7 +43,7 @@ export function Feedback({
 
   function submit(e?: SyntheticEvent) {
     startTransition(async () => {
-      const feedback: PageFeedback = { url, message };
+      const feedback: PageFeedback = { url, title, message };
       const response = await onSendAction(feedback);
       setPrevious({ response, ...feedback });
       setMessage('');
