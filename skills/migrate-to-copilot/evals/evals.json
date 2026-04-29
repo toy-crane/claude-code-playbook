@@ -1,0 +1,83 @@
+{
+  "skill_name": "migrate-to-copilot",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "evals/fixtures/empty/ 디렉터리에서 Claude Code 자료를 GitHub Copilot CLI 호환 형태로 마이그레이션해주세요.",
+      "expected_output": "Discovery 후 변환 대상 0개라 정상 종료. 새 디렉터리·파일을 만들지 않음.",
+      "files": ["evals/fixtures/empty/.gitkeep"],
+      "expectations": [
+        "Discovery 단계에서 .claude/commands/, .claude/agents/, .claude/settings.json 모두 비어있거나 없다고 보고",
+        ".claude/skills/ 디렉터리가 새로 생성되지 않음",
+        ".github/agents/ 디렉터리가 새로 생성되지 않음",
+        "hooks.json 파일이 생성되지 않음",
+        "최종 보고에 '변환할 항목 없음' 또는 동등한 메시지 포함"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "evals/fixtures/commands-only/ 의 Claude Code commands 를 Copilot CLI 호환 형태로 마이그레이션해주세요.",
+      "expected_output": "2개 command 모두 .claude/skills/ 아래 SKILL.md 로 변환되고 원본 .claude/commands/ 는 비워짐.",
+      "files": [
+        "evals/fixtures/commands-only/.claude/commands/summarize.md",
+        "evals/fixtures/commands-only/.claude/commands/review.md"
+      ],
+      "expectations": [
+        ".claude/skills/summarize/SKILL.md 가 생성됨",
+        ".claude/skills/review/SKILL.md 가 생성됨",
+        "각 SKILL.md 의 frontmatter 에 name 필드 포함 (summarize, review 각각)",
+        "각 SKILL.md 의 frontmatter 에 원본의 description 필드 그대로 보존",
+        "원본 .claude/commands/summarize.md 와 .claude/commands/review.md 가 삭제됨",
+        "최종 보고에 'Commands → Skills: 변환 2 개' 또는 동등한 통계 포함"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "evals/fixtures/hooks-simple/ 의 .claude/settings.json hooks 를 Copilot CLI 의 hooks.json 으로 번역해주세요.",
+      "expected_output": "PreToolUse, PostToolUse 각각 1개씩 hooks.json 으로 변환. 이벤트명 camelCase, 필드명 변환.",
+      "files": ["evals/fixtures/hooks-simple/.claude/settings.json"],
+      "expectations": [
+        "hooks.json 이 프로젝트 루트에 새로 생성됨",
+        "hooks.json 의 최상위에 version: 1 필드 포함",
+        "hooks.json 의 hooks 객체에 preToolUse 와 postToolUse 키 (camelCase) 포함",
+        "각 hook 항목의 셸 명령이 'command' 가 아닌 'bash' 필드에 들어감",
+        "원본 .claude/settings.json 의 hooks 블록은 그대로 보존됨",
+        "최종 보고에 'Hooks 번역: 변환 2 개 이벤트' 또는 동등한 통계 포함"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "evals/fixtures/hooks-complex/ 의 hooks 를 Copilot CLI 호환으로 번역해주세요. matcher 그룹과 미지원 이벤트, 비-command 타입이 섞여 있습니다.",
+      "expected_output": "matcher 평탄화 (WARN), 미지원 이벤트 DROP, 비-command 타입 REJECT, 나머지 정상 변환.",
+      "files": ["evals/fixtures/hooks-complex/.claude/settings.json"],
+      "expectations": [
+        "hooks.json 이 생성되고 preToolUse 키 포함",
+        "matcher 그룹의 hooks 가 평탄 배열로 합쳐짐 (matcher 키 누락)",
+        "최종 보고에 matcher 손실 WARN 메시지 포함",
+        "최종 보고에 'DROP: Stop' 또는 동등한 미지원 이벤트 보고 포함",
+        "최종 보고에 'REJECT' 와 'http' 키워드를 포함하는 비-command 타입 거부 보고",
+        "원본 .claude/settings.json 의 hooks 블록은 그대로 보존됨"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "evals/fixtures/full-mix/ 디렉터리 전체를 Copilot CLI 호환으로 마이그레이션해주세요. commands, agents, hooks 가 모두 있고 .github/agents/ 에 동명 파일이 하나 미리 있습니다.",
+      "expected_output": "commands 변환·이동, 비충돌 agents 복사, 충돌 agent SKIP+WARN, hooks 번역까지 한 흐름에서 처리.",
+      "files": [
+        "evals/fixtures/full-mix/.claude/commands/summarize.md",
+        "evals/fixtures/full-mix/.claude/agents/reviewer.md",
+        "evals/fixtures/full-mix/.claude/agents/writer.md",
+        "evals/fixtures/full-mix/.claude/settings.json",
+        "evals/fixtures/full-mix/.github/agents/reviewer.md"
+      ],
+      "expectations": [
+        ".claude/skills/summarize/SKILL.md 가 생성됨",
+        "원본 .claude/commands/summarize.md 가 삭제됨",
+        ".github/agents/writer.md 가 새로 복사됨 (비충돌)",
+        ".github/agents/reviewer.md 는 사전 존재 내용 그대로 (cp -n SKIP)",
+        "hooks.json 이 생성되고 valid 한 Copilot 형식",
+        "최종 보고에 'Agents 복사' 와 'SKIP 1' 또는 동등한 충돌 통계 포함"
+      ]
+    }
+  ]
+}
