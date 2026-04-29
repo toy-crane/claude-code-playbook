@@ -2,6 +2,7 @@ import { z } from 'zod/mini';
 
 export const pageFeedback = z.object({
   url: z.string(),
+  title: z.string(),
   message: z.string(),
 });
 

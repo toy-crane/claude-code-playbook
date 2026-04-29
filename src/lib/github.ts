@@ -5,12 +5,13 @@ import {
   type PageFeedback,
 } from '@/components/feedback/schema';
 import { gitConfig } from './shared';
+import { buildIssueBody, buildIssueTitle } from './feedback-issue';
 
-const DocsCategory = 'Docs Feedback';
+const FEEDBACK_LABEL = 'feedback';
 
 let instance: Octokit | undefined;
 
-async function getOctokit(): Promise<Octokit> {
+export async function getOctokit(): Promise<Octokit> {
   if (instance) return instance;
   const appId = process.env.GITHUB_APP_ID;
   const privateKey = process.env.GITHUB_APP_PRIVATE_KEY?.replace(/\\n/g, '\n');
@@ -31,88 +32,22 @@ async function getOctokit(): Promise<Octokit> {
   return instance;
 }
 
-interface RepositoryInfo {
-  id: string;
-  discussionCategories: {
-    nodes: { id: string; name: string }[];
-  };
-}
-
-let cachedDestination: RepositoryInfo | undefined;
-async function getFeedbackDestination() {
-  if (cachedDestination) return cachedDestination;
-  const octokit = await getOctokit();
-
-  const {
-    repository,
-  }: { repository: RepositoryInfo } = await octokit.graphql(`
-    query {
-      repository(owner: "${gitConfig.user}", name: "${gitConfig.repo}") {
-        id
-        discussionCategories(first: 25) {
-          nodes { id name }
-        }
-      }
-    }
-  `);
-
-  return (cachedDestination = repository);
-}
-
 export async function onPageFeedbackAction(feedback: PageFeedback): Promise<ActionResponse> {
   'use server';
   const parsed = pageFeedback.parse(feedback);
-  return createDiscussionThread(
-    parsed.url,
-    `${parsed.message}\n\n> Forwarded from user feedback.`,
-  );
+  return createFeedbackIssue(parsed.url, parsed.title, parsed.message);
 }
 
-async function createDiscussionThread(pageId: string, body: string) {
+async function createFeedbackIssue(url: string, title: string, message: string) {
   const octokit = await getOctokit();
-  const destination = await getFeedbackDestination();
-  const category = destination.discussionCategories.nodes.find((c) => c.name === DocsCategory);
 
-  if (!category) throw new Error(`Please create a "${DocsCategory}" category in GitHub Discussion`);
+  const { data } = await octokit.rest.issues.create({
+    owner: gitConfig.user,
+    repo: gitConfig.repo,
+    title: buildIssueTitle(url, title),
+    body: buildIssueBody(url, title, message),
+    labels: [FEEDBACK_LABEL],
+  });
 
-  const title = `Feedback for ${pageId}`;
-  const {
-    search: { nodes: [discussion] },
-  }: {
-    search: { nodes: { id: string; url: string }[] };
-  } = await octokit.graphql(`
-    query {
-      search(type: DISCUSSION, query: ${JSON.stringify(`${title} in:title repo:${gitConfig.user}/${gitConfig.repo} author:@me`)}, first: 1) {
-        nodes {
-          ... on Discussion { id, url }
-        }
-      }
-    }
-  `);
-
-  if (discussion) {
-    const result: {
-      addDiscussionComment: { comment: { id: string; url: string } };
-    } = await octokit.graphql(`
-      mutation {
-        addDiscussionComment(input: { body: ${JSON.stringify(body)}, discussionId: "${discussion.id}" }) {
-          comment { id, url }
-        }
-      }
-    `);
-
-    return { githubUrl: result.addDiscussionComment.comment.url };
-  }
-
-  const result: {
-    createDiscussion: { discussion: { id: string; url: string } };
-  } = await octokit.graphql(`
-    mutation {
-      createDiscussion(input: { repositoryId: "${destination.id}", categoryId: "${category.id}", body: ${JSON.stringify(body)}, title: ${JSON.stringify(title)} }) {
-        discussion { id, url }
-      }
-    }
-  `);
-
-  return { githubUrl: result.createDiscussion.discussion.url };
+  return { githubUrl: data.html_url };
 }
