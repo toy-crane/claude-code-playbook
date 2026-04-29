@@ -56,7 +56,7 @@ description: 강의 사이트(content/docs/**/*.mdx) 의 신규 레슨·Part Wra
 - 프런트매터·모든 H2·H3 순서를 그대로 복사해 새 `.mdx` 파일을 시작. 템플릿이 정한 헤더 이름은 변경·삭제 금지
 - 템플릿 주석 `{/* 역할: XXX — ... */}` 의 "역할" 라벨(원리·귀결·정의·적용·확장 등)은 구조 설명용이다. 최종 본문의 H2·H3 제목에 절대 포함하지 않는다. `<H2 제목>` placeholder 는 주제 맞춤 제목으로만 교체한다. `Step N:`, `Part N:` 같은 리터럴 프리픽스는 그대로 남긴다
 - 어려운 용어 Callout: 초보자에게 모호할 전문용어를 추출. Step 1 에서 이미 소개된 용어는 제외. 남은 용어마다 비유 후보 3-4개를 생성해 유저에게 제시하고, 선택된 비유로 `<Callout type="info" title="X란?">` 삽입
-- 이미지 placeholder: `![lesson-NN-kebab-case](./attachments/...)` 형태만 본문에 배치. 아래 스키마로 별도 리스트 출력 — `{파일명, 위치(H2 기준), 주제, 유형}`. 유형은 [이미지 유형 분류] 로 자동 판정
+- 이미지 placeholder: `![lesson-NN-kebab-case](/learn/<part>/<chapter>/lesson-NN-kebab-case.png)` 형태만 본문에 배치. `<part>` `<chapter>` 는 Step 1 에서 파악한 실제 경로로 교체. 경로 컨벤션 상세는 `.claude/rules/course-content.md` 의 [시각 자료] 참조. 아래 스키마로 별도 리스트 출력 — `{파일명, 위치(H2 기준), 주제, 유형}`. 유형은 `.claude/rules/course-content.md` 의 분류 기준으로 판정
 - 출력: 저장된 `.mdx` 초안 + 이미지 placeholder 리스트
 
 ### Step 4. 이미지 생성
@@ -66,7 +66,7 @@ placeholder 자리를 실제 이미지로 채운다. 유형에 따라 표현 방
 | 유형 | 호출 스킬 | 산출물 저장 |
 |------|---------|-----------|
 | `diagram` | `create-lesson-diagram` | `src/components/diagrams/<name>.tsx` (React SVG). MDX placeholder 자리는 `import` + `<Component />` 로 교체 |
-| `illustration` | `illustrate-lesson` | `attachments/<name>.png` |
+| `illustration` | `illustrate-lesson` | `public/learn/<part>/<chapter>/<name>.png` |
 
 - diagram 은 placeholder 파일명을 컴포넌트명(PascalCase) 으로 매핑해 일치 확인
 - illustration 은 placeholder 파일명과 생성된 파일명 일치 확인
@@ -77,16 +77,7 @@ placeholder 자리를 실제 이미지로 채운다. 유형에 따라 표현 방
 
 본문의 내용 중에, 햇갈리거나 최신 내용이라 판단되는 사실성 주장(개념 정의, 수치, 고유명사, 버전, 연도, 동작 설명) 을 추출해 검증한다. 검증 결과에 따라 본문을 수정한다.
 
-  | 주장 유형 | 라우팅 |
-  |---|---|
-  | Claude Code CLI / Agent SDK / Anthropic API | `claude-code-guide` 에이전트 |
-  | 외부 라이브러리·프레임워크·버전·연도 | `general-purpose` 에이전트 + WebSearch |
-  | 일반 LLM 원리·업계 상식 | 내부 추론 + 필요 시 WebSearch 보조 |
-
+- 주장 유형별 라우팅은 `.claude/rules/course-content.md` 의 [사실 검증 라우팅] 표를 따른다
 - 각 주장을 `{주장 원문 / 판정(✅ 정확 / ⚠️ 오래됨 / ❌ 부정확) / 출처 / 제안 수정안}` 스키마로 정리
 - `AskUserQuestion` 으로 3-4개씩 그룹화해 건별 승인을 받고, 승인된 수정만 본문에 반영
 
-## 이미지 유형 분류
-
-- **diagram** — 구조·관계·흐름을 공간적으로 증명 (아키텍처, 타임라인, 비교 매트릭스, 트리)
-- **illustration** — 비유·서사로 개념 전달 (비유 장면, 캐릭터, 심볼)
