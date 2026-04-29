@@ -29,10 +29,10 @@ If the concept could work as an SVG diagram, default to `create-lesson-diagram`.
    uv run .claude/skills/illustrate-lesson/scripts/generate-image.py --prompt "<composed prompt>" --filename "<output-path>.png"
    ```
    Deps (`google-genai`, `Pillow`) are declared inline via PEP 723 — `uv` downloads them to its cache on first run; no `package.json`, no `node_modules`. Needs `uv` installed (`brew install uv`).
-   - Output path: `attachments/lesson-XX-<short-desc>.png` (relative to chapter folder)
+   - Output path: `public/learn/<part>/<chapter>/lesson-XX-<short-desc>.png` (project root 기준 절대경로)
    - Resolution: 2K default (best for Korean text)
    - Padding default: `#fafaf9` (matches `--diagram-bg-panel`). Override via `--padding-color <hex>` if needed.
-5. **Output** image embed into the lesson file: `![lesson-XX-desc](attachments/lesson-XX-desc.png)`
+5. **Output** image embed into the lesson file: `![lesson-XX-desc](/learn/<part>/<chapter>/lesson-XX-desc.png)`
 
 ## Site Palette (source of truth: `src/app/global.css`)
 
@@ -139,7 +139,7 @@ Canvas background #fafaf9, flat color fills only, generous whitespace. All label
 
 **Output in lesson:**
 ```markdown
-![lesson-03-big-vs-small-tasks](attachments/lesson-03-big-vs-small-tasks.png)
+![lesson-03-big-vs-small-tasks](/learn/extending-claude/plan-task/lesson-03-big-vs-small-tasks.png)
 ```
 
 ### Illustrative Metaphor Example
@@ -148,7 +148,7 @@ Canvas background #fafaf9, flat color fills only, generous whitespace. All label
 
 **Output in lesson:**
 ```markdown
-![lesson-05-kitchen-mcp-metaphor](attachments/lesson-05-kitchen-mcp-metaphor.png)
+![lesson-05-kitchen-mcp-metaphor](/learn/extending-claude/external-connection/lesson-05-kitchen-mcp-metaphor.png)
 ```
 
 ### Test case — `task-sizing-cups` (illustrative metaphor)

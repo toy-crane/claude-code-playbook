@@ -1,6 +1,6 @@
 ---
 name: create-lesson-diagram
-description: 강의 사이트(content/docs/**/*.mdx)의 다이어그램을 React SVG 컴포넌트로 작성하는 스킬. excalidraw PNG 를 컴포넌트로 옮기거나, 새 다이어그램을 처음부터 만들 때 사용. "다이어그램 만들어줘", "이미지 컴포넌트로 바꿔줘", "excalidraw 옮겨줘", "create-lesson-diagram", "diagram" 같은 표현이나 MDX 본문에 `![...](./attachments/lesson-XX-...png)` 가 있는 상황에서 사용. 강의 사이트의 다이어그램 작업이면 명시적 요청이 없어도 우선 이 스킬을 떠올릴 것.
+description: 강의 사이트(content/docs/**/*.mdx)의 다이어그램을 React SVG 컴포넌트로 작성하는 스킬. excalidraw PNG 를 컴포넌트로 옮기거나, 새 다이어그램을 처음부터 만들 때 사용. "다이어그램 만들어줘", "이미지 컴포넌트로 바꿔줘", "excalidraw 옮겨줘", "create-lesson-diagram", "diagram" 같은 표현이나 MDX 본문에 PNG 이미지 임베드(`![...](/learn/<part>/<chapter>/lesson-XX-...png)`) 가 있는 상황에서 사용. 강의 사이트의 다이어그램 작업이면 명시적 요청이 없어도 우선 이 스킬을 떠올릴 것.
 ---
 
 # create-lesson-diagram
@@ -121,7 +121,7 @@ import { MyDiagram } from '@/components/diagrams/my-diagram';
 <MyDiagram />
 ```
 
-- 기존 `![...](./attachments/...png)` 줄을 `<MyDiagram />` 로 교체.
+- 기존 `![...](/learn/<part>/<chapter>/...png)` 줄을 `<MyDiagram />` 로 교체.
 - import 는 frontmatter 직후, 첫 H2 위에 배치.
 
 ### Step 6. 자동 검증
@@ -166,7 +166,7 @@ await browser.close();
 ### Step 9. (옵션) 원본 정리
 
 PNG → 컴포넌트 교체 케이스인 경우:
-- `content/docs/.../attachments/<original>.png` + `.excalidraw` 삭제
+- `public/learn/<part>/<chapter>/<original>.png` + (있다면) 원본 `.excalidraw` 삭제
 - 폴더가 비면 빈 폴더도 삭제 (`rmdir`)
 - 신규 다이어그램 케이스는 이 단계 생략
 
