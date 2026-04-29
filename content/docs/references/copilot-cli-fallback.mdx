@@ -1,0 +1,132 @@
+---
+public: true
+title: Copilot CLI Fallback
+description: Claude Pro 토큰을 다 썼을 때 GitHub Copilot CLI 로 개인 프로젝트를 이어가는 방법을 안내합니다
+---
+
+## Overview
+
+강의 후반부 개인 프로젝트 시간에 Claude Pro 5시간 토큰 한도를 소진해 진도를 멈추는 사례가 자주 발생합니다. 회사에서 GitHub Copilot 구독을 이미 보유한 분이라면, 같은 프로젝트 디렉터리에서 **GitHub Copilot CLI** 로 갈아타 실습을 이어갈 수 있습니다.
+
+이 페이지는 토큰이 고갈된 그 자리에서 빠르게 전환하기 위한 안내입니다. 핵심은 두 가지입니다.
+
+- 프로젝트 루트의 `CLAUDE.md` 와 `.claude/skills/` 는 Copilot CLI 가 그대로 인식합니다
+- `.claude/agents/` 와 `.claude/commands/` 는 인식 경로가 다르므로 한 번씩 옮겨두면 됩니다
+
+## 빠른 시작
+
+터미널에서 다음 한 줄로 설치합니다. Node 22 이상이 필요합니다.
+
+```shell
+npm install -g @github/copilot
+```
+
+설치되면 `copilot` 으로 실행하고, 첫 화면에서 `/login` 을 입력해 GitHub 계정으로 로그인합니다.
+
+```shell
+copilot
+```
+
+패키지 매니저로도 설치할 수 있습니다.
+
+```shell
+# macOS
+brew install copilot-cli
+
+# Windows
+winget install GitHub.Copilot
+```
+
+설치한 뒤에는 강의 자료 디렉터리로 이동해 그대로 `copilot` 을 실행하면 됩니다.
+
+## 그대로 동작하는 것
+
+<Callout type="info" title="Claude Code 자료를 거의 그대로 재사용할 수 있습니다">
+프로젝트 루트의 `CLAUDE.md` 와 `.claude/skills/` 는 GitHub Copilot CLI 의 공식 인식 경로에 포함되어 있어 별도 변환 없이 동작합니다.
+</Callout>
+
+| 기능 | Copilot CLI 에서의 동작 |
+|---|---|
+| 프로젝트 `CLAUDE.md` | 자동 로드 |
+| `.claude/skills/<name>/SKILL.md` | 자동 로드 ([공식 문서](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills) 에 인식 경로 명시) |
+| MCP 서버 | `~/.copilot/mcp-config.json` 에 정의, `/mcp add` 로 추가 |
+| Hooks | `hooks.json` 으로 6개 이벤트 (sessionStart/End, preToolUse, postToolUse, userPromptSubmitted, errorOccurred) |
+| Plan Mode | Shift+Tab 으로 토글 |
+| 세션 재개 | `--resume`, `--continue`, `/resume` |
+| IDE 연결 | `/ide` |
+| 모델 선택 | Sonnet 4.5/4.6, Opus 4.5/4.6/4.7, Haiku 4.5 — `/model` 또는 `--model` |
+
+## 주의해야 할 차이 Top 3
+
+### 1. 커스텀 슬래시 커맨드 (`.claude/commands/`) — 미지원
+
+Copilot CLI 는 사용자 정의 슬래시 커맨드 메커니즘이 없습니다. 강의에서 만든 `.claude/commands/<name>.md` 파일은 그대로 두면 인식되지 않습니다.
+
+대신 **Skill 로 변환**합니다. `.claude/skills/` 는 Copilot CLI 의 공식 인식 경로이므로 다음 형태로 옮기면 같은 효과를 얻습니다.
+
+```shell
+# 변환 전: .claude/commands/review-pr.md
+# 변환 후: .claude/skills/review-pr/SKILL.md
+mkdir -p .claude/skills/review-pr
+mv .claude/commands/review-pr.md .claude/skills/review-pr/SKILL.md
+```
+
+호출 방식도 동일하게 `/review-pr` 입니다. SKILL.md 의 frontmatter 에 `name`, `description`, `allowed-tools` 가 들어가는지만 점검합니다.
+
+### 2. 서브에이전트 (`.claude/agents/`) — 인식 안 됨
+
+Copilot CLI 의 에이전트 인식 경로는 `.github/agents/` 와 `~/.copilot/agents/` 두 곳입니다. `.claude/agents/` 는 공식 문서 어디에도 등장하지 않으며, 실제 동작도 하지 않습니다.
+
+복사 한 줄로 이전합니다. 확장자는 `.md` 그대로도 인식되며, `.agent.md` 로 바꿔도 됩니다.
+
+```shell
+mkdir -p .github/agents
+cp .claude/agents/*.md .github/agents/
+```
+
+호출은 `/agent <name>` 또는 자연어 위임으로 동일합니다.
+
+### 3. 글로벌 사용자 메모리 (`~/.claude/CLAUDE.md`) — 자동 이전 안 됨
+
+Claude Code 의 사용자 글로벌 지시문은 `~/.claude/CLAUDE.md` 에 두지만, Copilot CLI 는 이 파일을 읽지 않습니다. Copilot 의 사용자 글로벌 위치는 `~/.copilot/copilot-instructions.md` 입니다.
+
+```shell
+mkdir -p ~/.copilot
+cp ~/.claude/CLAUDE.md ~/.copilot/copilot-instructions.md
+```
+
+프로젝트 루트의 `CLAUDE.md` 는 그대로 인식되므로 강의 실습 디렉터리는 손댈 필요 없습니다.
+
+## 요금·한도
+
+| 플랜 | 가격 | 월 premium request | Sonnet 환산 (1×) |
+|---|---|---|---|
+| Free | $0 | 50 | \~50회 |
+| Pro | $10 | 300 | \~300회 |
+| Pro+ | $39 | 1,500 | \~1,500회 |
+| Business | $19/석 | 300/석 | \~300회 |
+| Enterprise | $39/석 | 1,000/석 | \~1,000회 |
+
+모델별 배수는 다음과 같습니다.
+
+- **Claude Haiku 4.5**: 0.33×
+- **Claude Sonnet 4 / 4.5 / 4.6**: 1×
+- **Claude Opus 4.5 / 4.6**: 3×
+- **Claude Opus 4.7**: 7.5×
+
+한도를 넘기면 차단되지 않고 included 모델 (GPT-4.1, GPT-4o) 로 강등되어 계속 동작합니다.
+
+<Callout type="warn" title="2026-06-01 이후 요금 체계 변경">
+GitHub 은 2026년 6월 1일부터 Copilot 의 청구 방식을 token 기반 usage billing 으로 전환할 예정입니다. 그 이후 강의에서는 위 표의 한도가 그대로 유지되지 않을 수 있으므로 [공식 공지](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing) 를 한 번 확인해주세요.
+</Callout>
+
+## 공식 출처
+
+- [Supported AI models](https://docs.github.com/en/copilot/reference/ai-models/supported-models)
+- [Create custom agents for CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli)
+- [Add skills](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)
+- [Hooks configuration](https://docs.github.com/en/copilot/reference/hooks-configuration)
+- [Add MCP servers](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers)
+- [Add custom instructions](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions)
+- [CLI config directory reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference)
+- [GitHub Copilot is moving to usage-based billing](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing)
