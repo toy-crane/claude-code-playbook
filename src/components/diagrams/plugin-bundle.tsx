@@ -6,10 +6,10 @@ type Component = {
 };
 
 const COMPONENTS: Component[] = [
-  { kind: 'Skills', example: '/skill-creator' },
-  { kind: 'Commands', example: '/skill-eval' },
-  { kind: 'MCP 서버', example: 'skills-db' },
-  { kind: 'Hooks', example: 'pre-save' },
+  { kind: 'Skills', example: '/code-style' },
+  { kind: 'Commands', example: '/run-eval' },
+  { kind: 'MCP 서버', example: 'team-db' },
+  { kind: 'Hooks', example: 'pre-commit' },
 ];
 
 export function PluginBundle() {
@@ -35,7 +35,7 @@ export function PluginBundle() {
                 className="text-sm font-semibold font-mono"
                 style={{ color: 'var(--diagram-primary)' }}
               >
-                skill-creator
+                team-toolkit
               </div>
               <div
                 className="text-[11px] mt-0.5"
