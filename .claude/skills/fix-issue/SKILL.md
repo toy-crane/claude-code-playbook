@@ -1,26 +1,19 @@
 ---
 name: fix-issue
-description: GitHub 피드백 이슈 한 건을 받아 강의 MDX 를 수정하고 draft PR 까지 만든다. 작가가 옆에 있을 때 사용 — 이슈 분류 결과·수정안 diff 를 매 단계 보여주고 승인을 받는다. 트리거 — "이슈 처리해줘", "이슈 #123 수정", "fix-issue", "fix issue", "피드백 이슈 처리". 자동 일괄 처리는 `/fix-issues-batch` 를 사용한다.
+description: GitHub 피드백 이슈 한 건(번호 미지정 시 가장 오래된 피드백 이슈를 자동 선택) 을 받아 강의 MDX 를 수정하고 draft PR 까지 만든다. 작가가 옆에 있을 때 사용 — 이슈 분류 결과·수정안 diff 를 매 단계 보여주고 승인을 받는다. 트리거 — "이슈 처리해줘", "이슈 #123 수정", "fix-issue", "fix issue", "피드백 이슈 처리". 자동 일괄 처리는 `/fix-issues-batch` 를 사용한다.
 user-invocable: true
-argument-hint: <issue-number>
+argument-hint: "[issue-number]"
 ---
 
 # Fix Issue (Interactive)
 
-GitHub 피드백 이슈 한 건을 강의 MDX 수정 + draft PR 로 처리합니다. 매 단계 작가 승인을 받습니다 — 콘텐츠 편집은 톤·맥락 판단이 갈리므로 자동 적용 대신 diff 한 번 검토하게 합니다. 다건 자동 처리가 필요하면 `/fix-issues-batch` 를 쓰세요.
+GitHub 피드백 이슈 한 건을 강의 MDX 수정 + draft PR 로 처리합니다. 인자 `<N>` 이 없으면 가장 오래된 피드백 이슈를 자동 선택합니다. 매 단계 작가 승인을 받습니다 — 콘텐츠 편집은 톤·맥락 판단이 갈리므로 자동 적용 대신 diff 한 번 검토하게 합니다. 다건 자동 처리가 필요하면 `/fix-issues-batch` 를 쓰세요.
 
 ## Workflow
 
-### Step 1: Parse & Resolve
+### Step 1: Resolve Target Issue
 
-인자 `<N>` 이 없으면 사용법을 출력하고 멈춥니다:
-
-```
-Usage: /fix-issue <issue-number>
-Example: /fix-issue 100
-```
-
-이슈 정보를 가져옵니다:
+**인자 모드** — `<N>` 이 주어진 경우. 해당 이슈 정보를 가져옵니다:
 
 ```bash
 gh issue view <N> --json number,title,body,labels,state
@@ -36,7 +29,32 @@ gh issue view <N> --json number,title,body,labels,state
 | 같은 이슈 PR 이 이미 있음 (`gh pr list --search "Closes #<N>"`) | PR URL |
 | 같은 이슈 워크트리가 이미 있음 (`.claude/worktrees/fix/issue-<N>-*`) | 디렉터리 경로 |
 
-이슈 본문 파싱 메모:
+**자동 선택 모드** — 인자가 없는 경우. 가장 오래된 피드백 이슈를 자동 선택합니다:
+
+```bash
+gh issue list \
+  --search "[피드백] in:title state:open" \
+  --sort created --order asc \
+  --limit 30 \
+  --json number,title,body,labels
+```
+
+만든 지 오래된 순으로 후보를 하나씩 검사합니다. 다음 중 하나라도 해당하면 한 줄 로그(`⏭ #<N> 스킵: <사유>`) 를 남기고 다음 후보로 넘어갑니다:
+
+| 조건 | 사유 |
+|---|---|
+| 같은 이슈 PR 이 이미 있음 (`gh pr list --search "Closes #<N>"`) | "이미 PR 있음 (<url>)" |
+| 같은 이슈 워크트리가 이미 있음 (`.claude/worktrees/fix/issue-<N>-*`) | "이미 워크트리 있음 (<dir>)" |
+| 본문에서 `` Page: `/learn/<path>` `` 매치 실패 | "Page 경로 없음" |
+| `content/docs/<path>.mdx` 가 존재하지 않음 | "파일 없음 (<path>.mdx)" |
+
+위 조건을 모두 통과한 첫 후보를 대상으로 진행합니다. 모든 후보가 스킵되면:
+
+> "처리 가능한 피드백 이슈가 없습니다."
+
+출력 후 종료합니다.
+
+**이슈 본문 파싱 메모** (두 모드 공통):
 - 메타 블록은 `> ...` 으로 시작하는 quote 줄들 (`> Forwarded from user feedback.` 등). 이 부분은 시스템이 붙인 것으로, 실제 피드백은 그 아래 자유 서술입니다.
 - `Page:` 라인의 백틱 안 경로에서 앞쪽 `/learn/` 를 떼고 `content/docs/<path>.mdx` 로 매핑합니다.
 
@@ -54,9 +72,10 @@ gh issue view <N> --json number,title,body,labels,state
 
 **오버라이드** — 이슈에 `auto-fix` 라벨이 있으면 분류 무시하고 concrete 로 처리합니다 (작가가 명시적 자동화 허락).
 
-작가에게 분류 결과를 한 화면으로 보고합니다:
+작가에게 분류 결과를 한 화면으로 보고합니다. 자동 선택 모드일 때는 맨 위에 선택 표시를 한 줄 붙입니다 (작가가 "왜 이 이슈?" 헷갈리지 않게):
 
 ```
+[자동 선택: 가장 오래된 피드백 이슈]
 이슈 #<N> — <path>
 파일: content/docs/<path>.mdx
 분류: <concrete|vague|meta>
@@ -149,3 +168,5 @@ PR 머지 후 작가가 직접 `/remove-worktree` 로 정리합니다 — 자동
 - vague / meta 이슈는 작가 결정 전에 워크트리 만들지 않습니다 (Step 2 에서 멈춤)
 - main 에 직접 commit 하지 않습니다 (Step 3 의 워크트리 안에서만 작업)
 - 다건 피드백 중 하나라도 vague 면 전체 vague 처리
+- 자동 선택 모드에서 가드 실패 = 그 후보 스킵, 다음 오래된 후보로 진행 (인자 모드는 즉시 멈춤)
+- 한 호출 = 한 건. 자동 선택 모드라도 첫 처리 가능 후보 한 건만 처리하고 종료
